@@ -1,3 +1,15 @@
 [gd_scene format=3 uid="uid://qb24bua7v4vj"]
 
+[ext_resource type="Script" uid="uid://ervttf2nj7n4" path="res://scripts/map/GridRoot.gd" id="1_lto8t"]
+[ext_resource type="PackedScene" uid="uid://dcgi0eoxebv0w" path="res://scenes/map/Grid.tscn" id="2_c8xc1"]
+
 [node name="Battle" type="Node2D" unique_id=1435354891]
+
+[node name="GridRoot" type="Node2D" parent="." unique_id=1745927592 node_paths=PackedStringArray("camera", "grid")]
+script = ExtResource("1_lto8t")
+camera = NodePath("../Camera2D")
+grid = NodePath("Grid")
+
+[node name="Grid" parent="GridRoot" unique_id=269519220 instance=ExtResource("2_c8xc1")]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1004421333]

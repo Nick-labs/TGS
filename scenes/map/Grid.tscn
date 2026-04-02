@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dcgi0eoxebv0w"]
 
-[ext_resource type="Script" uid="uid://ku2s08wj2y1x" path="res://scripts/map/Grid.gd" id="1_x7s7k"]
+[ext_resource type="Script" uid="uid://b6gge7ldgqmna" path="res://scripts/map/Grid.gd" id="1_x7s7k"]
 [ext_resource type="PackedScene" uid="uid://cu3emx0rkmeif" path="res://scenes/map/Tile.tscn" id="2_krmnp"]
 [ext_resource type="Script" uid="uid://f4q25fkj34ic" path="res://scripts/utils/IsoConfig.gd" id="3_ryfx5"]
 
