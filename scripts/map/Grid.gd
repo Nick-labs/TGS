@@ -1,10 +1,10 @@
 extends Node2D
-
 class_name Grid
 
 @export var width: int = 10
 @export var height: int = 10
 @export var tile_scene: PackedScene
+@export var iso_config: IsoConfig
 
 var tiles: Dictionary = {}
 
@@ -19,7 +19,7 @@ func generate_grid() -> void:
 func create_tile(coord: Vector2i) -> void:
 	var tile = tile_scene.instantiate()
 	tile.coord = coord
-	tile.position = IsoHelper.grid_to_screen(Vector2i(coord.x, coord.y))
+	tile.position = IsoHelper.grid_to_screen(Vector2i(coord.x, coord.y), iso_config)
 	tiles[coord] = tile
 	add_child(tile)
 
