@@ -27,7 +27,7 @@ func fit_grid_to_screen() -> void:
 
 	var scale: float = min(scale_x, scale_y)
 
-	grid.scale = Vector2(scale, scale)
+	camera.zoom = Vector2(scale, scale)
 
 	center_grid()
 

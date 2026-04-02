@@ -53,3 +53,10 @@ func get_neighbors(coord: Vector2i) -> Array:
 			result.append(get_tile(n))
 
 	return result
+
+func highlight_cell(cell: Vector2i):
+	var tile := get_tile(cell)
+	if tile == null:
+		return
+
+	$HighlightTile.global_position = tile.global_position
