@@ -13,23 +13,25 @@ func fit_grid_to_screen() -> void:
 	if grid == null:
 		return
 
-	var viewport_size := get_viewport_rect().size
+	var viewport_size: Vector2 = get_viewport_rect().size
+	var available_size: Vector2 = viewport_size * (1.0 - padding_percent * 2.0)
 
-	var available_size := viewport_size * (1.0 - padding_percent * 2.0)
+	var bounds: Rect2 = grid.get_bounds()
 
-	var iso_config = grid.iso_config
+	var grid_size: Vector2 = bounds.size
 
-	var grid_width_px: float = (grid.width + grid.height) * float(iso_config.tile_width) * 0.5
-	var grid_height_px: float = (grid.width + grid.height) * float(iso_config.tile_height) * 0.5
-
-	var scale_x := available_size.x / grid_width_px
-	var scale_y := available_size.y / grid_height_px
+	var scale_x: float = available_size.x / grid_size.x
+	var scale_y: float = available_size.y / grid_size.y
 
 	var scale: float = min(scale_x, scale_y)
 
 	camera.zoom = Vector2(scale, scale)
 
-	center_grid()
+	center_on_bounds(bounds)
+
+func center_on_bounds(bounds: Rect2) -> void:
+	var center_local: Vector2 = bounds.position + bounds.size * 0.5
+	camera.global_position = grid.to_global(center_local)
 
 func center_grid() -> void:
 	var center := Vector2(

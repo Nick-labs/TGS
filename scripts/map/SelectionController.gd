@@ -20,5 +20,9 @@ func update_selection():
 		on_cell_changed(cell)
 
 func on_cell_changed(cell: Vector2i):
+	if not grid.is_in_bounds(cell):
+		grid.hide_highlight()
+		return
+	
 	print("Selected cell:", cell)
-	grid.highlight_cell(cell)
+	grid.show_highlight(cell)

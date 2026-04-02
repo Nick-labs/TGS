@@ -54,9 +54,31 @@ func get_neighbors(coord: Vector2i) -> Array:
 
 	return result
 
-func highlight_cell(cell: Vector2i):
+func hide_highlight():
+	$HighlightTile.visible = false
+
+func show_highlight(cell: Vector2i):
 	var tile := get_tile(cell)
 	if tile == null:
 		return
 
-	$HighlightTile.global_position = tile.global_position
+	$HighlightTile.visible = true
+	$HighlightTile.position = tile.position
+
+func get_bounds() -> Rect2:
+	if tiles.is_empty():
+		return Rect2()
+
+	var min_pos: Vector2 = Vector2(INF, INF)
+	var max_pos: Vector2 = Vector2(-INF, -INF)
+
+	for tile in tiles.values():
+		var pos: Vector2 = tile.position
+
+		min_pos.x = min(min_pos.x, pos.x)
+		min_pos.y = min(min_pos.y, pos.y)
+
+		max_pos.x = max(max_pos.x, pos.x)
+		max_pos.y = max(max_pos.y, pos.y)
+
+	return Rect2(min_pos, max_pos - min_pos)
