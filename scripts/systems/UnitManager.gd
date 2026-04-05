@@ -46,12 +46,12 @@ func move_unit(unit: Unit, target_cell: Vector2i):
 	if path.is_empty():
 		return
 	
+	var start_cell := unit.cell
+	
 	unit.move_along_path(path)
 	
-	occupied.erase(unit.cell)
-	
 	unit.move_finished.connect(func(final_cell):
-		occupied.erase(unit.cell)
-		occupied[final_cell] = unit,
-		CONNECT_ONE_SHOT
+		occupied.erase(start_cell)
+		occupied[final_cell] = unit
+		, CONNECT_ONE_SHOT
 	)
