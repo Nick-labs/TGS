@@ -80,13 +80,12 @@ func move_along_path(path: Array[Vector2i]):
 			continue
 
 		var target := tile.position
-
 		var duration := 0.2
 
 		tween.tween_property(self, "position", target, duration)
 
-		tween.tween_callback(func():
-			self.cell = path_cell
+		tween.tween_callback(func(c = path_cell):
+			self.cell = c
 		)
 
 	tween.finished.connect(func():
