@@ -8,9 +8,11 @@ class_name Grid
 @export var iso_config: IsoConfig
 
 var tiles: Dictionary = {}
+var astar := AStarGrid2D.new()  # A* pathfinding system
 
 func _ready() -> void:
 	generate_grid()
+	setup_astar()
 	
 func generate_grid() -> void:
 	for x in range(width):
@@ -93,3 +95,21 @@ func show_selected(cell: Vector2i):
 
 func hide_selected():
 	$SelectedHighlight.visible = false
+
+func setup_astar():
+	astar.region = Rect2i(Vector2i(0, 0), Vector2i(width, height))
+	astar.cell_size = Vector2(1, 1)
+	astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	astar.update()
+
+func find_path(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
+	if not is_in_bounds(from) or not is_in_bounds(to):
+		return []
+
+	var path := astar.get_id_path(from, to)
+
+	var result: Array[Vector2i] = []
+	for p in path:
+		result.append(Vector2i(p))
+
+	return result

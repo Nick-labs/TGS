@@ -40,9 +40,14 @@ func move_unit(unit: Unit, target_cell: Vector2i):
 
 	if occupied.has(target_cell):
 		return
-
+	
+	var path := grid.find_path(unit.cell, target_cell)
+	
+	if path.is_empty():
+		return
+	
 	occupied.erase(unit.cell)
 
-	unit.move_to_cell(target_cell)
+	unit.move_along_path(path)
 
 	occupied[target_cell] = unit
