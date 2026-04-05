@@ -6,11 +6,13 @@ var cell: Vector2i
 
 func _ready():
 	auto_adjust_visual()
+	update_visual()
 
 func set_cell(new_cell: Vector2i):
 	cell = new_cell
 
 	update_position()
+	update_visual()
 
 func update_position():
 	if grid == null:
@@ -29,3 +31,7 @@ func auto_adjust_visual():
 
 	var height = sprite.texture.get_size().y
 	$Visual.position.y = -height / 2.0
+
+func update_visual():
+	z_index = cell.x + cell.y
+	print(z_index)
