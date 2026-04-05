@@ -40,6 +40,7 @@ func handle_click():
 	if not grid.is_in_bounds(hovered_cell):
 		battle_manager.unselect()
 		grid.hide_selected()
+		return
 	
 	battle_manager.select_at(hovered_cell)
 	grid.show_selected(hovered_cell)
