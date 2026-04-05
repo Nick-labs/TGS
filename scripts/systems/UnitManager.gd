@@ -37,20 +37,21 @@ func spawn_unit(cell: Vector2i) -> void:
 func move_unit(unit: Unit, target_cell: Vector2i):
 	if not grid.is_in_bounds(target_cell):
 		return
-
+	
 	if occupied.has(target_cell):
 		return
-
+	
 	var path := grid.find_path(unit.cell, target_cell)
-
+	
 	if path.is_empty():
 		return
-
+	
 	unit.move_along_path(path)
-
+	
 	occupied.erase(unit.cell)
-
+	
 	unit.move_finished.connect(func(final_cell):
 		occupied.erase(unit.cell)
-		occupied[final_cell] = unit
+		occupied[final_cell] = unit,
+		CONNECT_ONE_SHOT
 	)
