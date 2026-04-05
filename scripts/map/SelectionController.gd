@@ -3,6 +3,8 @@ class_name SelectionController
 
 @export var camera: Camera2D
 @export var grid: Grid
+@export var unit_manager: UnitManager
+@export var battle_manager: BattleManager
 
 var hovered_cell: Vector2i = Vector2i(-1, -1)
 var selected_cell: Vector2i = Vector2i(-1, -1)
@@ -37,8 +39,5 @@ func _input(event):
 func handle_click():
 	if not grid.is_in_bounds(hovered_cell):
 		return
-
-	selected_cell = hovered_cell
-	grid.show_selected(selected_cell)
-
-	print("Selected:", selected_cell)
+	
+	battle_manager.select_at(hovered_cell)

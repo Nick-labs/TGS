@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://ervttf2nj7n4" path="res://scripts/map/GridRoot.gd" id="1_lto8t"]
 [ext_resource type="PackedScene" uid="uid://dcgi0eoxebv0w" path="res://scenes/map/Grid.tscn" id="2_c8xc1"]
 [ext_resource type="Script" uid="uid://df4mx22ogi5nx" path="res://scripts/map/SelectionController.gd" id="3_c8xc1"]
-[ext_resource type="PackedScene" uid="uid://lbeout0pcxld" path="res://scenes/map/HoverHighlight.tscn" id="3_evht8"]
-[ext_resource type="PackedScene" uid="uid://brohs4kcrabqv" path="res://scenes/map/SelectedHighlight.tscn" id="4_42qa6"]
+[ext_resource type="PackedScene" path="res://scenes/map/HoverHighlight.tscn" id="3_evht8"]
+[ext_resource type="PackedScene" path="res://scenes/map/SelectedHighlight.tscn" id="4_42qa6"]
+[ext_resource type="PackedScene" uid="uid://dllgqhansefun" path="res://scenes/systems/UnitManager.tscn" id="5_37gw2"]
+[ext_resource type="PackedScene" uid="uid://drefvpa3kq01x" path="res://scenes/systems/BattleManager.tscn" id="7_yyk6v"]
 
 [node name="Battle" type="Node2D" unique_id=1435354891]
 
@@ -20,9 +22,18 @@ z_index = 21
 
 [node name="SelectedHighlight" parent="GridRoot/Grid" unique_id=475252442 instance=ExtResource("4_42qa6")]
 
-[node name="SelectionController" type="Node2D" parent="GridRoot" unique_id=1843373962 node_paths=PackedStringArray("camera", "grid")]
+[node name="UnitManager" parent="GridRoot" unique_id=188568835 node_paths=PackedStringArray("grid") instance=ExtResource("5_37gw2")]
+grid = NodePath("../Grid")
+
+[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("grid", "unit_manager") instance=ExtResource("7_yyk6v")]
+grid = NodePath("../Grid")
+unit_manager = NodePath("../UnitManager")
+
+[node name="SelectionController" type="Node2D" parent="GridRoot" unique_id=1843373962 node_paths=PackedStringArray("camera", "grid", "unit_manager", "battle_manager")]
 script = ExtResource("3_c8xc1")
 camera = NodePath("../../Camera2D")
 grid = NodePath("../Grid")
+unit_manager = NodePath("../UnitManager")
+battle_manager = NodePath("../BattleManager")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1004421333]
