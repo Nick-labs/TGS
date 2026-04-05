@@ -54,17 +54,6 @@ func get_neighbors(coord: Vector2i) -> Array:
 
 	return result
 
-func hide_highlight():
-	$HighlightTile.visible = false
-
-func show_highlight(cell: Vector2i):
-	var tile := get_tile(cell)
-	if tile == null:
-		return
-
-	$HighlightTile.visible = true
-	$HighlightTile.position = tile.position
-
 func get_bounds() -> Rect2:
 	if tiles.is_empty():
 		return Rect2()
@@ -82,3 +71,25 @@ func get_bounds() -> Rect2:
 		max_pos.y = max(max_pos.y, pos.y)
 
 	return Rect2(min_pos, max_pos - min_pos)
+
+func show_hover(cell: Vector2i):
+	var tile := get_tile(cell)
+	if tile == null:
+		return
+
+	$HoverHighlight.visible = true
+	$HoverHighlight.position = tile.position
+
+func hide_hover():
+	$HoverHighlight.visible = false
+
+func show_selected(cell: Vector2i):
+	var tile := get_tile(cell)
+	if tile == null:
+		return
+
+	$SelectedHighlight.visible = true
+	$SelectedHighlight.position = tile.position
+
+func hide_selected():
+	$SelectedHighlight.visible = false
