@@ -9,13 +9,11 @@ var is_moving := false
 
 func _ready():
 	auto_adjust_visual()
-	update_visual()
 
 func set_cell(new_cell: Vector2i):
 	cell = new_cell
-
+	
 	update_position()
-	update_visual()
 
 func update_position():
 	if grid == null:
@@ -24,19 +22,16 @@ func update_position():
 	var tile := grid.get_tile(cell)
 	if tile == null:
 		return
-
+	
 	position = tile.position
 	
 func auto_adjust_visual():
 	var sprite := $Visual/Sprite2D
 	if sprite.texture == null:
 		return
-
+	
 	var height = sprite.texture.get_size().y
 	$Visual.position.y = -height / 2.0
-
-func update_visual():
-	z_index = cell.x + cell.y
 
 func move_directly_to_cell(target_cell: Vector2i):
 	if is_moving:
@@ -44,15 +39,15 @@ func move_directly_to_cell(target_cell: Vector2i):
 
 	is_moving = true
 	cell = target_cell
-
+	
 	var tile := grid.get_tile(cell)
 	if tile == null:
 		return
-
+	
 	var target_pos := tile.position
-
+	
 	var tween := create_tween()
-
+	
 	tween.tween_property(self, "position", target_pos, 0.25) \
 		.set_trans(Tween.TRANS_SINE) \
 		.set_ease(Tween.EASE_OUT)
@@ -67,23 +62,23 @@ func move_directly_to_cell(target_cell: Vector2i):
 func move_along_path(path: Array[Vector2i]):
 	if is_moving:
 		return
-
+	
 	is_moving = true
-
+	
 	var tween := create_tween()
-
+	
 	for i in range(path.size()):
 		var path_cell := path[i]
-
+		
 		var tile := grid.get_tile(path_cell)
 		if tile == null:
 			continue
-
+		
 		var target := tile.position
 		var duration := 0.2
-
+		
 		tween.tween_property(self, "position", target, duration)
-
+		
 		tween.tween_callback(func(c = path_cell):
 			self.cell = c
 		)

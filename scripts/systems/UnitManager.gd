@@ -3,6 +3,7 @@ class_name UnitManager
 
 @export var grid: Grid
 @export var unit_scene: PackedScene
+@export var units_parent: Node2D
 
 var units: Array = []
 var occupied: Dictionary = {} # cell → unit
@@ -20,17 +21,17 @@ func get_unit_at(cell: Vector2i) -> Unit:
 func spawn_unit(cell: Vector2i) -> void:
 	if not grid.is_in_bounds(cell):
 		return
-
+	
 	if occupied.has(cell):
 		return
-
+	
 	var unit := unit_scene.instantiate()
-
+	
 	unit.grid = grid
 	unit.set_cell(cell)
-
-	add_child(unit)
-
+	
+	units_parent.add_child(unit)
+	
 	units.append(unit)
 	occupied[cell] = unit
 
