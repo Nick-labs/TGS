@@ -16,6 +16,9 @@ func select_at(cell: Vector2i):
 		if selected_unit != null:
 			move_selected_to(cell)
 
+func unselect():
+	selected_unit = null
+
 func move_selected_to(cell: Vector2i):
 	if selected_unit == null:
 		return
