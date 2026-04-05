@@ -3,6 +3,7 @@ class_name Unit
 
 var grid: Grid
 var cell: Vector2i
+var is_moving: bool = false
 
 func _ready():
 	auto_adjust_visual()
@@ -35,3 +36,29 @@ func auto_adjust_visual():
 func update_visual():
 	z_index = cell.x + cell.y
 	print(z_index)
+
+func move_to_cell(target_cell: Vector2i):
+	if is_moving:
+		return
+
+	is_moving = true
+	cell = target_cell
+
+	var tile := grid.get_tile(cell)
+	if tile == null:
+		return
+
+	var target_pos := tile.position
+
+	var tween := create_tween()
+
+	tween.tween_property(self, "position", target_pos, 0.25) \
+		.set_trans(Tween.TRANS_SINE) \
+		.set_ease(Tween.EASE_OUT)
+		
+	tween.tween_property(self, "scale", Vector2(1.1, 1.1), 0.1)
+	tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.1)
+	
+	tween.finished.connect(func():
+		is_moving = false
+	)

@@ -43,6 +43,6 @@ func move_unit(unit: Unit, target_cell: Vector2i):
 
 	occupied.erase(unit.cell)
 
-	unit.set_cell(target_cell)
+	unit.move_to_cell(target_cell)
 
 	occupied[target_cell] = unit

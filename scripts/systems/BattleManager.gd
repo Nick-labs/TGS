@@ -22,5 +22,8 @@ func unselect():
 func move_selected_to(cell: Vector2i):
 	if selected_unit == null:
 		return
-
+	
+	if selected_unit.is_moving:
+		return
+	
 	unit_manager.move_unit(selected_unit, cell)
