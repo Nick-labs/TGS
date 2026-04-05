@@ -1,8 +1,8 @@
 extends Node
 class_name BattleManager
 
-@export var grid: Grid
 @export var unit_manager: UnitManager
+@export var movement_system: MovementSystem
 
 var selected_unit: Unit = null
 
@@ -10,20 +10,22 @@ func select_at(cell: Vector2i):
 	var unit = unit_manager.get_unit_at(cell)
 
 	if unit != null:
-		selected_unit = unit
-		print("Selected unit:", cell)
-	else:
-		if selected_unit != null:
-			move_selected_to(cell)
+		select_unit(unit)
+		return
+	
+	try_move_command(cell)
+
+func select_unit(unit: Unit):
+	selected_unit = unit
 
 func unselect():
 	selected_unit = null
 
-func move_selected_to(cell: Vector2i):
+func try_move_command(cell: Vector2i):
 	if selected_unit == null:
 		return
 	
-	if selected_unit.is_moving:
+	if not movement_system.can_move(selected_unit):
 		return
 	
-	unit_manager.move_unit(selected_unit, cell)
+	movement_system.move_unit(selected_unit, cell)

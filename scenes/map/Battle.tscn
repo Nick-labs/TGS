@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://fjfypem676ux" path="res://scenes/map/HoverHighlight.tscn" id="3_evht8"]
 [ext_resource type="PackedScene" uid="uid://ugx057ox1nbc" path="res://scenes/map/SelectedHighlight.tscn" id="4_42qa6"]
 [ext_resource type="PackedScene" uid="uid://dllgqhansefun" path="res://scenes/systems/UnitManager.tscn" id="5_37gw2"]
+[ext_resource type="PackedScene" uid="uid://doq3grqn21nm" path="res://scenes/systems/MovementSystem.tscn" id="7_nkest"]
 [ext_resource type="PackedScene" uid="uid://drefvpa3kq01x" path="res://scenes/systems/BattleManager.tscn" id="7_yyk6v"]
 
 [node name="Battle" type="Node2D" unique_id=1435354891]
@@ -33,7 +34,11 @@ visible = false
 grid = NodePath("../Grid")
 units_parent = NodePath("../Units")
 
-[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("grid", "unit_manager") instance=ExtResource("7_yyk6v")]
+[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "movement_system") instance=ExtResource("7_yyk6v")]
+unit_manager = NodePath("../UnitManager")
+movement_system = NodePath("../MovementSystem")
+
+[node name="MovementSystem" parent="GridRoot" unique_id=1022618536 node_paths=PackedStringArray("grid", "unit_manager") instance=ExtResource("7_nkest")]
 grid = NodePath("../Grid")
 unit_manager = NodePath("../UnitManager")
 
