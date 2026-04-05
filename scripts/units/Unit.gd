@@ -1,6 +1,8 @@
 extends Node2D
 class_name Unit
 
+signal move_finished(final_cell: Vector2i)
+
 var grid: Grid
 var cell: Vector2i
 var is_moving := false
@@ -89,4 +91,5 @@ func move_along_path(path: Array[Vector2i]):
 
 	tween.finished.connect(func():
 		is_moving = false
+		move_finished.emit(cell)
 	)
