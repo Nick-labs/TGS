@@ -15,7 +15,8 @@ script = ExtResource("1_lto8t")
 camera = NodePath("../Camera2D")
 grid = NodePath("Grid")
 
-[node name="Grid" parent="GridRoot" unique_id=269519220 instance=ExtResource("2_c8xc1")]
+[node name="Grid" parent="GridRoot" unique_id=269519220 node_paths=PackedStringArray("unit_manager") instance=ExtResource("2_c8xc1")]
+unit_manager = NodePath("../UnitManager")
 
 [node name="HoverHighlight" parent="GridRoot/Grid" unique_id=1336704194 instance=ExtResource("3_evht8")]
 visible = false

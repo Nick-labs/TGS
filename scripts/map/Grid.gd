@@ -6,6 +6,7 @@ class_name Grid
 @export var height: int = 10
 @export var tile_scene: PackedScene
 @export var iso_config: IsoConfig
+@export var unit_manager: UnitManager
 
 var tiles: Dictionary = {}
 var astar := AStarGrid2D.new()  # A* pathfinding system
@@ -105,11 +106,27 @@ func setup_astar():
 func find_path(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
 	if not is_in_bounds(from) or not is_in_bounds(to):
 		return []
-
+		
+	_clear_astar_solids()
+	
+	_apply_occupied_to_astar(from, to)
+	
 	var path := astar.get_id_path(from, to)
-
+	
 	var result: Array[Vector2i] = []
 	for p in path:
 		result.append(Vector2i(p))
-
+	
 	return result
+
+func _clear_astar_solids():
+	for x in range(width):
+		for y in range(height):
+			astar.set_point_solid(Vector2i(x, y), false)
+
+func _apply_occupied_to_astar(from: Vector2i, to: Vector2i):
+	for cell in unit_manager.occupied.keys():
+		if cell == from or cell == to:
+			continue
+		
+		astar.set_point_solid(cell, true)
