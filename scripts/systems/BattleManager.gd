@@ -50,7 +50,7 @@ func try_move_command(cell: Vector2i):
 	if selected_unit == null:
 		return
 	
-	if not movement_system.can_move(selected_unit):
+	if not movement_system.can_move_to(selected_unit, cell):
 		return
 	
 	if state != BattleState.UNIT_SELECTED:

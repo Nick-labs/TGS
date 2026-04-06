@@ -47,6 +47,16 @@ func _apply_move_limit(unit: Unit, path: Array[Vector2i]) -> Array[Vector2i]:
 func can_move(unit: Unit) -> bool:
 	return not unit.is_moving
 
+func can_move_to(unit: Unit, target_cell: Vector2i) -> bool:
+	if not grid.is_in_bounds(target_cell):
+		return false
+
+	if unit.is_moving:
+		return false
+
+	var reachable := get_reachable_cells(unit)
+	return target_cell in reachable
+
 func get_reachable_cells(unit: Unit) -> Array[Vector2i]:
 	var start: Vector2i = unit.cell
 	var max_range: int = unit.move_range
