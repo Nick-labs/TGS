@@ -3,6 +3,7 @@ class_name MovementSystem
 
 @export var grid: Grid
 @export var unit_manager: UnitManager
+@export var battle_manager: BattleManager
 
 func move_unit(unit: Unit, target_cell: Vector2i):
 	if not grid.is_in_bounds(target_cell):
@@ -27,6 +28,7 @@ func move_unit(unit: Unit, target_cell: Vector2i):
 	
 	unit.move_finished.connect(func(final_cell):
 		unit_manager.on_unit_moved(unit, start_cell, final_cell)
+		battle_manager.on_unit_move_finished()
 	, CONNECT_ONE_SHOT)
 
 func _apply_move_limit(unit: Unit, path: Array[Vector2i]) -> Array[Vector2i]:
@@ -44,3 +46,40 @@ func _apply_move_limit(unit: Unit, path: Array[Vector2i]) -> Array[Vector2i]:
 
 func can_move(unit: Unit) -> bool:
 	return not unit.is_moving
+
+func get_reachable_cells(unit: Unit) -> Array[Vector2i]:
+	var start: Vector2i = unit.cell
+	var max_range: int = unit.move_range
+	
+	var visited := {}
+	var result: Array[Vector2i] = []
+	
+	var queue: Array = []
+	queue.append([start, 0]) # [cell, cost]
+	visited[start] = true
+	
+	while queue.size() > 0:
+		var current = queue.pop_front()
+		var cell: Vector2i = current[0]
+		var cost: int = current[1]
+		
+		#if cell != start:
+			#result.append(cell)
+		
+		result.append(cell)
+		
+		if cost >= max_range:
+			continue
+		
+		for ncell in grid.get_neighbor_coords(cell):
+			
+			if visited.has(ncell):
+				continue
+			
+			if unit_manager.is_occupied(ncell) and ncell != start:
+				continue
+			
+			visited[ncell] = true
+			queue.append([ncell, cost + 1])
+	
+	return result

@@ -25,22 +25,25 @@ unit_manager = NodePath("../UnitManager")
 
 [node name="HoverHighlight" parent="GridRoot/Grid" unique_id=1336704194 instance=ExtResource("3_evht8")]
 visible = false
-z_index = 21
+z_index = 101
 
 [node name="SelectedHighlight" parent="GridRoot/Grid" unique_id=475252442 instance=ExtResource("4_42qa6")]
 visible = false
+z_index = 102
 
 [node name="UnitManager" parent="GridRoot" unique_id=188568835 node_paths=PackedStringArray("grid", "units_parent") instance=ExtResource("5_37gw2")]
 grid = NodePath("../Grid")
 units_parent = NodePath("../Units")
 
-[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "movement_system") instance=ExtResource("7_yyk6v")]
+[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "movement_system", "grid") instance=ExtResource("7_yyk6v")]
 unit_manager = NodePath("../UnitManager")
 movement_system = NodePath("../MovementSystem")
+grid = NodePath("../Grid")
 
-[node name="MovementSystem" parent="GridRoot" unique_id=1022618536 node_paths=PackedStringArray("grid", "unit_manager") instance=ExtResource("7_nkest")]
+[node name="MovementSystem" parent="GridRoot" unique_id=1022618536 node_paths=PackedStringArray("grid", "unit_manager", "battle_manager") instance=ExtResource("7_nkest")]
 grid = NodePath("../Grid")
 unit_manager = NodePath("../UnitManager")
+battle_manager = NodePath("../BattleManager")
 
 [node name="SelectionController" type="Node2D" parent="GridRoot" unique_id=1843373962 node_paths=PackedStringArray("camera", "grid", "unit_manager", "battle_manager")]
 script = ExtResource("3_c8xc1")
