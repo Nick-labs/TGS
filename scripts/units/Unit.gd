@@ -3,6 +3,8 @@ class_name Unit
 
 signal move_finished(final_cell: Vector2i)
 
+@export var move_range: int = 3
+
 var grid: Grid
 var cell: Vector2i
 var is_moving := false

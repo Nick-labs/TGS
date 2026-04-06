@@ -35,24 +35,39 @@ func spawn_unit(cell: Vector2i) -> void:
 	units.append(unit)
 	occupied[cell] = unit
 
-func move_unit(unit: Unit, target_cell: Vector2i):
-	if not grid.is_in_bounds(target_cell):
-		return
-	
-	if occupied.has(target_cell):
-		return
-	
-	var path := grid.find_path(unit.cell, target_cell)
-	
-	if path.is_empty():
-		return
-	
-	var start_cell := unit.cell
-	
-	unit.move_along_path(path)
-	
-	unit.move_finished.connect(func(final_cell):
-		occupied.erase(start_cell)
-		occupied[final_cell] = unit
-		, CONNECT_ONE_SHOT
-	)
+#func move_unit(unit: Unit, target_cell: Vector2i):
+	#if not grid.is_in_bounds(target_cell):
+		#return
+	#
+	#if occupied.has(target_cell):
+		#return
+	#
+	#var path := grid.find_path(unit.cell, target_cell)
+	#
+	#if path.is_empty():
+		#return
+	#
+	#var limited_path: Array[Vector2i] = []
+	#
+	#var cost := 0
+	#
+	#for i in range(1, path.size()): # 0 = старт
+		#limited_path.append(path[i])
+		#cost += 1
+		#
+		#if cost >= unit.move_range:
+			#break
+	#
+	#var start_cell := unit.cell
+	#
+	#unit.move_along_path(limited_path)
+	#
+	#unit.move_finished.connect(func(final_cell):
+		#occupied.erase(start_cell)
+		#occupied[final_cell] = unit
+		#, CONNECT_ONE_SHOT
+	#)
+
+func on_unit_moved(unit: Unit, old_cell: Vector2i, new_cell: Vector2i):
+	occupied.erase(old_cell)
+	occupied[new_cell] = unit

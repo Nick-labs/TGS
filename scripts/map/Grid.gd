@@ -36,24 +36,24 @@ func get_tile(coord: Vector2i) -> Tile:
 func is_in_bounds(coord: Vector2i) -> bool:
 	return coord.x >= 0 and coord.x < width and coord.y >= 0 and coord.y < height
 
-func get_neighbors(coord: Vector2i) -> Array:
+func get_neighbor_coords(coord: Vector2i) -> Array[Vector2i]:
 	var dirs = [
 		Vector2i(1,0),
 		Vector2i(-1,0),
 		Vector2i(0,1),
 		Vector2i(0,-1),
-		Vector2i(1,1),
-		Vector2i(-1,-1),
-		Vector2i(1,-1),
-		Vector2i(-1,1)
+		#Vector2i(1,1),
+		#Vector2i(-1,-1),
+		#Vector2i(1,-1),
+		#Vector2i(-1,1)
 	]
 
-	var result = []
+	var result: Array[Vector2i] = []
 
 	for d in dirs:
 		var n = coord + d
 		if is_in_bounds(n):
-			result.append(get_tile(n))
+			result.append(n)
 
 	return result
 
@@ -96,6 +96,25 @@ func show_selected(cell: Vector2i):
 
 func hide_selected():
 	$SelectedHighlight.visible = false
+
+func show_reachable(cells: Array[Vector2i]):
+	clear_reachable()
+	
+	for cell in cells:
+		var tile := get_tile(cell)
+		if tile == null:
+			continue
+		
+		tile.set_state(Tile.State.REACHABLE)
+
+func clear_reachable():
+	for tile in tiles.values():
+		if tile.state == Tile.State.REACHABLE:
+			tile.set_state(Tile.State.NORMAL)
+
+func clear_all_highlights():
+	for tile in tiles.values():
+		tile.set_state(Tile.State.NORMAL)
 
 func setup_astar():
 	astar.region = Rect2i(Vector2i(0, 0), Vector2i(width, height))
