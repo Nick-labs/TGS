@@ -13,7 +13,13 @@ func plan_enemy_turn(enemy_units: Array[Unit], player_units: Array[Unit]) -> Arr
 
 func _build_plan_for_enemy(enemy: Unit, player_units: Array[Unit]) -> Dictionary:
 	if player_units.is_empty():
-		return {"unit": enemy, "move_to": enemy.cell, "action": enemy.action, "target_cell": enemy.cell, "preview_cells": []}
+		return {
+			"unit": enemy,
+			"move_to": enemy.cell,
+			"action": enemy.action,
+			"target_cell": enemy.cell,
+			"preview_cells": []
+		}
 
 	var target := _find_closest(enemy, player_units)
 	var move_to := enemy.cell
@@ -24,12 +30,11 @@ func _build_plan_for_enemy(enemy: Unit, player_units: Array[Unit]) -> Dictionary
 		if path.size() > 1:
 			var steps := min(enemy.move_range, path.size() - 1)
 			move_to = path[steps]
-		if target.cell not in grid.get_neighbor_coords(move_to):
-			target_cell = move_to + _best_step_towards(move_to, target.cell)
 
-	var preview: Array[Vector2i] = []
-	if enemy.action != null:
-		preview = enemy.action.preview_cells(enemy, target_cell, grid, unit_manager)
+	if target.cell not in grid.get_neighbor_coords(move_to):
+		target_cell = move_to + _best_step_towards(move_to, target.cell)
+
+	var preview := _build_preview_cells(target_cell)
 
 	return {
 		"unit": enemy,
@@ -38,6 +43,12 @@ func _build_plan_for_enemy(enemy: Unit, player_units: Array[Unit]) -> Dictionary
 		"target_cell": target_cell,
 		"preview_cells": preview
 	}
+
+func _build_preview_cells(target_cell: Vector2i) -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+	if grid.is_in_bounds(target_cell):
+		result.append(target_cell)
+	return result
 
 func _find_closest(from_unit: Unit, units: Array[Unit]) -> Unit:
 	var best := units[0]
