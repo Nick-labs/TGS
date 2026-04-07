@@ -5,12 +5,14 @@ class_name UnitManager
 @export var unit_scene: PackedScene
 @export var units_parent: Node2D
 
-var units: Array = []
-var occupied: Dictionary = {} # cell → unit
+var units: Array[Unit] = []
+var occupied: Dictionary = {}
 
 func _ready():
-	spawn_unit(Vector2i(3, 3))
-	spawn_unit(Vector2i(5, 5))
+	spawn_unit(Vector2i(3, 3), Unit.Team.PLAYER)
+	spawn_unit(Vector2i(2, 4), Unit.Team.PLAYER)
+	spawn_unit(Vector2i(7, 7), Unit.Team.ENEMY)
+	spawn_unit(Vector2i(6, 8), Unit.Team.ENEMY)
 
 func is_occupied(cell: Vector2i) -> bool:
 	return occupied.has(cell)
@@ -18,56 +20,45 @@ func is_occupied(cell: Vector2i) -> bool:
 func get_unit_at(cell: Vector2i) -> Unit:
 	return occupied.get(cell, null)
 
-func spawn_unit(cell: Vector2i) -> void:
+func get_units_by_team(team: Unit.Team) -> Array[Unit]:
+	var result: Array[Unit] = []
+	for unit in units:
+		if unit.team == team and not unit.is_dead():
+			result.append(unit)
+	return result
+
+func spawn_unit(cell: Vector2i, team: Unit.Team = Unit.Team.PLAYER) -> void:
 	if not grid.is_in_bounds(cell):
 		return
-	
 	if occupied.has(cell):
 		return
-	
-	var unit := unit_scene.instantiate()
-	
+
+	var unit := unit_scene.instantiate() as Unit
 	unit.grid = grid
+	unit.team = team
+	if unit.action == null:
+		if team == Unit.Team.PLAYER:
+			unit.action = PushAttackAction.new()
+		else:
+			unit.action = MeleeAttackAction.new()
 	unit.set_cell(cell)
-	
+
 	units_parent.add_child(unit)
-	
 	units.append(unit)
 	occupied[cell] = unit
-
-#func move_unit(unit: Unit, target_cell: Vector2i):
-	#if not grid.is_in_bounds(target_cell):
-		#return
-	#
-	#if occupied.has(target_cell):
-		#return
-	#
-	#var path := grid.find_path(unit.cell, target_cell)
-	#
-	#if path.is_empty():
-		#return
-	#
-	#var limited_path: Array[Vector2i] = []
-	#
-	#var cost := 0
-	#
-	#for i in range(1, path.size()): # 0 = старт
-		#limited_path.append(path[i])
-		#cost += 1
-		#
-		#if cost >= unit.move_range:
-			#break
-	#
-	#var start_cell := unit.cell
-	#
-	#unit.move_along_path(limited_path)
-	#
-	#unit.move_finished.connect(func(final_cell):
-		#occupied.erase(start_cell)
-		#occupied[final_cell] = unit
-		#, CONNECT_ONE_SHOT
-	#)
 
 func on_unit_moved(unit: Unit, old_cell: Vector2i, new_cell: Vector2i):
 	occupied.erase(old_cell)
 	occupied[new_cell] = unit
+
+func remove_unit(unit: Unit):
+	if unit == null:
+		return
+	occupied.erase(unit.cell)
+	units.erase(unit)
+	unit.queue_free()
+
+func cleanup_dead_units():
+	for unit in units.duplicate():
+		if unit.is_dead():
+			remove_unit(unit)

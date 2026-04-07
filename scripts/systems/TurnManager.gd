@@ -1,0 +1,116 @@
+extends Node
+class_name TurnManager
+
+signal phase_changed(new_phase: TurnPhase)
+signal enemy_intents_updated(plans: Array[Dictionary])
+
+@export var unit_manager: UnitManager
+@export var movement_system: MovementSystem
+@export var effect_resolver: EffectResolver
+@export var enemy_ai: EnemyAI
+@export var intent_visualizer: IntentVisualizer
+@export var battle_manager: BattleManager
+
+enum TurnPhase {
+	PLAYER_TURN,
+	ENEMY_EXECUTION
+}
+
+var phase: TurnPhase = TurnPhase.PLAYER_TURN
+var enemy_plans: Array[Dictionary] = []
+
+func _ready():
+	start_battle()
+
+func start_battle():
+	_reset_player_flags()
+	_plan_enemy_intents()
+	phase = TurnPhase.PLAYER_TURN
+	phase_changed.emit(phase)
+
+func can_accept_player_input() -> bool:
+	return phase == TurnPhase.PLAYER_TURN
+
+func is_player_turn() -> bool:
+	return phase == TurnPhase.PLAYER_TURN
+
+func end_player_turn():
+	if phase != TurnPhase.PLAYER_TURN:
+		return
+
+	phase = TurnPhase.ENEMY_EXECUTION
+	phase_changed.emit(phase)
+
+	_execute_enemy_turn()
+	_reset_player_flags()
+	_plan_enemy_intents()
+
+	phase = TurnPhase.PLAYER_TURN
+	phase_changed.emit(phase)
+
+func notify_player_unit_finished(_unit: Unit):
+	if not _all_player_units_spent():
+		return
+	end_player_turn()
+
+func _all_player_units_spent() -> bool:
+	var players := unit_manager.get_units_by_team(Unit.Team.PLAYER)
+	if players.is_empty():
+		return false
+
+	for u in players:
+		if u.is_dead():
+			continue
+		if not u.has_acted_this_turn:
+			return false
+	return true
+
+func _execute_enemy_turn():
+	for plan in enemy_plans:
+		var unit: Unit = plan.get("unit", null)
+		if unit == null or unit.is_dead():
+			continue
+
+		var move_to: Vector2i = plan.get("move_to", unit.cell)
+		if move_to != unit.cell and not unit_manager.is_occupied(move_to):
+			var path := grid_safe_path(unit.cell, move_to)
+			if not path.is_empty():
+				movement_system.move_unit_instant(unit, path)
+
+		var action: BaseAction = plan.get("action", null)
+		var target_cell: Vector2i = plan.get("target_cell", unit.cell)
+		if action != null and unit.can_act_this_turn():
+			var effects := action.build_effects(unit, target_cell, battle_manager.grid, unit_manager)
+			effect_resolver.resolve_effects(effects)
+			unit.has_acted_this_turn = true
+
+	unit_manager.cleanup_dead_units()
+
+func _reset_player_flags():
+	for unit in unit_manager.get_units_by_team(Unit.Team.PLAYER):
+		unit.reset_turn_flags()
+	for unit in unit_manager.get_units_by_team(Unit.Team.ENEMY):
+		unit.reset_turn_flags()
+
+
+func refresh_enemy_intents_visuals():
+	if intent_visualizer != null:
+		intent_visualizer.show_enemy_intents(enemy_plans)
+
+func _plan_enemy_intents():
+	enemy_plans = enemy_ai.plan_enemy_turn(
+		unit_manager.get_units_by_team(Unit.Team.ENEMY),
+		unit_manager.get_units_by_team(Unit.Team.PLAYER)
+	)
+	if intent_visualizer != null:
+		intent_visualizer.show_enemy_intents(enemy_plans)
+	enemy_intents_updated.emit(enemy_plans)
+
+func grid_safe_path(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
+	var path := battle_manager.grid.find_path(from, to)
+	if path.is_empty():
+		return []
+	var result: Array[Vector2i] = []
+	for i in range(1, path.size()):
+		result.append(path[i])
+	return result

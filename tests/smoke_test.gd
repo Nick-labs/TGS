@@ -1,0 +1,53 @@
+extends SceneTree
+
+func _init():
+	var battle_scene: PackedScene = load("res://scenes/map/Battle.tscn")
+	if battle_scene == null:
+		push_error("Failed to load Battle scene")
+		quit(1)
+		return
+
+	var battle := battle_scene.instantiate()
+	root.add_child(battle)
+	await process_frame
+
+	var grid_root := battle.get_node("GridRoot")
+	var unit_manager: UnitManager = grid_root.get_node("UnitManager")
+	var battle_manager: BattleManager = grid_root.get_node("BattleManager")
+	var turn_manager: TurnManager = grid_root.get_node("TurnManager")
+	var enemy_ai: EnemyAI = grid_root.get_node("EnemyAI")
+	var effect_resolver: EffectResolver = grid_root.get_node("EffectResolver")
+
+	_assert_not_null(grid_root, "GridRoot should exist")
+	_assert_not_null(unit_manager, "UnitManager should exist")
+	_assert_not_null(battle_manager, "BattleManager should exist")
+	_assert_not_null(turn_manager, "TurnManager should exist")
+	_assert_not_null(enemy_ai, "EnemyAI should exist")
+	_assert_not_null(effect_resolver, "EffectResolver should exist")
+
+	var players := unit_manager.get_units_by_team(Unit.Team.PLAYER)
+	var enemies := unit_manager.get_units_by_team(Unit.Team.ENEMY)
+	_assert(players.size() > 0, "Expected at least one player unit")
+	_assert(enemies.size() > 0, "Expected at least one enemy unit")
+
+	var player: Unit = players[0]
+	battle_manager.select_unit(player)
+	_assert(battle_manager.action_cells.size() > 0, "Player should have available action targets")
+
+	# Execute one action to verify action/effect pipeline is connected.
+	var action_target: Vector2i = battle_manager.action_cells[0]
+	battle_manager.try_action_command(action_target)
+	await process_frame
+
+	_assert(turn_manager.phase == TurnManager.TurnPhase.PLAYER_TURN, "TurnManager should return/stay in player phase after processing")
+
+	print("SMOKE_TEST_OK")
+	quit(0)
+
+func _assert(condition: bool, message: String):
+	if not condition:
+		push_error(message)
+		quit(1)
+
+func _assert_not_null(value, message: String):
+	_assert(value != null, message)

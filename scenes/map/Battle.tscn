@@ -8,6 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://dllgqhansefun" path="res://scenes/systems/UnitManager.tscn" id="5_37gw2"]
 [ext_resource type="PackedScene" uid="uid://doq3grqn21nm" path="res://scenes/systems/MovementSystem.tscn" id="7_nkest"]
 [ext_resource type="PackedScene" uid="uid://drefvpa3kq01x" path="res://scenes/systems/BattleManager.tscn" id="7_yyk6v"]
+[ext_resource type="Script" path="res://scripts/systems/TurnManager.gd" id="9_turn"]
+[ext_resource type="Script" path="res://scripts/systems/EnemyAI.gd" id="10_ai"]
+[ext_resource type="Script" path="res://scripts/systems/EffectResolver.gd" id="11_res"]
+[ext_resource type="Script" path="res://scripts/systems/IntentVisualizer.gd" id="12_vis"]
+[ext_resource type="Script" path="res://scripts/systems/EnvironmentManager.gd" id="13_env"]
 
 [node name="Battle" type="Node2D" unique_id=1435354891]
 
@@ -35,21 +40,51 @@ z_index = 102
 grid = NodePath("../Grid")
 units_parent = NodePath("../Units")
 
-[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "movement_system", "grid") instance=ExtResource("7_yyk6v")]
+[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "movement_system", "grid", "turn_manager", "effect_resolver") instance=ExtResource("7_yyk6v")]
 unit_manager = NodePath("../UnitManager")
 movement_system = NodePath("../MovementSystem")
 grid = NodePath("../Grid")
+turn_manager = NodePath("../TurnManager")
+effect_resolver = NodePath("../EffectResolver")
 
 [node name="MovementSystem" parent="GridRoot" unique_id=1022618536 node_paths=PackedStringArray("grid", "unit_manager", "battle_manager") instance=ExtResource("7_nkest")]
 grid = NodePath("../Grid")
 unit_manager = NodePath("../UnitManager")
 battle_manager = NodePath("../BattleManager")
 
-[node name="SelectionController" type="Node2D" parent="GridRoot" unique_id=1843373962 node_paths=PackedStringArray("camera", "grid", "unit_manager", "battle_manager")]
+[node name="EnvironmentManager" type="Node" parent="GridRoot" unique_id=120000001]
+script = ExtResource("13_env")
+
+[node name="EffectResolver" type="Node" parent="GridRoot" unique_id=120000002 node_paths=PackedStringArray("grid", "unit_manager", "environment_manager")]
+script = ExtResource("11_res")
+grid = NodePath("../Grid")
+unit_manager = NodePath("../UnitManager")
+environment_manager = NodePath("../EnvironmentManager")
+
+[node name="EnemyAI" type="Node" parent="GridRoot" unique_id=120000003 node_paths=PackedStringArray("grid", "unit_manager")]
+script = ExtResource("10_ai")
+grid = NodePath("../Grid")
+unit_manager = NodePath("../UnitManager")
+
+[node name="IntentVisualizer" type="Node" parent="GridRoot" unique_id=120000004 node_paths=PackedStringArray("grid")]
+script = ExtResource("12_vis")
+grid = NodePath("../Grid")
+
+[node name="TurnManager" type="Node" parent="GridRoot" unique_id=120000005 node_paths=PackedStringArray("unit_manager", "movement_system", "effect_resolver", "enemy_ai", "intent_visualizer", "battle_manager")]
+script = ExtResource("9_turn")
+unit_manager = NodePath("../UnitManager")
+movement_system = NodePath("../MovementSystem")
+effect_resolver = NodePath("../EffectResolver")
+enemy_ai = NodePath("../EnemyAI")
+intent_visualizer = NodePath("../IntentVisualizer")
+battle_manager = NodePath("../BattleManager")
+
+[node name="SelectionController" type="Node2D" parent="GridRoot" unique_id=1843373962 node_paths=PackedStringArray("camera", "grid", "unit_manager", "battle_manager", "turn_manager")]
 script = ExtResource("3_c8xc1")
 camera = NodePath("../../Camera2D")
 grid = NodePath("../Grid")
 unit_manager = NodePath("../UnitManager")
 battle_manager = NodePath("../BattleManager")
+turn_manager = NodePath("../TurnManager")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1004421333]
