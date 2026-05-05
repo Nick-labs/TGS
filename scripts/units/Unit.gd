@@ -92,6 +92,24 @@ func update_sprite():
 	visual_offset = data.offset
 	$Visual.scale = data.scale
 	
+	var color = Color(0.0, 0.0, 0.0, 0.0)
+	match archetype:
+		Archetype.STRIKER:
+			color = Color(0.0, 0.533, 0.184, 1.0)
+		Archetype.GUARDIAN:
+			color = Color(0.373, 0.373, 0.373, 1.0)
+		Archetype.ARTILLERY:
+			color = Color(0.122, 0.358, 1.0, 1.0)
+		Archetype.BRUTE:
+			color = Color(0.917, 0.295, 0.099, 1.0)
+		Archetype.RAIDER:
+			color = Color(0.73, 0.595, 0.0, 1.0)
+		Archetype.SNIPER:
+			color = Color(0.888, 0.0, 0.478, 1.0)
+		
+		
+	sprite.modulate = color
+	
 	auto_adjust_visual()
 
 func auto_adjust_visual():
