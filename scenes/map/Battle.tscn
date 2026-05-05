@@ -8,14 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://dllgqhansefun" path="res://scenes/systems/UnitManager.tscn" id="5_37gw2"]
 [ext_resource type="PackedScene" uid="uid://doq3grqn21nm" path="res://scenes/systems/MovementSystem.tscn" id="7_nkest"]
 [ext_resource type="PackedScene" uid="uid://drefvpa3kq01x" path="res://scenes/systems/BattleManager.tscn" id="7_yyk6v"]
-[ext_resource type="Script" uid="uid://11k3po3n2cyj" path="res://scripts/systems/TurnManager.gd" id="9_turn"]
-[ext_resource type="Script" uid="uid://lw06yh05yssl" path="res://scripts/systems/EnemyAI.gd" id="10_ai"]
-[ext_resource type="Script" uid="uid://drocl2jwewq7n" path="res://scripts/systems/EffectResolver.gd" id="11_res"]
+[ext_resource type="Script" uid="uid://cqpqrnkb8cesx" path="res://scripts/systems/TurnManager.gd" id="9_turn"]
+[ext_resource type="Script" uid="uid://dx1wg66qhtmky" path="res://scripts/systems/EnemyAI.gd" id="10_ai"]
+[ext_resource type="Script" uid="uid://5oktkycqkusj" path="res://scripts/systems/EffectResolver.gd" id="11_res"]
 [ext_resource type="Script" uid="uid://2qosdas8njw" path="res://scripts/systems/IntentVisualizer.gd" id="12_vis"]
-[ext_resource type="Script" uid="uid://boq36sh2p6v01" path="res://scripts/systems/EnvironmentManager.gd" id="13_env"]
-[ext_resource type="Script" uid="uid://chh748yb408kk" path="res://scripts/ui/BattleHUD.gd" id="14_hud"]
+[ext_resource type="Script" uid="uid://3tgq7nydvekc" path="res://scripts/systems/EnvironmentManager.gd" id="13_env"]
+[ext_resource type="Script" uid="uid://41c5ty7mytuu" path="res://scripts/ui/BattleHUD.gd" id="14_hud"]
 [ext_resource type="Texture2D" uid="uid://gwsxhqpygben" path="res://assets/sprites/tiles/tile_128x64.png" id="15_objtex"]
-[ext_resource type="Texture2D" uid="uid://crhmdojjqtact" path="res://assets/dobry.png" id="16_pt47k"]
 
 [node name="Battle" type="Node2D" unique_id=1435354891]
 
@@ -39,18 +38,12 @@ z_index = 101
 visible = false
 z_index = 102
 
-[node name="ObjectiveMarker" type="Node2D" parent="GridRoot/Grid" unique_id=65856687]
+[node name="ObjectiveMarker" type="Node2D" parent="GridRoot/Grid" unique_id=316648406]
 z_index = 99
 
-[node name="Sprite2D" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=2054928261]
+[node name="Sprite2D" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=1532770609]
 modulate = Color(0.9, 0.5, 1, 0.65)
 texture = ExtResource("15_objtex")
-
-[node name="Dobry" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=995136612]
-z_index = 10
-position = Vector2(-1, -54)
-scale = Vector2(0.15355605, 0.1290874)
-texture = ExtResource("16_pt47k")
 
 [node name="UnitManager" parent="GridRoot" unique_id=188568835 node_paths=PackedStringArray("grid", "units_parent") instance=ExtResource("5_37gw2")]
 grid = NodePath("../Grid")
@@ -108,7 +101,7 @@ turn_manager = NodePath("../TurnManager")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1004421333]
 
-[node name="BattleHUD" type="CanvasLayer" parent="." unique_id=468007678 node_paths=PackedStringArray("unit_manager", "turn_manager", "effect_resolver", "battle_manager", "environment_manager", "selection_controller")]
+[node name="BattleHUD" type="CanvasLayer" parent="." unique_id=1066236562 node_paths=PackedStringArray("unit_manager", "turn_manager", "effect_resolver", "battle_manager", "environment_manager", "selection_controller")]
 script = ExtResource("14_hud")
 unit_manager = NodePath("../GridRoot/UnitManager")
 turn_manager = NodePath("../GridRoot/TurnManager")
@@ -117,7 +110,7 @@ battle_manager = NodePath("../GridRoot/BattleManager")
 environment_manager = NodePath("../GridRoot/EnvironmentManager")
 selection_controller = NodePath("../GridRoot/SelectionController")
 
-[node name="Root" type="Control" parent="BattleHUD" unique_id=1153796291]
+[node name="Root" type="Control" parent="BattleHUD" unique_id=1395461219]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -126,7 +119,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopBar" type="PanelContainer" parent="BattleHUD/Root" unique_id=1161816453]
+[node name="TopBar" type="PanelContainer" parent="BattleHUD/Root" unique_id=1064347486]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -137,50 +130,54 @@ offset_right = -12.0
 offset_bottom = 266.0
 grow_horizontal = 2
 
-[node name="TopVBox" type="VBoxContainer" parent="BattleHUD/Root/TopBar" unique_id=1214626504]
+[node name="TopVBox" type="VBoxContainer" parent="BattleHUD/Root/TopBar" unique_id=215309080]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="PhaseLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=82952631]
+[node name="PhaseLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=444240815]
 layout_mode = 2
 text = "Phase: PLAYER"
 
-[node name="CPLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=935581300]
+[node name="CPLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=954588464]
 layout_mode = 2
 text = "CP: 0/0"
 
-[node name="WeaveLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1209404044]
+[node name="WeaveLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1466886916]
 layout_mode = 2
 text = "Weave: 0/0 (MMB)"
 
-[node name="WeaveHelpLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=356459024]
+[node name="WeaveHelpLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=109104503]
 layout_mode = 2
 text = "Weave: shift one enemy intent by 1 tile"
 
-[node name="WeaveModeLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=185002631]
+[node name="WeaveModeLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=578848393]
 layout_mode = 2
 text = "WEAVE MODE: OFF"
 
-[node name="WeavePreviewLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1593838447]
+[node name="WeavePreviewLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1230057715]
 layout_mode = 2
 text = "Weave preview: hover an intent tile"
 
-[node name="ThreatLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1295707713]
+[node name="ThreatLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=271918656]
 layout_mode = 2
 text = "Threat: 0"
 
-[node name="ObjectiveLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1959661097]
+[node name="ObjectiveLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1636739852]
 layout_mode = 2
 text = "Objective (0, 0) HP: 0/0"
 
-[node name="HPLabel" type="RichTextLabel" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=800883986]
+[node name="PowerGridLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=934947601]
+layout_mode = 2
+text = "Power Grid: 0/0"
+
+[node name="HPLabel" type="RichTextLabel" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=324973433]
 custom_minimum_size = Vector2(320, 120)
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
-[node name="LogPanel" type="PanelContainer" parent="BattleHUD/Root" unique_id=1526781200]
+[node name="LogPanel" type="PanelContainer" parent="BattleHUD/Root" unique_id=699377676]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -191,22 +188,21 @@ offset_left = -420.0
 offset_top = -220.0
 offset_right = -12.0
 offset_bottom = -12.0
-grow_horizontal = 0
 grow_vertical = 2
 
-[node name="LogMargin" type="MarginContainer" parent="BattleHUD/Root/LogPanel" unique_id=1883198384]
+[node name="LogMargin" type="MarginContainer" parent="BattleHUD/Root/LogPanel" unique_id=1083766473]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="LogLabel" type="RichTextLabel" parent="BattleHUD/Root/LogPanel/LogMargin" unique_id=620339594]
+[node name="LogLabel" type="RichTextLabel" parent="BattleHUD/Root/LogPanel/LogMargin" unique_id=784303536]
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 
-[node name="FailOverlay" type="PanelContainer" parent="BattleHUD/Root" unique_id=1195916203]
+[node name="FailOverlay" type="PanelContainer" parent="BattleHUD/Root" unique_id=792440289]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -221,7 +217,7 @@ offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FailLabel" type="Label" parent="BattleHUD/Root/FailOverlay" unique_id=641266184]
+[node name="FailLabel" type="Label" parent="BattleHUD/Root/FailOverlay" unique_id=108651367]
 layout_mode = 2
 text = "MISSION FAILED"
 horizontal_alignment = 1
