@@ -1,10 +1,20 @@
 [gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://b7uhwjx5daqvo"]
 
 [ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/units/UnitData.gd" id="1_22dgs"]
+[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/BaseAction.gd" id="1_w8ulu"]
 [ext_resource type="Texture2D" uid="uid://qk2jan01ound" path="res://assets/sprites/units/TestUnit.png" id="2_tj5ci"]
+[ext_resource type="Script" uid="uid://j4df27kdc5dj" path="res://scripts/actions/ArtilleryAttackAction.gd" id="2_uqikw"]
+
+[sub_resource type="Resource" id="Resource_wx00p"]
+script = ExtResource("2_uqikw")
+metadata/_custom_type_script = "uid://j4df27kdc5dj"
 
 [resource]
 script = ExtResource("1_22dgs")
 display_name = "Striker"
+max_hp = 2
+move_range = 2
 texture = ExtResource("2_tj5ci")
+visual_scale = Vector2(0.7, 0.7)
+actions = Array[ExtResource("1_w8ulu")]([SubResource("Resource_wx00p")])
 metadata/_custom_type_script = "uid://ctnia1aps2tlj"

@@ -11,3 +11,5 @@ class_name UnitData
 @export var visual_offset: Vector2 = Vector2.ZERO
 @export var visual_scale: Vector2 = Vector2.ONE
 # @export var modulate: Color = Color.WHITE
+
+@export var actions: Array[BaseAction]

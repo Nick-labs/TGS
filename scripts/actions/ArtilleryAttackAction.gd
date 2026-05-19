@@ -1,12 +1,12 @@
 extends BaseAction
 class_name ArtilleryAttackAction
 
-@export var damage: int = 1
 @export var min_range: int = 2
 @export var max_range: int = 4
 
 func _init():
-	id = "artillery"
+	name = "artillery"
+	damage = 1
 	range = max_range
 
 func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:

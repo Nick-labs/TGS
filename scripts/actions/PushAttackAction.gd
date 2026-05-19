@@ -1,11 +1,11 @@
 extends BaseAction
 class_name PushAttackAction
 
-@export var damage: int = 1
 @export var push_distance: int = 1
 
 func _init():
-	id = "push_attack"
+	name = "push_attack"
+	damage = 1
 	range = 1
 
 func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:

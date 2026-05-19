@@ -106,12 +106,12 @@ func try_action_command(cell: Vector2i):
 		return
 	if not selected_unit.can_act_this_turn():
 		return
-	if selected_unit.action == null:
+	if selected_unit.default_action == null:
 		return
 	if cell not in action_cells:
 		return
 
-	var effects := selected_unit.action.build_effects(selected_unit, cell, grid, unit_manager)
+	var effects = selected_unit.default_action.build_effects(selected_unit, cell, grid, unit_manager)
 	if effects.is_empty():
 		return
 
@@ -120,7 +120,7 @@ func try_action_command(cell: Vector2i):
 		player_action_denied.emit(selected_unit, "Not enough CP")
 		return
 
-	player_action_committed.emit(selected_unit, cell, selected_unit.action.id)
+	player_action_committed.emit(selected_unit, cell, selected_unit.default_action.name)
 	effect_resolver.resolve_effects(effects)
 	selected_unit.has_acted_this_turn = true
 	unit_manager.cleanup_dead_units()
@@ -133,6 +133,6 @@ func try_action_command(cell: Vector2i):
 		turn_manager.notify_player_unit_finished(finished_unit)
 
 func get_action_cells(unit: Unit) -> Array[Vector2i]:
-	if unit.action == null:
+	if unit.default_action == null:
 		return []
-	return unit.action.get_target_cells(unit, grid, unit_manager)
+	return unit.default_action.get_target_cells(unit, grid, unit_manager)

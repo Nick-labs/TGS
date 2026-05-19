@@ -37,8 +37,8 @@ enum Team {
 var max_hp: int
 var move_range: int
 var action_cost: int
-
-@export var action: PushAttackAction
+var actions: Array[BaseAction]
+var default_action: BaseAction
 
 var grid: Grid
 var cell: Vector2i
@@ -57,6 +57,8 @@ func _ready():
 		
 	hp = data.max_hp
 	move_range = data.move_range
+	actions = data.actions.duplicate()
+	default_action = actions[0]
 	action_cost = data.action_cost
 	
 	sprite.centered = false
