@@ -16,12 +16,6 @@ func _ready():
 
 func setup_default_battlefield():
 	clear_all_units()
-	#spawn_unit(Vector2i(3, 3), Unit.Team.PLAYER, Unit.Archetype.STRIKER)
-	#spawn_unit(Vector2i(2, 4), Unit.Team.PLAYER, Unit.Archetype.GUARDIAN)
-	#spawn_unit(Vector2i(4, 2), Unit.Team.PLAYER, Unit.Archetype.ARTILLERY)
-	#spawn_unit(Vector2i(7, 7), Unit.Team.ENEMY, Unit.Archetype.BRUTE)
-	#spawn_unit(Vector2i(6, 8), Unit.Team.ENEMY, Unit.Archetype.RAIDER)
-	#spawn_unit(Vector2i(8, 6), Unit.Team.ENEMY, Unit.Archetype.SNIPER)
 	grid.refresh_ownership_visuals()
 
 func clear_all_units():

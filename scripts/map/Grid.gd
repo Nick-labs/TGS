@@ -61,6 +61,7 @@ func show_hover(cell: Vector2i):
 		return
 	$HoverHighlight.visible = true
 	$HoverHighlight.position = tile.position
+	$HoverHighlight.z_index = tile.coord.x + tile.coord.y + 1
 
 func hide_hover():
 	$HoverHighlight.visible = false
@@ -71,6 +72,7 @@ func show_selected(cell: Vector2i):
 		return
 	$SelectedHighlight.visible = true
 	$SelectedHighlight.position = tile.position
+	$SelectedHighlight.z_index = tile.coord.x + tile.coord.y + 2
 
 func hide_selected():
 	$SelectedHighlight.visible = false
@@ -91,12 +93,13 @@ func show_action_targets(cells: Array[Vector2i]):
 		tile.set_state(Tile.State.ACTION_TARGET)
 
 func show_intents(cells: Array[Vector2i]):
-	for cell in cells:
-		var tile := get_tile(cell)
-		if tile == null:
-			continue
-		if tile.state == Tile.State.NORMAL:
-			tile.set_state(Tile.State.INTENT)
+	pass # turned off
+	#for cell in cells:
+		#var tile := get_tile(cell)
+		#if tile == null:
+			#continue
+		#if tile.state == Tile.State.NORMAL:
+			#tile.set_state(Tile.State.INTENT)
 
 func clear_reachable():
 	for tile in tiles.values():

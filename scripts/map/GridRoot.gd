@@ -56,10 +56,10 @@ func apply_mission(mission: MissionData):
 		push_error("No mission data")
 	
 	environment_manager.objective_cell = mission.objective_cell
-	environment_manager.objective_max_hp = 6
+	environment_manager.objective_max_hp = mission.objective_max_hp
 	
-	turn_manager.cp_max = 3
-	turn_manager.threat_growth_per_turn = 1
+	turn_manager.cp_max = mission.cp_max
+	turn_manager.threat_growth_per_turn = mission.threat_growth_per_turn
 	
 	for spawn in mission.unit_spawns:
 		print(spawn.unit_data.display_name)

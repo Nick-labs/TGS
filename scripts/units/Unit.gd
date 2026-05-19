@@ -20,7 +20,7 @@ enum Team {
 	#SNIPER
 #}
 
-@onready var sprite: Sprite2D = $Visual/Sprite2D
+@onready var sprite: Sprite2D = $Visual/NoUnitSprite
 @export var visual_offset: Vector2 = Vector2.ZERO
 
 @export var team: Team = Team.PLAYER:
@@ -107,7 +107,10 @@ func auto_adjust_visual():
 func move_along_path(path: Array[Vector2i]):
 	if is_moving:
 		return
-
+	
+	z_index = cell.x + cell.y - 5
+	print(z_index)
+	
 	is_moving = true
 	var tween := create_tween()
 

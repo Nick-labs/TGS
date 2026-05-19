@@ -7,8 +7,8 @@ signal power_grid_updated(current_hp: int, max_hp: int)
 
 @export var grid: Grid
 @export var objective_marker: Node2D
-@export var objective_cell: Vector2i = Vector2i(8, 1)
-@export var objective_max_hp: int = 6
+@export var objective_cell: Vector2i
+@export var objective_max_hp: int
 
 var objects: Dictionary = {}
 var objective_hp: int = 0
@@ -105,3 +105,4 @@ func _refresh_objective_marker():
 	var tile := grid.get_tile(objective_cell)
 	if tile != null:
 		objective_marker.position = tile.position
+		objective_marker.z_index = tile.z_index + 1
