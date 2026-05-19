@@ -34,71 +34,44 @@ func center_grid() -> void:
 
 func apply_mission_preset(mission_id: int):
 	mission_id = SaveManager.normalize_mission_id(mission_id)
+
+	var path := "res://data/missions/mission_%d/mission.tres" % mission_id
+
+	if not ResourceLoader.exists(path):
+		push_error("Mission not found: " + path)
+		return
+
+	var mission: MissionData = load(path)
+
+	apply_mission(mission)
+
+func apply_mission(mission: MissionData):
 	var unit_manager: UnitManager = get_node("UnitManager")
 	var turn_manager: TurnManager = get_node("TurnManager")
 	var environment_manager: EnvironmentManager = get_node("EnvironmentManager")
+	
 	unit_manager.clear_all_units()
-
-	match mission_id:
-		1:
-			environment_manager.objective_cell = Vector2i(8, 1)
-			environment_manager.objective_max_hp = 6
-			turn_manager.cp_max = 3
-			turn_manager.threat_growth_per_turn = 1
-			unit_manager.spawn_unit(preload("res://data/units/striker.tres"), Unit.Team.PLAYER, Vector2i(3, 3))
-			#unit_manager.spawn_unit(, Unit.Team.PLAYER, Vector2i(2, 4))
-			#unit_manager.spawn_unit(, Unit.Team.PLAYER, Vector2i(4, 2))
-			unit_manager.spawn_unit(preload("res://data/units/skeleton.tres"), Unit.Team.ENEMY, Vector2i(7, 7))
-			unit_manager.spawn_unit(preload("res://data/units/skeleton.tres"), Unit.Team.ENEMY, Vector2i(2, 2))
-			#unit_manager.spawn_unit(, Unit.Team.ENEMY, Vector2i(6, 8))
-			#unit_manager.spawn_unit(, Unit.Team.ENEMY, Vector2i(8, 6))
-		2:
-			environment_manager.objective_cell = Vector2i(1, 8)
-			environment_manager.objective_max_hp = 8
-			turn_manager.cp_max = 2
-			turn_manager.threat_growth_per_turn = 2
-			#unit_manager.spawn_unit(Vector2i(1, 3), Unit.Team.PLAYER, Unit.Archetype.GUARDIAN)
-			#unit_manager.spawn_unit(Vector2i(2, 2), Unit.Team.PLAYER, Unit.Archetype.STRIKER)
-			#unit_manager.spawn_unit(Vector2i(3, 4), Unit.Team.PLAYER, Unit.Archetype.ARTILLERY)
-			#unit_manager.spawn_unit(Vector2i(7, 3), Unit.Team.ENEMY, Unit.Archetype.SNIPER)
-			#unit_manager.spawn_unit(Vector2i(7, 4), Unit.Team.ENEMY, Unit.Archetype.SNIPER)
-			#unit_manager.spawn_unit(Vector2i(8, 5), Unit.Team.ENEMY, Unit.Archetype.BRUTE)
-		3:
-			environment_manager.objective_cell = Vector2i(5, 5)
-			environment_manager.objective_max_hp = 10
-			turn_manager.cp_max = 4
-			turn_manager.weave_uses_per_turn = 2
-			#unit_manager.spawn_unit(Vector2i(1, 1), Unit.Team.PLAYER, Unit.Archetype.STRIKER)
-			#unit_manager.spawn_unit(Vector2i(1, 2), Unit.Team.PLAYER, Unit.Archetype.GUARDIAN)
-			#unit_manager.spawn_unit(Vector2i(2, 1), Unit.Team.PLAYER, Unit.Archetype.ARTILLERY)
-			#unit_manager.spawn_unit(Vector2i(8, 8), Unit.Team.ENEMY, Unit.Archetype.BRUTE)
-			#unit_manager.spawn_unit(Vector2i(8, 7), Unit.Team.ENEMY, Unit.Archetype.RAIDER)
-			#unit_manager.spawn_unit(Vector2i(7, 8), Unit.Team.ENEMY, Unit.Archetype.RAIDER)
-		4:
-			environment_manager.objective_cell = Vector2i(9, 0)
-			environment_manager.objective_max_hp = 4
-			turn_manager.cp_max = 3
-			turn_manager.threat_objective_focus_start = 1
-			#unit_manager.spawn_unit(Vector2i(0, 8), Unit.Team.PLAYER, Unit.Archetype.STRIKER)
-			#unit_manager.spawn_unit(Vector2i(0, 7), Unit.Team.PLAYER, Unit.Archetype.ARTILLERY)
-			#unit_manager.spawn_unit(Vector2i(1, 8), Unit.Team.PLAYER, Unit.Archetype.GUARDIAN)
-			#unit_manager.spawn_unit(Vector2i(6, 1), Unit.Team.ENEMY, Unit.Archetype.RAIDER)
-			#unit_manager.spawn_unit(Vector2i(7, 1), Unit.Team.ENEMY, Unit.Archetype.RAIDER)
-			#unit_manager.spawn_unit(Vector2i(8, 1), Unit.Team.ENEMY, Unit.Archetype.BRUTE)
-		5:
-			environment_manager.objective_cell = Vector2i(5, 0)
-			environment_manager.objective_max_hp = 7
-			turn_manager.cp_max = 2
-			turn_manager.threat_growth_per_turn = 1
-			turn_manager.weave_uses_per_turn = 1
-			#unit_manager.spawn_unit(Vector2i(4, 8), Unit.Team.PLAYER, Unit.Archetype.STRIKER)
-			#unit_manager.spawn_unit(Vector2i(5, 8), Unit.Team.PLAYER, Unit.Archetype.GUARDIAN)
-			#unit_manager.spawn_unit(Vector2i(6, 8), Unit.Team.PLAYER, Unit.Archetype.ARTILLERY)
-			#unit_manager.spawn_unit(Vector2i(3, 3), Unit.Team.ENEMY, Unit.Archetype.SNIPER)
-			#unit_manager.spawn_unit(Vector2i(5, 3), Unit.Team.ENEMY, Unit.Archetype.BRUTE)
-			#unit_manager.spawn_unit(Vector2i(7, 3), Unit.Team.ENEMY, Unit.Archetype.SNIPER)
-
+	
+	if mission == null:
+		push_error("No mission data")
+	
+	environment_manager.objective_cell = mission.objective_cell
+	environment_manager.objective_max_hp = 6
+	
+	turn_manager.cp_max = 3
+	turn_manager.threat_growth_per_turn = 1
+	
+	for spawn in mission.unit_spawns:
+		print(spawn.unit_data.display_name)
+		unit_manager.spawn_unit(
+			spawn.unit_data,
+			spawn.team,
+			spawn.cell
+		)
+	
 	environment_manager.reset_state()
+	
 	turn_manager.turn_index = 1
 	turn_manager.start_battle()
+	
 	grid.refresh_ownership_visuals()
