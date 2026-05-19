@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://b7uhwjx5daqvo"]
+
+[ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/units/UnitData.gd" id="1_22dgs"]
+[ext_resource type="Texture2D" uid="uid://qk2jan01ound" path="res://assets/sprites/units/TestUnit.png" id="2_tj5ci"]
+
+[resource]
+script = ExtResource("1_22dgs")
+display_name = "Striker"
+texture = ExtResource("2_tj5ci")
+metadata/_custom_type_script = "uid://ctnia1aps2tlj"

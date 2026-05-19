@@ -10,4 +10,4 @@ class_name UnitData
 @export var texture: Texture2D
 @export var visual_offset: Vector2 = Vector2.ZERO
 @export var visual_scale: Vector2 = Vector2.ONE
-@export var modulate: Color = Color.WHITE
+# @export var modulate: Color = Color.WHITE
