@@ -11,27 +11,27 @@ enum Team {
 	ENEMY
 }
 
-enum Archetype {
-	STRIKER,
-	GUARDIAN,
-	ARTILLERY,
-	BRUTE,
-	RAIDER,
-	SNIPER
-}
+#enum Archetype {
+	#STRIKER,
+	#GUARDIAN,
+	#ARTILLERY,
+	#BRUTE,
+	#RAIDER,
+	#SNIPER
+#}
 
-var unit_data = {
-	Team.PLAYER: {
-		"texture": preload("res://assets/sprites/units/TestUnit.png"),
-		"offset": Vector2(0, 0),
-		"scale": Vector2(1, 1)
-	},
-	Team.ENEMY: {
-		"texture": preload("res://assets/sprites/units/EnemyUnit.png"),
-		"offset": Vector2(10, 0),
-		"scale": Vector2(2, 2)
-	}
-}
+#var unit_data = {
+	#Team.PLAYER: {
+		#"texture": preload("res://assets/sprites/units/TestUnit.png"),
+		#"offset": Vector2(0, 0),
+		#"scale": Vector2(1, 1)
+	#},
+	#Team.ENEMY: {
+		#"texture": preload("res://assets/sprites/units/EnemyUnit.png"),
+		#"offset": Vector2(10, 0),
+		#"scale": Vector2(2, 2)
+	#}
+#}
 
 @onready var sprite: Sprite2D = $Visual/Sprite2D
 @export var visual_offset: Vector2 = Vector2.ZERO
@@ -42,19 +42,26 @@ var unit_data = {
 			return
 		team = value
 		
-		if is_inside_tree():
-			update_sprite()
+		#if is_inside_tree():
+			#update_sprite()
 
-@export var move_range: int = 3
-@export var max_hp: int = 3
-@export var action: BaseAction
-@export var action_cost: int = 1
-@export var archetype: Archetype = Archetype.STRIKER
+#@export var move_range: int = 3
+#@export var max_hp: int = 3
+#@export var action_cost: int = 1
+#@export var archetype: Archetype = Archetype.STRIKER
+
+@export var data: UnitData
+
+var max_hp: int
+var move_range: int
+var action_cost: int
+
+@export var action: PushAttackAction
 
 var grid: Grid
 var cell: Vector2i
 var is_moving := false
-var hp: int = max_hp
+var hp: int
 var has_moved_this_turn := false
 var has_acted_this_turn := false
 var _hit_flash_tween: Tween
@@ -62,9 +69,19 @@ var _attack_tween: Tween
 var _death_tween: Tween
 
 func _ready():
-	hp = max_hp
+	if data == null:
+		push_error("UnitData is missing on %s" % name)
+		return
+		
+	hp = data.max_hp
+	move_range = data.move_range
+	action_cost = data.action_cost
+	
 	sprite.centered = false
-	update_sprite()
+	
+	apply_data()
+	
+	#update_sprite()
 
 func _draw():
 	draw_circle(Vector2.ZERO, 3, Color.RED)
@@ -83,34 +100,44 @@ func update_position():
 
 	position = tile.position
 
-func update_sprite():
-	var data = unit_data.get(team)
-	if data == null:
-		return
-
+func apply_data():
 	sprite.texture = data.texture
-	visual_offset = data.offset
-	$Visual.scale = data.scale
-	
-	var color = Color(0.0, 0.0, 0.0, 0.0)
-	match archetype:
-		Archetype.STRIKER:
-			color = Color(0.0, 0.533, 0.184, 1.0)
-		Archetype.GUARDIAN:
-			color = Color(0.373, 0.373, 0.373, 1.0)
-		Archetype.ARTILLERY:
-			color = Color(0.122, 0.358, 1.0, 1.0)
-		Archetype.BRUTE:
-			color = Color(0.917, 0.295, 0.099, 1.0)
-		Archetype.RAIDER:
-			color = Color(0.73, 0.595, 0.0, 1.0)
-		Archetype.SNIPER:
-			color = Color(0.888, 0.0, 0.478, 1.0)
-		
-		
-	sprite.modulate = color
-	
+	sprite.modulate = data.modulate
+
+	visual_offset = data.visual_offset
+
+	$Visual.scale = data.visual_scale
+
 	auto_adjust_visual()
+
+#func update_sprite():
+	#var data = unit_data.get(team)
+	#if data == null:
+		#return
+#
+	#sprite.texture = data.texture
+	#visual_offset = data.offset
+	#$Visual.scale = data.scale
+	#
+	#var color = Color(0.0, 0.0, 0.0, 0.0)
+	#match archetype:
+		#Archetype.STRIKER:
+			#color = Color(0.0, 0.533, 0.184, 1.0)
+		#Archetype.GUARDIAN:
+			#color = Color(0.373, 0.373, 0.373, 1.0)
+		#Archetype.ARTILLERY:
+			#color = Color(0.122, 0.358, 1.0, 1.0)
+		#Archetype.BRUTE:
+			#color = Color(0.917, 0.295, 0.099, 1.0)
+		#Archetype.RAIDER:
+			#color = Color(0.73, 0.595, 0.0, 1.0)
+		#Archetype.SNIPER:
+			#color = Color(0.888, 0.0, 0.478, 1.0)
+		#
+		#
+	#sprite.modulate = color
+	#
+	#auto_adjust_visual()
 
 func auto_adjust_visual():
 	if sprite.texture == null:

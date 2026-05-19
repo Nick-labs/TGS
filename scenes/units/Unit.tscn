@@ -1,11 +1,17 @@
 [gd_scene format=3 uid="uid://bjjdl7mbr7hbx"]
 
-[ext_resource type="Script" uid="uid://bvr76gmiq4643" path="res://scripts/units/Unit.gd" id="1_e3b5r"]
+[ext_resource type="Script" uid="uid://be4j5ufpusgsw" path="res://scripts/units/Unit.gd" id="1_e3b5r"]
 [ext_resource type="Texture2D" uid="uid://qk2jan01ound" path="res://assets/sprites/units/TestUnit.png" id="2_gocqw"]
+[ext_resource type="Script" uid="uid://camfew5bskqqn" path="res://scripts/actions/PushAttackAction.gd" id="2_nlg77"]
+
+[sub_resource type="Resource" id="Resource_ty2l4"]
+script = ExtResource("2_nlg77")
+metadata/_custom_type_script = "uid://camfew5bskqqn"
 
 [node name="Unit" type="Node2D" unique_id=2057550720]
 z_index = 1000
 script = ExtResource("1_e3b5r")
+action = SubResource("Resource_ty2l4")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1910740710]
 

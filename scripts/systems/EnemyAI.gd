@@ -30,7 +30,7 @@ func _build_plan_for_enemy(
 	var target_cell := enemy.cell
 	var target_mode := "idle"
 
-	if enemy.archetype == Unit.Archetype.GUARDIAN or _should_focus_objective(enemy, objective_state, player_units, threat_level, focus_threshold):
+	if _should_focus_objective(enemy, objective_state, player_units, threat_level, focus_threshold):
 		target_cell = objective_state.get("cell", enemy.cell)
 		target_mode = "objective"
 	elif not player_units.is_empty():
@@ -54,8 +54,8 @@ func _build_plan_for_enemy(
 	}
 
 func _pick_target_player(enemy: Unit, player_units: Array[Unit]) -> Unit:
-	if enemy.archetype == Unit.Archetype.SNIPER:
-		return _find_farthest(enemy, player_units)
+	#if enemy.archetype == Unit.Archetype.SNIPER:
+		#return _find_farthest(enemy, player_units)
 	return _find_closest(enemy, player_units)
 
 func _pick_action_target(enemy: Unit, move_to: Vector2i, preferred_target: Vector2i, target_mode: String) -> Vector2i:

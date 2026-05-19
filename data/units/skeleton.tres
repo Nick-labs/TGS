@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://cfvugeiywarqv"]
+
+[ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/units/UnitData.gd" id="1_0bo4j"]
+[ext_resource type="Texture2D" uid="uid://bxq00ef2qu1s4" path="res://assets/sprites/units/EnemyUnit.png" id="2_0bo4j"]
+
+[resource]
+script = ExtResource("1_0bo4j")
+display_name = "Skeleton"
+max_hp = 2
+texture = ExtResource("2_0bo4j")
+visual_offset = Vector2(10, 0)
+visual_scale = Vector2(2, 2)
+metadata/_custom_type_script = "uid://ctnia1aps2tlj"
