@@ -47,4 +47,7 @@ func handle_click():
 
 	battle_manager.select_at(hovered_cell)
 	grid.show_selected(hovered_cell)
-	#selected_unit = unit_manager.get_unit_at(hovered_cell)
+	
+	var unit_in_cell = unit_manager.get_unit_at(hovered_cell)
+	if unit_in_cell != null:
+		unit_manager.set_selected_unit(unit_in_cell)

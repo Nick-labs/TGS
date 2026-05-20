@@ -8,7 +8,7 @@ enum Visual {
 	SELECTED
 }
 
-var visual_flags: Dictionary = {}
+var visual_flags: Dictionary = {} # не сделать ли массивом?
 
 var coord: Vector2i
 
@@ -31,4 +31,4 @@ func _update_visual() -> void:
 	modulate = Color.WHITE
 
 	if has_visual_flag(Visual.REACHABLE):
-		modulate = Color(0.4, 1.0, 0.4)
+		modulate = Color(0.0, 0.0, 0.79, 0.678)

@@ -11,6 +11,8 @@ signal unit_moved(unit: Unit, old_cell: Vector2i, new_cell: Vector2i)
 var units: Array[Unit] = []
 var occupied: Dictionary = {}
 
+var selected_unit: Unit
+
 func _ready():
 	setup_default_battlefield()
 
@@ -89,3 +91,6 @@ func _play_unit_death_and_free(unit: Unit):
 func _on_unit_death_animation_finished(_animated_unit: Unit, queued_unit: Unit):
 	if queued_unit != null and is_instance_valid(queued_unit):
 		queued_unit.queue_free()
+
+func set_selected_unit(unit: Unit):
+	selected_unit = unit
