@@ -9,8 +9,8 @@ signal player_unit_selected(unit: Unit)
 @export var turn_manager: TurnManager
 @export var environment_manager: EnvironmentManager
 @export var movement_system: MovementSystem
-@export var grid: Grid
 @export var effect_resolver: EffectResolver
+@export var grid: Grid
 
 enum BattleState {
 	IDLE,
@@ -29,39 +29,44 @@ func select_at(cell: Vector2i):
 		return
 
 	var clicked_unit := unit_manager.get_unit_at(cell)
-	if clicked_unit != null and clicked_unit.team == Unit.Team.PLAYER:
-		select_unit(clicked_unit)
-		return
-
+	
 	if selected_unit == null:
+		if clicked_unit != null and clicked_unit.team == Unit.Team.PLAYER:
+			select_unit(clicked_unit)
 		return
-
-	if state == BattleState.UNIT_SELECTED:
-		if cell in action_cells:
-			state = BattleState.WAITING_FOR_ACTION
-			try_action_command(cell)
-			return
-		if try_move_command(cell):
-			return
-
-	if state == BattleState.WAITING_FOR_ACTION:
-		try_action_command(cell)
-
+	
+	if not selected_unit.has_moved_this_turn:
+		if cell in reachable_cells:
+			try_move_command(cell)
+		else:
+			unselect()
+		return
+	
+	# old
+	#if state == BattleState.UNIT_SELECTED:
+		#if cell not in reachable_cells:
+			#unselect()
+		#elif not selected_unit.has_moved_this_turn:
+			#try_move_command(cell)
+		#elif cell in action_cells:
+			#state = BattleState.WAITING_FOR_ACTION
+			#try_action_command(cell)
+			#return
+	
 func select_unit(unit: Unit):
 	if unit.team != Unit.Team.PLAYER:
 		return
-	if unit.has_moved_this_turn and unit.has_acted_this_turn:
-		return
+	#if unit.has_moved_this_turn and unit.has_acted_this_turn:
+		#return
 
 	selected_unit = unit
 	state = BattleState.UNIT_SELECTED
 	player_unit_selected.emit(unit)
+	
 	refresh_selection()
 
 func refresh_selection():
 	grid.remove_all_visual_flag_from_tiles()
-	#if turn_manager != null:
-		#turn_manager.refresh_enemy_intents_visuals()
 
 	if selected_unit == null:
 		return
@@ -94,6 +99,7 @@ func try_move_command(cell: Vector2i) -> bool:
 
 	state = BattleState.UNIT_MOVING
 	movement_system.move_unit(selected_unit, cell)
+	
 	return true
 
 func on_unit_move_finished():
@@ -123,15 +129,13 @@ func try_action_command(cell: Vector2i):
 
 	player_action_committed.emit(selected_unit, cell, selected_unit.default_action.name)
 	effect_resolver.resolve_effects(effects)
+	turn_manager.notify_player_unit_finished(selected_unit)
 	selected_unit.has_acted_this_turn = true
+	
 	unit_manager.cleanup_dead_units()
-	if turn_manager != null:
-		turn_manager.evaluate_battle_state()
+	turn_manager.evaluate_battle_state()
 
-	var finished_unit := selected_unit
 	unselect()
-	if turn_manager != null:
-		turn_manager.notify_player_unit_finished(finished_unit)
 
 func get_action_cells(unit: Unit) -> Array[Vector2i]:
 	if unit.default_action == null:
@@ -140,7 +144,6 @@ func get_action_cells(unit: Unit) -> Array[Vector2i]:
 
 func apply_mission_preset(mission_id: int):
 	mission_id = SaveManager.normalize_mission_id(mission_id)
-
 	var path := "res://data/missions/mission_%d/mission.tres" % mission_id
 
 	if not ResourceLoader.exists(path):
@@ -152,14 +155,10 @@ func apply_mission_preset(mission_id: int):
 	apply_mission(mission)
 
 func apply_mission(mission: MissionData):
-	#var unit_manager: UnitManager = get_node("UnitManager")
-	#var turn_manager: TurnManager = get_node("TurnManager")
-	#var environment_manager: EnvironmentManager = get_node("EnvironmentManager")
-	
-	unit_manager.clear_all_units()
-	
 	if mission == null:
 		push_error("No mission data")
+		
+	unit_manager.clear_all_units()
 	
 	environment_manager.objective_cell = mission.objective_cell
 	environment_manager.objective_max_hp = mission.objective_max_hp
@@ -167,12 +166,11 @@ func apply_mission(mission: MissionData):
 	turn_manager.cp_max = mission.cp_max
 	turn_manager.threat_growth_per_turn = mission.threat_growth_per_turn
 	
-	for spawn in mission.unit_spawns:
-		print(spawn.unit_data.name)
+	for unit_spawn in mission.unit_spawns:
 		unit_manager.spawn_unit(
-			spawn.unit_data,
-			spawn.team,
-			spawn.cell
+			unit_spawn.unit_data,
+			unit_spawn.team,
+			unit_spawn.cell
 		)
 	
 	environment_manager.reset_state()

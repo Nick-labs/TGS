@@ -8,7 +8,6 @@ class_name SelectionController
 @export var turn_manager: TurnManager
 
 var hovered_cell: Vector2i = Vector2i(-1, -1)
-var selected_unit: Unit
 
 func _process(_delta):
 	var mouse_world := get_viewport().get_camera_2d().get_global_mouse_position()
@@ -47,7 +46,3 @@ func handle_click():
 
 	battle_manager.select_at(hovered_cell)
 	grid.show_selected(hovered_cell)
-	
-	var unit_in_cell = unit_manager.get_unit_at(hovered_cell)
-	if unit_in_cell != null:
-		unit_manager.set_selected_unit(unit_in_cell)

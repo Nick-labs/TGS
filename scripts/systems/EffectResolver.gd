@@ -4,6 +4,7 @@ class_name EffectResolver
 signal damage_resolved(attacker: Unit, target: Unit, amount: int, target_cell: Vector2i)
 signal unit_killed(unit: Unit)
 signal push_resolved(target: Unit, from_cell: Vector2i, to_cell: Vector2i)
+# signal effect_resolved()
 
 @export var grid: Grid
 @export var unit_manager: UnitManager
@@ -15,7 +16,8 @@ func resolve_effects(effects: Array[Dictionary]):
 	while not queue.is_empty():
 		var effect = queue.pop_front()
 		var type = effect.get("type", "")
-
+		
+		# TODO: переделать на Enum
 		match type:
 			"damage":
 				_resolve_damage(effect)
@@ -25,25 +27,25 @@ func resolve_effects(effects: Array[Dictionary]):
 					queue.append(c)
 
 func _resolve_damage(effect: Dictionary):
-	var cell: Vector2i = effect.get("target_cell", Vector2i(-1, -1))
+	var target_cell: Vector2i = effect.get("target_cell", Vector2i(-1, -1))
 	var amount: int = effect.get("amount", 0)
 	var attacker: Unit = effect.get("source", null)
 	if amount <= 0:
 		return
 	if attacker != null and is_instance_valid(attacker) and not attacker.is_dead():
-		attacker.play_attack_lunge(cell)
+		attacker.play_attack_lunge(target_cell)
 
-	var target := unit_manager.get_unit_at(cell)
+	var target := unit_manager.get_unit_at(target_cell)
 	if target != null:
 		target.take_damage(amount)
-		damage_resolved.emit(attacker, target, amount, cell)
+		damage_resolved.emit(attacker, target, amount, target_cell)
 		if target.is_dead():
 			unit_killed.emit(target)
 			unit_manager.remove_unit(target)
 		return
 
 	if environment_manager != null:
-		environment_manager.damage_environment(cell, amount)
+		environment_manager.damage_environment(target_cell, amount)
 
 func _resolve_push(effect: Dictionary) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
@@ -72,7 +74,7 @@ func _resolve_push(effect: Dictionary) -> Array[Dictionary]:
 			break
 
 		var old_cell := target.cell
-		target.set_cell(next_cell)
+		target.set_cell(next_cell) # делается без анимации
 		unit_manager.on_unit_moved(target, old_cell, next_cell)
 		push_resolved.emit(target, old_cell, next_cell)
 

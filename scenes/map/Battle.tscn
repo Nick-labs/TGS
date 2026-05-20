@@ -56,13 +56,13 @@ texture = ExtResource("6_1mbps")
 grid = NodePath("../Grid")
 units_parent = NodePath("../Units")
 
-[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "turn_manager", "environment_manager", "movement_system", "grid", "effect_resolver") instance=ExtResource("7_yyk6v")]
+[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "turn_manager", "environment_manager", "movement_system", "effect_resolver", "grid") instance=ExtResource("7_yyk6v")]
 unit_manager = NodePath("../UnitManager")
 turn_manager = NodePath("../TurnManager")
 environment_manager = NodePath("../EnvironmentManager")
 movement_system = NodePath("../MovementSystem")
-grid = NodePath("../Grid")
 effect_resolver = NodePath("../EffectResolver")
+grid = NodePath("../Grid")
 
 [node name="MovementSystem" parent="GridRoot" unique_id=1022618536 node_paths=PackedStringArray("grid", "unit_manager", "battle_manager") instance=ExtResource("7_nkest")]
 grid = NodePath("../Grid")
