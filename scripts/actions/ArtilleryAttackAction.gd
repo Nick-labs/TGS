@@ -1,12 +1,12 @@
-extends BaseAction
+extends Action
 class_name ArtilleryAttackAction
 
-@export var damage: int = 1
 @export var min_range: int = 2
 @export var max_range: int = 4
 
 func _init():
-	id = "artillery"
+	name = "artillery_attack"
+	damage = 2
 	range = max_range
 
 func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:
@@ -20,7 +20,7 @@ func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Arr
 			result.append(cell)
 	return result
 
-func build_effects(unit: Unit, target_cell: Vector2i, grid: Grid, _unit_manager: UnitManager) -> Array[Dictionary]:
+func build_effects(unit: Unit, target_cell: Vector2i, _grid: Grid, _unit_manager: UnitManager) -> Array[Dictionary]:
 	var dist := int(unit.cell.distance_to(target_cell))
 	if dist < min_range or dist > max_range:
 		return []

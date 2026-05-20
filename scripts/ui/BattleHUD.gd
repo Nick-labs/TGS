@@ -102,7 +102,7 @@ func _unit_line(unit: Unit) -> String:
 		_team_icon(unit.team),
 		unit.name,
 		unit.hp,
-		unit.max_hp,
+		unit.data.max_hp,
 		str(unit.cell)
 	]
 

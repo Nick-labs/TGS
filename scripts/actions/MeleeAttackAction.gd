@@ -1,10 +1,9 @@
-extends BaseAction
+extends Action
 class_name MeleeAttackAction
 
-@export var damage: int = 1
-
 func _init():
-	id = "melee"
+	name = "melee_attack"
+	damage = 1
 	range = 1
 
 func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:

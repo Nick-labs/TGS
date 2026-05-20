@@ -1,11 +1,11 @@
-extends BaseAction
+extends Action
 class_name PushAttackAction
 
-@export var damage: int = 1
 @export var push_distance: int = 1
 
 func _init():
-	id = "push_attack"
+	name = "push_attack"
+	damage = 1
 	range = 1
 
 func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:
@@ -20,12 +20,14 @@ func build_effects(unit: Unit, target_cell: Vector2i, grid: Grid, _unit_manager:
 
 	var dir := target_cell - unit.cell
 	return [
+		
 		{
 			"type": "damage",
 			"target_cell": target_cell,
 			"amount": damage,
 			"source": unit
 		},
+		
 		{
 			"type": "push",
 			"target_cell": target_cell,
@@ -33,4 +35,5 @@ func build_effects(unit: Unit, target_cell: Vector2i, grid: Grid, _unit_manager:
 			"distance": push_distance,
 			"source": unit
 		}
+		
 	]

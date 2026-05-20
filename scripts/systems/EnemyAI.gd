@@ -30,7 +30,7 @@ func _build_plan_for_enemy(
 	var target_cell := enemy.cell
 	var target_mode := "idle"
 
-	if enemy.archetype == Unit.Archetype.GUARDIAN or _should_focus_objective(enemy, objective_state, player_units, threat_level, focus_threshold):
+	if _should_focus_objective(enemy, objective_state, player_units, threat_level, focus_threshold):
 		target_cell = objective_state.get("cell", enemy.cell)
 		target_mode = "objective"
 	elif not player_units.is_empty():
@@ -47,25 +47,25 @@ func _build_plan_for_enemy(
 	return {
 		"unit": enemy,
 		"move_to": move_to,
-		"action": enemy.action,
+		"action": enemy.default_action,
 		"target_cell": action_target,
 		"preview_cells": preview,
 		"target_mode": target_mode
 	}
 
 func _pick_target_player(enemy: Unit, player_units: Array[Unit]) -> Unit:
-	if enemy.archetype == Unit.Archetype.SNIPER:
-		return _find_farthest(enemy, player_units)
+	#if enemy.archetype == Unit.Archetype.SNIPER:
+		#return _find_farthest(enemy, player_units)
 	return _find_closest(enemy, player_units)
 
 func _pick_action_target(enemy: Unit, move_to: Vector2i, preferred_target: Vector2i, target_mode: String) -> Vector2i:
-	if enemy.action == null:
+	if enemy.default_action == null:
 		return move_to
 
 	var candidates: Array[Vector2i] = []
 	var original_cell := enemy.cell
 	enemy.cell = move_to
-	var raw_targets := enemy.action.get_target_cells(enemy, grid, unit_manager)
+	var raw_targets: Array[Vector2i] = enemy.default_action.get_target_cells(enemy, grid, unit_manager)
 	for c in raw_targets:
 		if grid.is_in_bounds(c):
 			candidates.append(c)
