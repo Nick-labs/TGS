@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://fjfypem676ux" path="res://scenes/map/HoverHighlight.tscn" id="3_evht8"]
 [ext_resource type="PackedScene" uid="uid://ugx057ox1nbc" path="res://scenes/map/SelectedHighlight.tscn" id="4_42qa6"]
 [ext_resource type="PackedScene" uid="uid://dllgqhansefun" path="res://scenes/systems/UnitManager.tscn" id="5_37gw2"]
-[ext_resource type="Texture2D" uid="uid://1l33ry3hk7ln" path="res://assets/sprites/objects/crystall.png" id="6_1mbps"]
+[ext_resource type="Texture2D" uid="uid://bcpxr1if3t58h" path="res://assets/sprites/objects/crystall2.png" id="6_1mbps"]
 [ext_resource type="PackedScene" uid="uid://doq3grqn21nm" path="res://scenes/systems/MovementSystem.tscn" id="7_nkest"]
 [ext_resource type="PackedScene" uid="uid://drefvpa3kq01x" path="res://scenes/systems/BattleManager.tscn" id="7_yyk6v"]
 [ext_resource type="Script" uid="uid://cqpqrnkb8cesx" path="res://scripts/systems/TurnManager.gd" id="9_turn"]
@@ -47,21 +47,21 @@ z_index = 99
 modulate = Color(0.9, 0.5, 1, 0.65)
 texture = ExtResource("15_objtex")
 
-[node name="Crystall" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=490429754]
-texture_filter = 1
-position = Vector2(0, -59)
-scale = Vector2(2, 2)
+[node name="Crystall2" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=1272201249]
+position = Vector2(-2, -41)
+scale = Vector2(0.19873045, 0.19873045)
 texture = ExtResource("6_1mbps")
 
 [node name="UnitManager" parent="GridRoot" unique_id=188568835 node_paths=PackedStringArray("grid", "units_parent") instance=ExtResource("5_37gw2")]
 grid = NodePath("../Grid")
 units_parent = NodePath("../Units")
 
-[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "movement_system", "grid", "turn_manager", "effect_resolver") instance=ExtResource("7_yyk6v")]
+[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "turn_manager", "environment_manager", "movement_system", "grid", "effect_resolver") instance=ExtResource("7_yyk6v")]
 unit_manager = NodePath("../UnitManager")
+turn_manager = NodePath("../TurnManager")
+environment_manager = NodePath("../EnvironmentManager")
 movement_system = NodePath("../MovementSystem")
 grid = NodePath("../Grid")
-turn_manager = NodePath("../TurnManager")
 effect_resolver = NodePath("../EffectResolver")
 
 [node name="MovementSystem" parent="GridRoot" unique_id=1022618536 node_paths=PackedStringArray("grid", "unit_manager", "battle_manager") instance=ExtResource("7_nkest")]
@@ -242,8 +242,8 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BattleFlow" type="Node" parent="." unique_id=1500000002 node_paths=PackedStringArray("turn_manager", "grid_root", "transition_layer")]
+[node name="BattleFlow" type="Node" parent="." unique_id=1500000002 node_paths=PackedStringArray("turn_manager", "battle_manager", "transition_layer")]
 script = ExtResource("16_flow")
 turn_manager = NodePath("../GridRoot/TurnManager")
-grid_root = NodePath("../GridRoot")
+battle_manager = NodePath("../GridRoot/BattleManager")
 transition_layer = NodePath("../Transition")

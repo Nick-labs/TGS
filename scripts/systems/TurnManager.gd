@@ -138,11 +138,11 @@ func apply_intent_weave_at(cell: Vector2i) -> bool:
 		plan["target_cell"] = to_cell
 		plan["preview_cells"] = [to_cell]
 		enemy_plans[i] = plan
-		weave_uses_left -= 1
-		weave_changed.emit(weave_uses_left, weave_uses_per_turn)
-		intent_weaved.emit(cell, to_cell)
-		refresh_enemy_intents_visuals()
-		enemy_intents_updated.emit(enemy_plans)
+		#weave_uses_left -= 1
+		#weave_changed.emit(weave_uses_left, weave_uses_per_turn)
+		#intent_weaved.emit(cell, to_cell)
+		#refresh_enemy_intents_visuals()
+		#enemy_intents_updated.emit(enemy_plans)
 		return true
 
 	return false
@@ -253,10 +253,10 @@ func _increase_threat():
 	threat_level += max(0, threat_growth_per_turn)
 	threat_changed.emit(threat_level)
 
-func refresh_enemy_intents_visuals():
-	_sanitize_enemy_plans()
-	if intent_visualizer != null:
-		intent_visualizer.show_enemy_intents(enemy_plans)
+#func refresh_enemy_intents_visuals():
+	#_sanitize_enemy_plans()
+	#if intent_visualizer != null:
+		#intent_visualizer.show_enemy_intents(enemy_plans)
 
 func _plan_enemy_intents():
 	var objective_state := {
@@ -276,9 +276,9 @@ func _plan_enemy_intents():
 		threat_objective_focus_start
 	)
 	_sanitize_enemy_plans()
-	if intent_visualizer != null:
-		intent_visualizer.show_enemy_intents(enemy_plans)
-	enemy_intents_updated.emit(enemy_plans)
+	#if intent_visualizer != null:
+		#intent_visualizer.show_enemy_intents(enemy_plans)
+	#enemy_intents_updated.emit(enemy_plans)
 
 func _sanitize_enemy_plans():
 	var filtered: Array[Dictionary] = []

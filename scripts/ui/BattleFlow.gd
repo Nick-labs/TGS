@@ -1,13 +1,13 @@
 extends Node
 
 @export var turn_manager: TurnManager
-@export var grid_root: GridRoot
+@export var battle_manager: BattleManager
 @export var transition_layer: CanvasItem
 
 func _ready():
 	var save_data := SaveManager.load_savegame()
 	var mission_id := SaveManager.normalize_mission_id(save_data.get("mission_id", 1))
-	grid_root.apply_mission_preset(mission_id)
+	battle_manager.apply_mission_preset(mission_id)
 	turn_manager.battle_won.connect(func(reason): _finish(true, reason, mission_id))
 	turn_manager.battle_failed.connect(func(reason): _finish(false, reason, mission_id))
 

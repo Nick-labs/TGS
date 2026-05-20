@@ -6,9 +6,10 @@ signal player_action_denied(unit: Unit, reason: String)
 signal player_unit_selected(unit: Unit)
 
 @export var unit_manager: UnitManager
+@export var turn_manager: TurnManager
+@export var environment_manager: EnvironmentManager
 @export var movement_system: MovementSystem
 @export var grid: Grid
-@export var turn_manager: TurnManager
 @export var effect_resolver: EffectResolver
 
 enum BattleState {
@@ -58,30 +59,30 @@ func select_unit(unit: Unit):
 	refresh_selection()
 
 func refresh_selection():
-	grid.clear_all_highlights()
-	if turn_manager != null:
-		turn_manager.refresh_enemy_intents_visuals()
+	grid.remove_all_visual_flag_from_tiles()
+	#if turn_manager != null:
+		#turn_manager.refresh_enemy_intents_visuals()
 
 	if selected_unit == null:
 		return
 
 	if selected_unit.can_move_this_turn():
 		reachable_cells = movement_system.get_reachable_cells(selected_unit)
-		grid.show_reachable(reachable_cells)
+		grid.set_visual_flag_to_cells(reachable_cells, Tile.Visual.REACHABLE)
 	else:
 		reachable_cells.clear()
 
 	action_cells = get_action_cells(selected_unit)
-	grid.show_action_targets(action_cells)
+	grid.set_visual_flag_to_cells(action_cells, Tile.Visual.ACTION_TARGET)
 
 func unselect():
 	selected_unit = null
 	reachable_cells.clear()
 	action_cells.clear()
 	state = BattleState.IDLE
-	grid.clear_all_highlights()
-	if turn_manager != null:
-		turn_manager.refresh_enemy_intents_visuals()
+	grid.remove_all_visual_flag_from_tiles()
+	#if turn_manager != null:
+		#turn_manager.refresh_enemy_intents_visuals()
 
 func try_move_command(cell: Vector2i) -> bool:
 	if selected_unit == null:
@@ -136,3 +137,45 @@ func get_action_cells(unit: Unit) -> Array[Vector2i]:
 	if unit.default_action == null:
 		return []
 	return unit.default_action.get_target_cells(unit, grid, unit_manager)
+
+func apply_mission_preset(mission_id: int):
+	mission_id = SaveManager.normalize_mission_id(mission_id)
+
+	var path := "res://data/missions/mission_%d/mission.tres" % mission_id
+
+	if not ResourceLoader.exists(path):
+		push_error("Mission not found: " + path)
+		return
+
+	var mission: MissionData = load(path)
+
+	apply_mission(mission)
+
+func apply_mission(mission: MissionData):
+	#var unit_manager: UnitManager = get_node("UnitManager")
+	#var turn_manager: TurnManager = get_node("TurnManager")
+	#var environment_manager: EnvironmentManager = get_node("EnvironmentManager")
+	
+	unit_manager.clear_all_units()
+	
+	if mission == null:
+		push_error("No mission data")
+	
+	environment_manager.objective_cell = mission.objective_cell
+	environment_manager.objective_max_hp = mission.objective_max_hp
+	
+	turn_manager.cp_max = mission.cp_max
+	turn_manager.threat_growth_per_turn = mission.threat_growth_per_turn
+	
+	for spawn in mission.unit_spawns:
+		print(spawn.unit_data.name)
+		unit_manager.spawn_unit(
+			spawn.unit_data,
+			spawn.team,
+			spawn.cell
+		)
+	
+	environment_manager.reset_state()
+	
+	turn_manager.turn_index = 1
+	turn_manager.start_battle()
