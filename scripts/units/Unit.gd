@@ -11,15 +11,6 @@ enum Team {
 	ENEMY
 }
 
-#enum Archetype {
-	#STRIKER,
-	#GUARDIAN,
-	#ARTILLERY,
-	#BRUTE,
-	#RAIDER,
-	#SNIPER
-#}
-
 @onready var sprite: Sprite2D = $Visual/NoUnitSprite
 @export var visual_offset: Vector2 = Vector2.ZERO
 

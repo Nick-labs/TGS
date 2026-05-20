@@ -1,12 +1,17 @@
-[gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/MainMenu.gd" id="1"]
-[node name="MainMenu" type="Control"]
+[gd_scene format=3 uid="uid://du80xkdali11i"]
+
+[ext_resource type="Script" uid="uid://ds7w6v6uox5ql" path="res://scripts/ui/MainMenu.gd" id="1"]
+
+[node name="MainMenu" type="Control" unique_id=737916361]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")
-[node name="VBox" type="VBoxContainer" parent="."]
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=553365981]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -17,21 +22,29 @@ offset_left = -120.0
 offset_top = -180.0
 offset_right = 120.0
 offset_bottom = 180.0
-[node name="Continue" type="Button" parent="VBox"]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Continue" type="Button" parent="VBox" unique_id=1168346417]
 layout_mode = 2
 text = "Continue"
-[node name="Mission1" type="Button" parent="VBox"]
+
+[node name="Mission1" type="Button" parent="VBox" unique_id=189034088]
 layout_mode = 2
 text = "Mission 1"
-[node name="Mission2" type="Button" parent="VBox"]
+
+[node name="Mission2" type="Button" parent="VBox" unique_id=1590607462]
 layout_mode = 2
 text = "Mission 2"
-[node name="Mission3" type="Button" parent="VBox"]
+
+[node name="Mission3" type="Button" parent="VBox" unique_id=1607887782]
 layout_mode = 2
 text = "Mission 3"
-[node name="Mission4" type="Button" parent="VBox"]
+
+[node name="Mission4" type="Button" parent="VBox" unique_id=1305921772]
 layout_mode = 2
 text = "Mission 4"
-[node name="Mission5" type="Button" parent="VBox"]
+
+[node name="Mission5" type="Button" parent="VBox" unique_id=132538029]
 layout_mode = 2
 text = "Mission 5"
