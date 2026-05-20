@@ -218,7 +218,7 @@ func _execute_enemy_turn():
 		if not _is_unit_alive(unit):
 			continue
 
-		var action: BaseAction = plan.get("action", null)
+		var action: Action = plan.get("action", null)
 		var target_cell: Vector2i = plan.get("target_cell", unit.cell)
 		if action == null or not unit.can_act_this_turn():
 			continue

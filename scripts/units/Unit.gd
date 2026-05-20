@@ -28,8 +28,8 @@ enum Team {
 var max_hp: int
 var move_range: int
 var action_cost: int
-var actions: Array[BaseAction]
-var default_action: BaseAction
+var actions: Array[Action]
+var default_action: Action
 
 var grid: Grid
 var cell: Vector2i

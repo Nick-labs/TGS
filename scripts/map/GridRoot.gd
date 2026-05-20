@@ -62,7 +62,7 @@ func apply_mission(mission: MissionData):
 	turn_manager.threat_growth_per_turn = mission.threat_growth_per_turn
 	
 	for spawn in mission.unit_spawns:
-		print(spawn.unit_data.display_name)
+		print(spawn.unit_data.name)
 		unit_manager.spawn_unit(
 			spawn.unit_data,
 			spawn.team,

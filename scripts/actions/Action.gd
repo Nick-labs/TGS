@@ -1,5 +1,5 @@
 extends Resource
-class_name BaseAction
+class_name Action
 
 @export var name: String
 @export var range: int

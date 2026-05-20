@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://cfvugeiywarqv"]
 
 [ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/data/UnitData.gd" id="1_0bo4j"]
-[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/BaseAction.gd" id="1_ixclv"]
+[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/Action.gd" id="1_ixclv"]
 [ext_resource type="Texture2D" uid="uid://bxq00ef2qu1s4" path="res://assets/sprites/units/EnemyUnit.png" id="2_0bo4j"]
 [ext_resource type="Script" uid="uid://sknfo0cb3eae" path="res://scripts/actions/MeleeAttackAction.gd" id="2_aqewh"]
 

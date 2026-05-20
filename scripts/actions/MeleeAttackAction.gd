@@ -1,8 +1,8 @@
-extends BaseAction
+extends Action
 class_name MeleeAttackAction
 
 func _init():
-	name = "melee"
+	name = "melee_attack"
 	damage = 1
 	range = 1
 
