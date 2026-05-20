@@ -10,10 +10,6 @@ class_name BattleHUD
 
 @onready var phase_label: Label = $Root/TopBar/TopVBox/PhaseLabel
 @onready var cp_label: Label = $Root/TopBar/TopVBox/CPLabel
-@onready var weave_label: Label = $Root/TopBar/TopVBox/WeaveLabel
-@onready var weave_help_label: Label = $Root/TopBar/TopVBox/WeaveHelpLabel
-@onready var weave_mode_label: Label = $Root/TopBar/TopVBox/WeaveModeLabel
-@onready var weave_preview_label: Label = $Root/TopBar/TopVBox/WeavePreviewLabel
 @onready var threat_label: Label = $Root/TopBar/TopVBox/ThreatLabel
 @onready var objective_label: Label = $Root/TopBar/TopVBox/ObjectiveLabel
 @onready var power_grid_label: Label = $Root/TopBar/TopVBox/PowerGridLabel
@@ -25,17 +21,14 @@ class_name BattleHUD
 const MAX_LOG_LINES := 12
 var log_lines: Array[String] = []
 var _fail_shown := false
-var _weave_mode_active := false
 
 func _ready():
 	if turn_manager != null:
 		turn_manager.turn_started.connect(_on_turn_started)
 		turn_manager.phase_changed.connect(_on_phase_changed)
 		turn_manager.command_points_changed.connect(_on_command_points_changed)
-		turn_manager.weave_changed.connect(_on_weave_changed)
 		turn_manager.threat_changed.connect(_on_threat_changed)
 		turn_manager.battle_failed.connect(_on_battle_failed)
-		turn_manager.intent_weaved.connect(_on_intent_weaved)
 
 	if environment_manager != null:
 		environment_manager.objective_updated.connect(_on_objective_updated)
@@ -57,20 +50,13 @@ func _ready():
 
 	if selection_controller == null:
 		selection_controller = get_parent().get_node_or_null("GridRoot/SelectionController")
-	if selection_controller != null:
-		selection_controller.weave_mode_changed.connect(_on_weave_mode_changed)
-		selection_controller.weave_preview_changed.connect(_on_weave_preview_changed)
-		selection_controller.weave_feedback.connect(_append_log)
 
 	fail_overlay.visible = false
-	weave_help_label.text = "Weave: shift one enemy intent by 1 tile (MMB to toggle, LMB to apply)"
-	weave_mode_label.text = "WEAVE MODE: OFF"
-	weave_preview_label.text = "Weave preview: hover an intent tile"
+
 	_refresh_hp_panel()
 	if turn_manager != null:
 		_on_phase_changed(turn_manager.phase)
 		_on_command_points_changed(turn_manager.cp_current, turn_manager.cp_max)
-		_on_weave_changed(turn_manager.weave_uses_left, turn_manager.weave_uses_per_turn)
 		_on_threat_changed(turn_manager.threat_level)
 	if environment_manager != null:
 		var obj := environment_manager.get_objective_state()
@@ -114,11 +100,6 @@ func _on_phase_changed(phase: TurnManager.TurnPhase):
 
 func _on_command_points_changed(current: int, max_points: int):
 	cp_label.text = "CP: %d/%d" % [current, max_points]
-
-func _on_weave_changed(uses_left: int, uses_max: int):
-	weave_label.text = "Weave Charges: %d/%d (MMB toggle)" % [uses_left, uses_max]
-	if uses_left <= 0 and _weave_mode_active:
-		_on_weave_mode_changed(false)
 
 func _on_threat_changed(level: int):
 	threat_label.text = "Threat: %d" % level
@@ -177,29 +158,6 @@ func _on_battle_failed(reason: String):
 	_fail_shown = true
 	fail_label.text = "MISSION FAILED\n%s" % reason
 	fail_overlay.visible = true
-
-func _on_intent_weaved(from_cell: Vector2i, to_cell: Vector2i):
-	_append_log("Intent shifted: %s -> %s" % [str(from_cell), str(to_cell)])
-	weave_preview_label.text = "Weave applied: %s -> %s" % [str(from_cell), str(to_cell)]
-
-func _on_weave_mode_changed(active: bool):
-	_weave_mode_active = active
-	if active:
-		weave_mode_label.text = "WEAVE MODE: ACTIVE"
-	else:
-		weave_mode_label.text = "WEAVE MODE: OFF"
-
-func _on_weave_preview_changed(from_cell: Vector2i, to_cell: Vector2i, is_valid: bool, reason: String):
-	if not _weave_mode_active:
-		weave_preview_label.text = "Weave preview: hover an intent tile"
-		return
-	if is_valid:
-		weave_preview_label.text = "Weave preview: %s -> %s" % [str(from_cell), str(to_cell)]
-		return
-	if reason != "":
-		weave_preview_label.text = "Weave unavailable: %s" % reason
-	else:
-		weave_preview_label.text = "Weave preview: hover an intent tile"
 
 func _append_log(message: String):
 	log_lines.append(message)

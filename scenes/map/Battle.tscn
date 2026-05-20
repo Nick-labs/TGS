@@ -151,22 +151,6 @@ text = "Phase: PLAYER"
 layout_mode = 2
 text = "CP: 0/0"
 
-[node name="WeaveLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1466886916]
-layout_mode = 2
-text = "Weave: 0/0 (MMB)"
-
-[node name="WeaveHelpLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=109104503]
-layout_mode = 2
-text = "Weave: shift one enemy intent by 1 tile"
-
-[node name="WeaveModeLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=578848393]
-layout_mode = 2
-text = "WEAVE MODE: OFF"
-
-[node name="WeavePreviewLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1230057715]
-layout_mode = 2
-text = "Weave preview: hover an intent tile"
-
 [node name="ThreatLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=271918656]
 layout_mode = 2
 text = "Threat: 0"
