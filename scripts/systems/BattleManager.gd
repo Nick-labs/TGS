@@ -15,7 +15,7 @@ signal player_unit_unselected
 
 @export var action_bar: ActionBar
 
-var selected_action: Action = null
+var selected_action: BattleAction = null
 
 enum BattleState {
 	IDLE,
@@ -219,7 +219,7 @@ func apply_mission(mission: MissionData):
 	turn_manager.turn_index = 1
 	turn_manager.start_battle()
 
-func _on_action_selected(action: Action):
+func _on_action_selected(action: BattleAction):
 	selected_action = action
 	
 	if selected_unit == null:

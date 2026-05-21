@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://41c5ty7mytuu" path="res://scripts/ui/BattleHUD.gd" id="14_hud"]
 [ext_resource type="Texture2D" uid="uid://gwsxhqpygben" path="res://assets/sprites/tiles/tile_128x64.png" id="15_objtex"]
 [ext_resource type="Script" uid="uid://8ltudv2pg4gp" path="res://scripts/ui/BattleFlow.gd" id="16_flow"]
-[ext_resource type="Script" uid="uid://3yhk4w556dwj" path="res://scenes/map/ActionBar.gd" id="17_x2t2u"]
+[ext_resource type="Script" uid="uid://3yhk4w556dwj" path="res://scripts/ui/ActionBar.gd" id="17_x2t2u"]
 [ext_resource type="PackedScene" uid="uid://4thl6vae2dta" path="res://scenes/ui/ActionButton.tscn" id="18_dtjjv"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dtjjv"]
@@ -228,6 +228,7 @@ vertical_alignment = 1
 
 [node name="ActionBar" type="Control" parent="BattleHUD" unique_id=79730365]
 layout_mode = 3
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0

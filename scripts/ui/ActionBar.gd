@@ -1,7 +1,7 @@
 extends Control
 class_name ActionBar
 
-signal action_selected(action: Action)
+signal action_selected(action: BattleAction)
 
 @export var button_scene: PackedScene
 

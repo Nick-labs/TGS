@@ -11,4 +11,4 @@ class_name UnitData
 @export var visual_offset: Vector2 = Vector2.ZERO
 @export var visual_scale: Vector2 = Vector2.ONE
 
-@export var actions: Array[Action]
+@export var actions: Array[BattleAction]

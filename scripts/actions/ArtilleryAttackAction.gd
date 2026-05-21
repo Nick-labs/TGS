@@ -1,4 +1,4 @@
-extends Action
+extends BattleAction
 class_name ArtilleryAttackAction
 
 @export var min_range: int = 2

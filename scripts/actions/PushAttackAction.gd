@@ -1,4 +1,4 @@
-extends Action
+extends BattleAction
 class_name PushAttackAction
 
 @export var push_distance: int = 1
