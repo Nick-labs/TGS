@@ -229,7 +229,7 @@ func _on_action_selected(action: BattleAction):
 		unit_manager
 	)
 	
-	grid.remove_visual_flag_from_tiles(Tile.Visual.ACTION_TARGET)
+	grid.remove_visual_flag_from_all_cells(Tile.Visual.ACTION_TARGET)
 	
 	grid.set_visual_flag_to_cells(
 		action_cells,

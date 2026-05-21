@@ -38,11 +38,10 @@ func _input(event):
 func handle_click():
 	if turn_manager != null and not turn_manager.can_accept_player_input():
 		return
+		
+	if grid.is_in_bounds(hovered_cell):
+		battle_manager.select_at(hovered_cell)
+		grid.show_selected(hovered_cell)
 
-	if not grid.is_in_bounds(hovered_cell):
-		battle_manager.unselect()
+	else:
 		grid.hide_selected()
-		return
-
-	battle_manager.select_at(hovered_cell)
-	grid.show_selected(hovered_cell)
