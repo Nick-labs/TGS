@@ -12,6 +12,10 @@ signal player_unit_selected(unit: Unit)
 @export var effect_resolver: EffectResolver
 @export var grid: Grid
 
+@export var action_bar: ActionBar
+
+var selected_action: Action = null
+
 enum BattleState {
 	IDLE,
 	UNIT_SELECTED,
@@ -23,6 +27,10 @@ var state: BattleState = BattleState.IDLE
 var selected_unit: Unit = null
 var reachable_cells: Array[Vector2i] = []
 var action_cells: Array[Vector2i] = []
+
+func _ready():
+	if action_bar != null:
+		action_bar.action_selected.connect(_on_action_selected)
 
 func select_at(cell: Vector2i):
 	if turn_manager != null and not turn_manager.can_accept_player_input():
@@ -63,6 +71,9 @@ func select_unit(unit: Unit):
 	state = BattleState.UNIT_SELECTED
 	player_unit_selected.emit(unit)
 	
+	if action_bar != null:
+		action_bar.show_unit_actions(unit)
+	
 	refresh_selection()
 
 func refresh_selection():
@@ -86,6 +97,10 @@ func unselect():
 	action_cells.clear()
 	state = BattleState.IDLE
 	grid.remove_all_visual_flag_from_tiles()
+	
+	if action_bar != null:
+		action_bar.show_unit_actions(null)
+	
 	#if turn_manager != null:
 		#turn_manager.refresh_enemy_intents_visuals()
 
@@ -177,3 +192,24 @@ func apply_mission(mission: MissionData):
 	
 	turn_manager.turn_index = 1
 	turn_manager.start_battle()
+
+func _on_action_selected(action: Action):
+	selected_action = action
+	
+	if selected_unit == null:
+		return
+	
+	action_cells = action.get_target_cells(
+		selected_unit,
+		grid,
+		unit_manager
+	)
+	
+	grid.remove_visual_flag_from_tiles(Tile.Visual.ACTION_TARGET)
+	
+	grid.set_visual_flag_to_cells(
+		action_cells,
+		Tile.Visual.ACTION_TARGET
+	)
+	
+	
