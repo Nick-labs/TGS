@@ -118,7 +118,7 @@ func _on_power_grid_updated(current_hp: int, max_hp: int):
 func _on_player_unit_selected(unit: Unit):
 	selected_unit_label.text = "Selected Unit: %s" % unit
 
-func _on_player_unit_unselected(unit: Unit):
+func _on_player_unit_unselected():
 	selected_unit_label.text = "Selected Unit: None"
 
 func _on_turn_started(turn_idx: int, phase: TurnManager.TurnPhase):

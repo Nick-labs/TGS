@@ -50,7 +50,6 @@ func select_at(cell: Vector2i):
 			_handle_action_click(cell, clicked_unit)
 
 func _handle_idle_click(cell, clicked_unit):
-
 	if clicked_unit == null:
 		return
 
@@ -86,16 +85,18 @@ func select_unit(unit: Unit):
 	selected_action = null
 	action_cells.clear()
 	
-	grid.remove_all_visual_flag_from_tiles()
+	grid.remove_visual_flag_from_all_cells(Tile.Visual.REACHABLE)
+	grid.remove_visual_flag_from_all_cells(Tile.Visual.ACTION_TARGET)
 	
 	if unit.team != Unit.Team.PLAYER:
 		return
 	#if unit.has_moved_this_turn and unit.has_acted_this_turn:
 		#return
-
+	
+	#print("Selected %s" % unit)
 	selected_unit = unit
-	state = BattleState.UNIT_SELECTED
 	player_unit_selected.emit(unit)
+	state = BattleState.UNIT_SELECTED
 	
 	if action_bar != null:
 		action_bar.show_unit_actions(unit)
@@ -103,27 +104,17 @@ func select_unit(unit: Unit):
 	refresh_selection()
 
 func refresh_selection():
-	action_cells.clear()
-	
-	grid.remove_all_visual_flag_from_tiles()
-
-	if selected_unit == null:
-		return
-
-	if selected_unit.can_move_this_turn():
-		reachable_cells = movement_system.get_reachable_cells(selected_unit)
-		grid.set_visual_flag_to_cells(reachable_cells, Tile.Visual.REACHABLE)
-	else:
-		reachable_cells.clear()
+	update_movement_visual()
+	update_action_visual()
 
 func unselect():
 	selected_unit = null
 	reachable_cells.clear()
 	action_cells.clear()
 	state = BattleState.IDLE
-	grid.remove_all_visual_flag_from_tiles()
+	grid.remove_visual_flag_from_all_cells(Tile.Visual.REACHABLE)
 	
-	player_unit_unselected.emit(null)
+	player_unit_unselected.emit()
 	
 	if action_bar != null:
 		action_bar.show_unit_actions(null)
@@ -147,8 +138,9 @@ func try_move_command(cell: Vector2i) -> bool:
 func on_unit_move_finished():
 	if selected_unit == null:
 		return
-	state = BattleState.ACTION_TARGETING
+	state = BattleState.UNIT_SELECTED
 	refresh_selection()
+	selected_action = null
 
 func try_action_command(cell: Vector2i):
 	if selected_unit == null:
@@ -179,10 +171,10 @@ func try_action_command(cell: Vector2i):
 
 	unselect()
 
-func get_action_cells(unit: Unit) -> Array[Vector2i]:
-	if unit.default_action == null:
+func get_action_cells(unit: Unit, action: BattleAction) -> Array[Vector2i]:
+	if action == null:
 		return []
-	return unit.default_action.get_target_cells(unit, grid, unit_manager)
+	return action.get_target_cells(unit, grid, unit_manager)
 
 func apply_mission_preset(mission_id: int):
 	mission_id = SaveManager.normalize_mission_id(mission_id)
@@ -226,6 +218,9 @@ func _on_action_selected(action: BattleAction):
 	if selected_unit == null:
 		return
 	
+	if not selected_unit.can_act_this_turn():
+		return
+	
 	state = BattleState.ACTION_TARGETING
 	
 	action_cells = action.get_target_cells(
@@ -240,4 +235,35 @@ func _on_action_selected(action: BattleAction):
 		action_cells,
 		Tile.Visual.ACTION_TARGET
 	)
+
+func update_movement_visual():
+	grid.remove_all_visual_flags_from_tiles()
 	
+	if selected_unit == null:
+		return
+	
+	if selected_unit.can_move_this_turn():
+		reachable_cells = movement_system.get_reachable_cells(selected_unit)
+		grid.set_visual_flag_to_cells(reachable_cells, Tile.Visual.REACHABLE)
+	else:
+		reachable_cells.clear()
+
+func update_action_visual():
+	action_cells.clear()
+	
+	if selected_unit == null:
+		return
+	
+	if selected_action == null:
+		return
+	
+	if not selected_unit.can_act_this_turn():
+		return
+	
+	action_cells = selected_action.get_target_cells(
+		selected_unit,
+		grid,
+		unit_manager
+	)
+	
+	grid.set_visual_flag_to_cells(action_cells, Tile.Visual.ACTION_TARGET)

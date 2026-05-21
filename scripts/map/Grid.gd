@@ -102,18 +102,15 @@ func set_visual_flag_to_cells(cells: Array[Vector2i], visual_flag: Tile.Visual):
 			#continue
 		#tile.set_state(Tile.State.ACTION_TARGET)
 
-func remove_visual_flag_from_cells(cells: Array[Vector2i], visual_flag: Tile.Visual):
-	for cell in cells:
-		var tile := get_tile(cell)
-		
-		if tile == null:
-			continue
-			
-		tile.remove_visual_flag(visual_flag)
-
-func remove_all_visual_flag_from_tiles():
+func remove_visual_flag_from_all_cells(visual_flag: Tile.Visual):
 	for tile in tiles.values():
-		tile.clear_visual_flags()
+		if tile != null:
+			tile.remove_visual_flag(visual_flag)
+
+func remove_all_visual_flags_from_tiles():
+	for tile in tiles.values():
+		if tile != null:
+			tile.clear_visual_flags()
 
 func setup_astar():
 	astar.region = Rect2i(Vector2i(0, 0), Vector2i(width, height))
