@@ -61,7 +61,8 @@ func _handle_idle_click(cell, clicked_unit):
 
 func _handle_unit_selected_click(cell, clicked_unit):
 	if clicked_unit != null and clicked_unit.team == Unit.Team.PLAYER:
-		select_unit(clicked_unit)
+		if clicked_unit != selected_unit:
+			select_unit(clicked_unit)
 		return
 
 	if cell in reachable_cells:
@@ -154,21 +155,21 @@ func try_action_command(cell: Vector2i):
 		return
 	if not selected_unit.can_act_this_turn():
 		return
-	if selected_unit.default_action == null:
+	if selected_action == null:
 		return
 	if cell not in action_cells:
 		return
 
-	var effects = selected_unit.default_action.build_effects(selected_unit, cell, grid, unit_manager)
+	var effects = selected_action.build_effects(selected_unit, cell, grid, unit_manager)
 	if effects.is_empty():
 		return
 
-	var action_cost = max(0, selected_unit.action_cost)
+	var action_cost = max(0, selected_action.cost)
 	if turn_manager != null and not turn_manager.try_spend_cp(action_cost):
 		player_action_denied.emit(selected_unit, "Not enough CP")
 		return
 
-	player_action_committed.emit(selected_unit, cell, selected_unit.default_action.name)
+	player_action_committed.emit(selected_unit, cell, selected_action.name)
 	effect_resolver.resolve_effects(effects)
 	turn_manager.notify_player_unit_finished(selected_unit)
 	selected_unit.has_acted_this_turn = true
