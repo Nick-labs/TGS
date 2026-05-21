@@ -14,7 +14,10 @@ class_name BattleHUD
 @onready var objective_label: Label = $Root/TopBar/TopVBox/ObjectiveLabel
 @onready var power_grid_label: Label = $Root/TopBar/TopVBox/PowerGridLabel
 @onready var hp_label: RichTextLabel = $Root/TopBar/TopVBox/HPLabel
+@onready var selected_unit_label: Label = $Root/TopBar/TopVBox/SelectedUnitLabel
+
 @onready var log_label: RichTextLabel = $Root/LogPanel/LogMargin/LogLabel
+
 @onready var fail_overlay: PanelContainer = $Root/FailOverlay
 @onready var fail_label: Label = $Root/FailOverlay/FailLabel
 
@@ -43,6 +46,8 @@ func _ready():
 	if battle_manager != null:
 		battle_manager.player_action_committed.connect(_on_player_action_committed)
 		battle_manager.player_action_denied.connect(_on_player_action_denied)
+		battle_manager.player_unit_selected.connect(_on_player_unit_selected)
+		battle_manager.player_unit_unselected.connect(_on_player_unit_unselected)
 
 	if unit_manager != null:
 		unit_manager.units_changed.connect(_refresh_hp_panel)
@@ -109,6 +114,12 @@ func _on_objective_updated(current_hp: int, max_hp: int, cell: Vector2i):
 
 func _on_power_grid_updated(current_hp: int, max_hp: int):
 	power_grid_label.text = "Power Grid: %d/%d" % [current_hp, max_hp]
+
+func _on_player_unit_selected(unit: Unit):
+	selected_unit_label.text = "Selected Unit: %s" % unit
+
+func _on_player_unit_unselected(unit: Unit):
+	selected_unit_label.text = "Selected Unit: None"
 
 func _on_turn_started(turn_idx: int, phase: TurnManager.TurnPhase):
 	_append_log("Turn %d -> %s" % [turn_idx, _phase_text(phase)])

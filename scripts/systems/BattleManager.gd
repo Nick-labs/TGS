@@ -4,6 +4,7 @@ class_name BattleManager
 signal player_action_committed(unit: Unit, target_cell: Vector2i, action_id: String)
 signal player_action_denied(unit: Unit, reason: String)
 signal player_unit_selected(unit: Unit)
+signal player_unit_unselected
 
 @export var unit_manager: UnitManager
 @export var turn_manager: TurnManager
@@ -20,7 +21,7 @@ enum BattleState {
 	IDLE,
 	UNIT_SELECTED,
 	UNIT_MOVING,
-	WAITING_FOR_ACTION
+	ACTION_TARGETING
 }
 
 var state: BattleState = BattleState.IDLE
@@ -33,35 +34,59 @@ func _ready():
 		action_bar.action_selected.connect(_on_action_selected)
 
 func select_at(cell: Vector2i):
-	if turn_manager != null and not turn_manager.can_accept_player_input():
-		return
-
 	var clicked_unit := unit_manager.get_unit_at(cell)
 	
-	if selected_unit == null:
-		if clicked_unit != null and clicked_unit.team == Unit.Team.PLAYER:
-			select_unit(clicked_unit)
+	if turn_manager != null and not turn_manager.can_accept_player_input():
+		return	
+	
+	match state:
+		BattleState.IDLE:
+			_handle_idle_click(cell, clicked_unit)
+
+		BattleState.UNIT_SELECTED:
+			_handle_unit_selected_click(cell, clicked_unit)
+
+		BattleState.ACTION_TARGETING:
+			_handle_action_click(cell, clicked_unit)
+
+func _handle_idle_click(cell, clicked_unit):
+
+	if clicked_unit == null:
 		return
-	
-	if not selected_unit.has_moved_this_turn:
-		if cell in reachable_cells:
-			try_move_command(cell)
-		else:
-			unselect()
+
+	if clicked_unit.team != Unit.Team.PLAYER:
 		return
-	
-	# old
-	#if state == BattleState.UNIT_SELECTED:
-		#if cell not in reachable_cells:
-			#unselect()
-		#elif not selected_unit.has_moved_this_turn:
-			#try_move_command(cell)
-		#elif cell in action_cells:
-			#state = BattleState.WAITING_FOR_ACTION
-			#try_action_command(cell)
-			#return
-	
+
+	select_unit(clicked_unit)
+
+func _handle_unit_selected_click(cell, clicked_unit):
+	if clicked_unit != null and clicked_unit.team == Unit.Team.PLAYER:
+		select_unit(clicked_unit)
+		return
+
+	if cell in reachable_cells:
+		try_move_command(cell)
+		return
+
+	unselect()
+
+func _handle_action_click(cell, clicked_unit):
+	if cell in action_cells:
+		try_action_command(cell)
+		return
+
+	if clicked_unit != null and clicked_unit.team == Unit.Team.PLAYER:
+		select_unit(clicked_unit)
+		return
+
+	unselect()
+
 func select_unit(unit: Unit):
+	selected_action = null
+	action_cells.clear()
+	
+	grid.remove_all_visual_flag_from_tiles()
+	
 	if unit.team != Unit.Team.PLAYER:
 		return
 	#if unit.has_moved_this_turn and unit.has_acted_this_turn:
@@ -77,6 +102,8 @@ func select_unit(unit: Unit):
 	refresh_selection()
 
 func refresh_selection():
+	action_cells.clear()
+	
 	grid.remove_all_visual_flag_from_tiles()
 
 	if selected_unit == null:
@@ -88,15 +115,14 @@ func refresh_selection():
 	else:
 		reachable_cells.clear()
 
-	action_cells = get_action_cells(selected_unit)
-	grid.set_visual_flag_to_cells(action_cells, Tile.Visual.ACTION_TARGET)
-
 func unselect():
 	selected_unit = null
 	reachable_cells.clear()
 	action_cells.clear()
 	state = BattleState.IDLE
 	grid.remove_all_visual_flag_from_tiles()
+	
+	player_unit_unselected.emit(null)
 	
 	if action_bar != null:
 		action_bar.show_unit_actions(null)
@@ -120,7 +146,7 @@ func try_move_command(cell: Vector2i) -> bool:
 func on_unit_move_finished():
 	if selected_unit == null:
 		return
-	state = BattleState.WAITING_FOR_ACTION
+	state = BattleState.ACTION_TARGETING
 	refresh_selection()
 
 func try_action_command(cell: Vector2i):
@@ -199,6 +225,8 @@ func _on_action_selected(action: Action):
 	if selected_unit == null:
 		return
 	
+	state = BattleState.ACTION_TARGETING
+	
 	action_cells = action.get_target_cells(
 		selected_unit,
 		grid,
@@ -211,5 +239,4 @@ func _on_action_selected(action: Action):
 		action_cells,
 		Tile.Visual.ACTION_TARGET
 	)
-	
 	

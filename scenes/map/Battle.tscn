@@ -175,6 +175,10 @@ bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
+[node name="SelectedUnitLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1245605516]
+layout_mode = 2
+text = "Selected Unit: "
+
 [node name="LogPanel" type="PanelContainer" parent="BattleHUD/Root" unique_id=699377676]
 layout_mode = 1
 anchors_preset = 3
