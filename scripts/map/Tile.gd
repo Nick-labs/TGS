@@ -1,57 +1,37 @@
 extends Node2D
 class_name Tile
 
-enum State {
-	NORMAL,
-	HOVER,
-	SELECTED,
+enum Visual {
 	REACHABLE,
-	INTENT,
-	ACTION_TARGET
+	ACTION_TARGET,
+	HOVER,
+	SELECTED
 }
 
-const TEAM_NONE := -1
-const TEAM_PLAYER := 0
-const TEAM_ENEMY := 1
+var visual_flags: Array = []
 
 var coord: Vector2i
-var state: State = State.NORMAL
-var owner_team: int = TEAM_NONE
 
-func set_state(new_state: State):
-	state = new_state
+func add_visual_flag(flag: Visual) -> void:
+	visual_flags.append(flag)
 	_update_visual()
 
-func set_owner_team(new_owner_team: int):
-	owner_team = new_owner_team
-	if state == State.NORMAL:
-		_update_visual()
+func remove_visual_flag(flag: Visual) -> void:
+	visual_flags.erase(flag)
+	_update_visual()
 
-func clear_owner_team():
-	owner_team = TEAM_NONE
-	if state == State.NORMAL:
-		_update_visual()
+func clear_visual_flags() -> void:
+	visual_flags = []
+	_update_visual()
 
-func _update_visual():
-	match state:
-		State.NORMAL:
-			modulate = _get_base_color()
-		State.HOVER:
-			modulate = Color.YELLOW
-		State.SELECTED:
-			modulate = Color.GREEN
-		State.REACHABLE:
-			modulate = Color(0.3, 0.8, 1.0)
-		State.INTENT:
-			modulate = Color(1.0, 0.4, 0.4)
-		State.ACTION_TARGET:
-			modulate = Color(1.0, 0.75, 0.2)
+func has_visual_flag(flag: Visual) -> bool:
+	return flag in visual_flags
 
-func _get_base_color() -> Color:
-	match owner_team:
-		TEAM_PLAYER:
-			return Color(0.80, 0.95, 1.0)
-		TEAM_ENEMY:
-			return Color(1.0, 0.82, 0.82)
-		_:
-			return Color.WHITE
+func _update_visual() -> void:
+	modulate = Color.WHITE
+
+	if has_visual_flag(Visual.REACHABLE):
+		modulate = Color(0.0, 0.0, 0.79, 0.678)
+	
+	if has_visual_flag(Visual.ACTION_TARGET):
+		modulate = Color(0.914, 0.0, 0.018, 0.678)

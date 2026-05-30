@@ -1,4 +1,4 @@
-extends Node2D
+extends Entity
 class_name Unit
 
 signal move_finished(final_cell: Vector2i)
@@ -25,16 +25,13 @@ enum Team {
 
 @export var data: UnitData
 
-var max_hp: int
 var move_range: int
 var action_cost: int
-var actions: Array[Action]
-var default_action: Action
+var actions: Array[BattleAction]
+var default_action: BattleAction
 
 var grid: Grid
-var cell: Vector2i
 var is_moving := false
-var hp: int
 var has_moved_this_turn := false
 var has_acted_this_turn := false
 var _hit_flash_tween: Tween
@@ -55,14 +52,19 @@ func _ready():
 	sprite.centered = false
 	
 	apply_data()
+	
+	update_z_index()
 
-
+func _process(delta):
+	update_z_index() # TODO: optimize
+	
 func _draw():
 	draw_circle(Vector2.ZERO, 3, Color.RED)
 
 func set_cell(new_cell: Vector2i):
 	cell = new_cell
 	update_position()
+	update_z_index()
 
 func update_position():
 	if grid == null:
@@ -99,8 +101,7 @@ func move_along_path(path: Array[Vector2i]):
 	if is_moving:
 		return
 	
-	z_index = cell.x + cell.y - 5
-	print(z_index)
+	#z_index = cell.x + cell.y - 5
 	
 	is_moving = true
 	var tween := create_tween()

@@ -1,4 +1,4 @@
-extends Action
+extends BattleAction
 class_name MeleeAttackAction
 
 func _init():

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://fjfypem676ux" path="res://scenes/map/HoverHighlight.tscn" id="3_evht8"]
 [ext_resource type="PackedScene" uid="uid://ugx057ox1nbc" path="res://scenes/map/SelectedHighlight.tscn" id="4_42qa6"]
 [ext_resource type="PackedScene" uid="uid://dllgqhansefun" path="res://scenes/systems/UnitManager.tscn" id="5_37gw2"]
-[ext_resource type="Texture2D" uid="uid://1l33ry3hk7ln" path="res://assets/sprites/objects/crystall.png" id="6_1mbps"]
+[ext_resource type="Texture2D" uid="uid://bcpxr1if3t58h" path="res://assets/sprites/objects/crystall2.png" id="6_1mbps"]
 [ext_resource type="PackedScene" uid="uid://doq3grqn21nm" path="res://scenes/systems/MovementSystem.tscn" id="7_nkest"]
 [ext_resource type="PackedScene" uid="uid://drefvpa3kq01x" path="res://scenes/systems/BattleManager.tscn" id="7_yyk6v"]
 [ext_resource type="Script" uid="uid://cqpqrnkb8cesx" path="res://scripts/systems/TurnManager.gd" id="9_turn"]
@@ -17,6 +17,10 @@
 [ext_resource type="Script" uid="uid://41c5ty7mytuu" path="res://scripts/ui/BattleHUD.gd" id="14_hud"]
 [ext_resource type="Texture2D" uid="uid://gwsxhqpygben" path="res://assets/sprites/tiles/tile_128x64.png" id="15_objtex"]
 [ext_resource type="Script" uid="uid://8ltudv2pg4gp" path="res://scripts/ui/BattleFlow.gd" id="16_flow"]
+[ext_resource type="Script" uid="uid://3yhk4w556dwj" path="res://scripts/ui/ActionBar.gd" id="17_x2t2u"]
+[ext_resource type="PackedScene" uid="uid://4thl6vae2dta" path="res://scenes/ui/ActionButton.tscn" id="18_dtjjv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dtjjv"]
 
 [node name="Battle" type="Node2D" unique_id=1435354891]
 
@@ -24,10 +28,6 @@
 script = ExtResource("1_lto8t")
 camera = NodePath("../Camera2D")
 grid = NodePath("Grid")
-
-[node name="Units" type="Node2D" parent="GridRoot" unique_id=1829051910]
-z_index = 10
-y_sort_enabled = true
 
 [node name="Grid" parent="GridRoot" unique_id=269519220 node_paths=PackedStringArray("unit_manager") instance=ExtResource("2_c8xc1")]
 unit_manager = NodePath("../UnitManager")
@@ -41,28 +41,36 @@ visible = false
 z_index = 102
 
 [node name="ObjectiveMarker" type="Node2D" parent="GridRoot/Grid" unique_id=316648406]
-z_index = 99
+z_as_relative = false
 
 [node name="Sprite2D" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=1532770609]
 modulate = Color(0.9, 0.5, 1, 0.65)
+z_as_relative = false
 texture = ExtResource("15_objtex")
 
-[node name="Crystall" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=490429754]
-texture_filter = 1
-position = Vector2(0, -59)
-scale = Vector2(2, 2)
+[node name="Crystall2" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=1272201249]
+z_index = 1008
+z_as_relative = false
+position = Vector2(-2, -41)
+scale = Vector2(0.19873045, 0.19873045)
 texture = ExtResource("6_1mbps")
+
+[node name="Units" type="Node2D" parent="GridRoot" unique_id=1829051910]
+z_as_relative = false
+y_sort_enabled = true
 
 [node name="UnitManager" parent="GridRoot" unique_id=188568835 node_paths=PackedStringArray("grid", "units_parent") instance=ExtResource("5_37gw2")]
 grid = NodePath("../Grid")
 units_parent = NodePath("../Units")
 
-[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "movement_system", "grid", "turn_manager", "effect_resolver") instance=ExtResource("7_yyk6v")]
+[node name="BattleManager" parent="GridRoot" unique_id=1336899352 node_paths=PackedStringArray("unit_manager", "turn_manager", "environment_manager", "movement_system", "effect_resolver", "grid", "action_bar") instance=ExtResource("7_yyk6v")]
 unit_manager = NodePath("../UnitManager")
-movement_system = NodePath("../MovementSystem")
-grid = NodePath("../Grid")
 turn_manager = NodePath("../TurnManager")
+environment_manager = NodePath("../EnvironmentManager")
+movement_system = NodePath("../MovementSystem")
 effect_resolver = NodePath("../EffectResolver")
+grid = NodePath("../Grid")
+action_bar = NodePath("../../BattleHUD/ActionBar")
 
 [node name="MovementSystem" parent="GridRoot" unique_id=1022618536 node_paths=PackedStringArray("grid", "unit_manager", "battle_manager") instance=ExtResource("7_nkest")]
 grid = NodePath("../Grid")
@@ -151,22 +159,6 @@ text = "Phase: PLAYER"
 layout_mode = 2
 text = "CP: 0/0"
 
-[node name="WeaveLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1466886916]
-layout_mode = 2
-text = "Weave: 0/0 (MMB)"
-
-[node name="WeaveHelpLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=109104503]
-layout_mode = 2
-text = "Weave: shift one enemy intent by 1 tile"
-
-[node name="WeaveModeLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=578848393]
-layout_mode = 2
-text = "WEAVE MODE: OFF"
-
-[node name="WeavePreviewLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1230057715]
-layout_mode = 2
-text = "Weave preview: hover an intent tile"
-
 [node name="ThreatLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=271918656]
 layout_mode = 2
 text = "Threat: 0"
@@ -185,6 +177,10 @@ layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
+
+[node name="SelectedUnitLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1245605516]
+layout_mode = 2
+text = "Selected Unit: "
 
 [node name="LogPanel" type="PanelContainer" parent="BattleHUD/Root" unique_id=699377676]
 layout_mode = 1
@@ -233,6 +229,47 @@ text = "MISSION FAILED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ActionBar" type="Control" parent="BattleHUD" unique_id=79730365]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -180.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("17_x2t2u")
+button_scene = ExtResource("18_dtjjv")
+
+[node name="Panel" type="Panel" parent="BattleHUD/ActionBar" unique_id=1985684901]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_dtjjv")
+
+[node name="MarginContainer" type="MarginContainer" parent="BattleHUD/ActionBar/Panel" unique_id=645717187]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="CenterContainer" type="CenterContainer" parent="BattleHUD/ActionBar/Panel/MarginContainer" unique_id=2057822391]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BattleHUD/ActionBar/Panel/MarginContainer/CenterContainer" unique_id=558814395]
+layout_mode = 2
+alignment = 1
+
 [node name="Transition" type="ColorRect" parent="." unique_id=1500000001]
 visible = false
 anchors_preset = 15
@@ -242,8 +279,8 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BattleFlow" type="Node" parent="." unique_id=1500000002 node_paths=PackedStringArray("turn_manager", "grid_root", "transition_layer")]
+[node name="BattleFlow" type="Node" parent="." unique_id=1500000002 node_paths=PackedStringArray("turn_manager", "battle_manager", "transition_layer")]
 script = ExtResource("16_flow")
 turn_manager = NodePath("../GridRoot/TurnManager")
-grid_root = NodePath("../GridRoot")
+battle_manager = NodePath("../GridRoot/BattleManager")
 transition_layer = NodePath("../Transition")

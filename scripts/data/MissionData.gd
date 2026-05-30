@@ -1,6 +1,7 @@
 extends Resource
 class_name MissionData
 
+@export var grid_size: Vector2i = Vector2i(10, 10)
 @export var objective_cell: Vector2i
 @export var objective_max_hp: int = 5
 @export var cp_max: int = 3

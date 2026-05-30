@@ -5,6 +5,8 @@
 
 [node name="Unit" type="Node2D" unique_id=2057550720]
 z_index = 1000
+texture_filter = 1
+texture_repeat = 1
 script = ExtResource("1_e3b5r")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1910740710]

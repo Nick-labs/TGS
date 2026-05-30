@@ -16,7 +16,6 @@ func _ready():
 
 func setup_default_battlefield():
 	clear_all_units()
-	grid.refresh_ownership_visuals()
 
 func clear_all_units():
 	for unit in units.duplicate():
@@ -25,8 +24,6 @@ func clear_all_units():
 	units.clear()
 	occupied.clear()
 	units_changed.emit()
-	if grid != null:
-		grid.refresh_ownership_visuals()
 
 func is_occupied(cell: Vector2i) -> bool:
 	return occupied.has(cell)
@@ -69,7 +66,6 @@ func on_unit_moved(unit: Unit, old_cell: Vector2i, new_cell: Vector2i):
 	occupied.erase(old_cell)
 	occupied[new_cell] = unit
 	unit_moved.emit(unit, old_cell, new_cell)
-	grid.refresh_ownership_visuals()
 
 func remove_unit(unit: Unit):
 	if unit == null:
@@ -77,7 +73,6 @@ func remove_unit(unit: Unit):
 	occupied.erase(unit.cell)
 	units.erase(unit)
 	units_changed.emit()
-	grid.refresh_ownership_visuals()
 	_play_unit_death_and_free(unit)
 
 func cleanup_dead_units():
