@@ -41,19 +41,22 @@ visible = false
 z_index = 102
 
 [node name="ObjectiveMarker" type="Node2D" parent="GridRoot/Grid" unique_id=316648406]
-z_index = 99
+z_as_relative = false
 
 [node name="Sprite2D" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=1532770609]
 modulate = Color(0.9, 0.5, 1, 0.65)
+z_as_relative = false
 texture = ExtResource("15_objtex")
 
 [node name="Crystall2" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=1272201249]
+z_index = 1008
+z_as_relative = false
 position = Vector2(-2, -41)
 scale = Vector2(0.19873045, 0.19873045)
 texture = ExtResource("6_1mbps")
 
 [node name="Units" type="Node2D" parent="GridRoot" unique_id=1829051910]
-z_index = 10
+z_as_relative = false
 y_sort_enabled = true
 
 [node name="UnitManager" parent="GridRoot" unique_id=188568835 node_paths=PackedStringArray("grid", "units_parent") instance=ExtResource("5_37gw2")]

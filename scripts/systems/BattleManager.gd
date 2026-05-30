@@ -178,7 +178,7 @@ func get_action_cells(unit: Unit, action: BattleAction) -> Array[Vector2i]:
 
 func apply_mission_preset(mission_id: int):
 	mission_id = SaveManager.normalize_mission_id(mission_id)
-	var path := "res://data/missions/mission_%d/mission.tres" % mission_id
+	var path := "res://data/missions/mission_%d/" % mission_id + "mission_%d.tres" % mission_id
 
 	if not ResourceLoader.exists(path):
 		push_error("Mission not found: " + path)
@@ -191,6 +191,8 @@ func apply_mission_preset(mission_id: int):
 func apply_mission(mission: MissionData):
 	if mission == null:
 		push_error("No mission data")
+		
+	grid.setup(mission.grid_size)
 		
 	unit_manager.clear_all_units()
 	

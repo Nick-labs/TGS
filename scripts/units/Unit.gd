@@ -1,4 +1,4 @@
-extends Node2D
+extends Entity
 class_name Unit
 
 signal move_finished(final_cell: Vector2i)
@@ -25,16 +25,13 @@ enum Team {
 
 @export var data: UnitData
 
-var max_hp: int
 var move_range: int
 var action_cost: int
 var actions: Array[BattleAction]
 var default_action: BattleAction
 
 var grid: Grid
-var cell: Vector2i
 var is_moving := false
-var hp: int
 var has_moved_this_turn := false
 var has_acted_this_turn := false
 var _hit_flash_tween: Tween
@@ -59,13 +56,10 @@ func _ready():
 	update_z_index()
 
 func _process(delta):
-	update_z_index()
+	update_z_index() # TODO: optimize
 	
 func _draw():
 	draw_circle(Vector2.ZERO, 3, Color.RED)
-
-func update_z_index():
-	z_index = (cell.x + cell.y) * 1000
 
 func set_cell(new_cell: Vector2i):
 	cell = new_cell

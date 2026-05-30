@@ -66,8 +66,8 @@ func _ready():
 	if environment_manager != null:
 		var obj := environment_manager.get_objective_state()
 		_on_objective_updated(obj["hp"], obj["max_hp"], obj["cell"])
-		var grid_state := environment_manager.get_power_grid_state()
-		_on_power_grid_updated(grid_state["hp"], grid_state["max_hp"])
+		#var grid_state := environment_manager.get_power_grid_state()
+		#_on_power_grid_updated(grid_state["hp"], grid_state["max_hp"])
 	_append_log("Battle started")
 
 func _process(_delta):

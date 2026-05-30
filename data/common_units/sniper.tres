@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://b7uhwjx5daqvo"]
+
+[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/BattleAction.gd" id="1_xqj20"]
+[ext_resource type="Script" uid="uid://j4df27kdc5dj" path="res://scripts/actions/ArtilleryAttackAction.gd" id="2_1snc6"]
+[ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/data/UnitData.gd" id="3_xdc3u"]
+[ext_resource type="Texture2D" uid="uid://qk2jan01ound" path="res://assets/sprites/units/TestUnit.png" id="4_jce7r"]
+
+[sub_resource type="Resource" id="Resource_wx00p"]
+script = ExtResource("2_1snc6")
+metadata/_custom_type_script = "uid://j4df27kdc5dj"
+
+[resource]
+script = ExtResource("3_xdc3u")
+max_hp = 2
+texture = ExtResource("4_jce7r")
+visual_scale = Vector2(0.7, 0.7)
+actions = Array[ExtResource("1_xqj20")]([SubResource("Resource_wx00p")])
+metadata/_custom_type_script = "uid://ctnia1aps2tlj"

@@ -11,12 +11,15 @@ var tiles: Dictionary = {}
 var astar := AStarGrid2D.new()
 
 func _ready() -> void:
-	generate_grid()
+	pass
+
+func setup(grid_size: Vector2i):
+	generate_grid(grid_size)
 	setup_astar()
 
-func generate_grid() -> void:
-	for x in range(width):
-		for y in range(height):
+func generate_grid(size: Vector2i) -> void:
+	for x in range(size.x):
+		for y in range(size.y):
 			create_tile(Vector2i(x, y))
 
 func create_tile(coord: Vector2i) -> void:
