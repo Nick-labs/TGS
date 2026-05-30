@@ -11,7 +11,6 @@ metadata/_custom_type_script = "uid://camfew5bskqqn"
 
 [resource]
 script = ExtResource("1_0p7ov")
-display_name = "Striker"
 texture = ExtResource("2_etyyb")
 actions = Array[ExtResource("1_thhq7")]([SubResource("Resource_hhfxo")])
 metadata/_custom_type_script = "uid://ctnia1aps2tlj"

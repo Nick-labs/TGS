@@ -194,10 +194,17 @@ func _plan_enemy_intents():
 
 func _sanitize_enemy_plans():
 	var filtered: Array[Dictionary] = []
+	
 	for plan in enemy_plans:
-		var unit: Unit = plan.get("unit", null)
+		
+		var unit = plan.get("unit", null)
+		
+		if not unit or not is_instance_valid(unit):
+			continue
+			
 		if _is_unit_alive(unit):
 			filtered.append(plan)
+			
 	enemy_plans = filtered
 
 func _is_unit_alive(unit: Unit) -> bool:

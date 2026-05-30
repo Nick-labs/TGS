@@ -11,9 +11,7 @@ metadata/_custom_type_script = "uid://j4df27kdc5dj"
 
 [resource]
 script = ExtResource("1_22dgs")
-display_name = "Striker"
 max_hp = 2
-move_range = 2
 texture = ExtResource("2_tj5ci")
 visual_scale = Vector2(0.7, 0.7)
 actions = Array[ExtResource("1_w8ulu")]([SubResource("Resource_wx00p")])
