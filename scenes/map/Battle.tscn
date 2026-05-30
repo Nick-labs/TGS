@@ -29,10 +29,6 @@ script = ExtResource("1_lto8t")
 camera = NodePath("../Camera2D")
 grid = NodePath("Grid")
 
-[node name="Units" type="Node2D" parent="GridRoot" unique_id=1829051910]
-z_index = 10
-y_sort_enabled = true
-
 [node name="Grid" parent="GridRoot" unique_id=269519220 node_paths=PackedStringArray("unit_manager") instance=ExtResource("2_c8xc1")]
 unit_manager = NodePath("../UnitManager")
 
@@ -55,6 +51,10 @@ texture = ExtResource("15_objtex")
 position = Vector2(-2, -41)
 scale = Vector2(0.19873045, 0.19873045)
 texture = ExtResource("6_1mbps")
+
+[node name="Units" type="Node2D" parent="GridRoot" unique_id=1829051910]
+z_index = 10
+y_sort_enabled = true
 
 [node name="UnitManager" parent="GridRoot" unique_id=188568835 node_paths=PackedStringArray("grid", "units_parent") instance=ExtResource("5_37gw2")]
 grid = NodePath("../Grid")
