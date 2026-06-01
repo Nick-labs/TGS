@@ -37,7 +37,7 @@ func select_at(cell: Vector2i):
 	var clicked_unit := unit_manager.get_unit_at(cell)
 	
 	if turn_manager != null and not turn_manager.can_accept_player_input():
-		return	
+		return
 	
 	match state:
 		BattleState.IDLE:
@@ -59,6 +59,9 @@ func _handle_idle_click(cell, clicked_unit):
 	select_unit(clicked_unit)
 
 func _handle_unit_selected_click(cell, clicked_unit):
+	if cell in environment_manager.get_objects().keys():
+		return
+	
 	if clicked_unit != null and clicked_unit.team == Unit.Team.PLAYER:
 		if clicked_unit != selected_unit:
 			select_unit(clicked_unit)
@@ -209,13 +212,13 @@ func apply_mission(mission: MissionData):
 			unit_spawn.cell
 		)
 	
+	environment_manager.reset_state()
+	
 	for battle_object_spawn in mission.battle_object_spawns:
 		environment_manager.spawn_object(
 			battle_object_spawn.battle_object_data,
 			battle_object_spawn.cell
 		)
-	
-	environment_manager.reset_state()
 	
 	turn_manager.turn_index = 1
 	turn_manager.start_battle()

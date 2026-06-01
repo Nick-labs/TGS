@@ -3,6 +3,7 @@ class_name MovementSystem
 
 @export var grid: Grid
 @export var unit_manager: UnitManager
+@export var env_manager: EnvironmentManager
 @export var battle_manager: BattleManager
 
 func move_unit(unit: Unit, target_cell: Vector2i, on_finished: Callable = Callable(), notify_battle_manager: bool = true) -> bool:
@@ -79,6 +80,9 @@ func get_reachable_cells(unit: Unit) -> Array[Vector2i]:
 				continue
 			if unit_manager.is_occupied(ncell) and ncell != start:
 				continue
+			if ncell in env_manager.get_objects().keys():
+				continue
+				
 			visited[ncell] = true
 			queue.append([ncell, cost + 1])
 

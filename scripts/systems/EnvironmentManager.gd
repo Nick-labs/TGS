@@ -12,7 +12,7 @@ signal power_grid_updated(current_hp: int, max_hp: int)
 
 #var units: Array[Unit] = []
 
-@export var objects: Dictionary
+var objects: Dictionary = {}
 
 @export var battle_object_scene: PackedScene
 @export var battle_objects_parent: Node2D
@@ -44,17 +44,17 @@ func spawn_object(
 
 	var object := battle_object_scene.instantiate() as BattleObject
 	object.data = object_data
-	
 	object.grid = grid
-	
 	object.set_cell(cell)
 
 	battle_objects_parent.add_child(object)
 	objects[cell] = object
+	
 	#occupied[cell] = unit
 	#objects_changed.emit()
 
-
+func get_objects():
+	return objects
 
 func is_environment_at(cell: Vector2i) -> bool:
 	return objects.has(cell) or is_objective_at(cell)
@@ -76,10 +76,6 @@ func damage_environment(cell: Vector2i, amount: int):
 	if not objects.has(cell):
 		return
 
-	objects[cell] -= amount
-	if objects[cell] <= 0:
-		objects.erase(cell)
-
 func damage_objective(amount: int):
 	if amount <= 0 or objective_hp <= 0:
 		return
@@ -99,7 +95,6 @@ func get_objective_state() -> Dictionary:
 		"max_hp": objective_max_hp,
 		"alive": objective_hp > 0
 	}
-
 
 #func _setup_default_grid_buildings():
 	#grid_buildings.clear()
@@ -125,3 +120,4 @@ func _refresh_objective_marker():
 		objective_marker.position = tile.position
 		objective_marker.z_index = tile.coord.x + tile.coord.y + 1000
 		print(objective_marker.z_index)
+	

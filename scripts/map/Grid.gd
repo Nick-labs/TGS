@@ -6,6 +6,7 @@ class_name Grid
 @export var tile_scene: PackedScene
 @export var iso_config: IsoConfig
 @export var unit_manager: UnitManager
+@export var env_manager: EnvironmentManager
 
 var tiles: Dictionary = {}
 var astar := AStarGrid2D.new()
@@ -15,6 +16,10 @@ func _ready() -> void:
 
 func setup(grid_size: Vector2i):
 	generate_grid(grid_size)
+	
+	var obj = env_manager.get_objects()
+	print(obj)
+	
 	setup_astar()
 
 func generate_grid(size: Vector2i) -> void:
@@ -146,8 +151,10 @@ func _apply_occupied_to_astar(from: Vector2i, to: Vector2i):
 		if cell == from or cell == to:
 			continue
 		astar.set_point_solid(cell, true)
-		
-	# TODO: add solid objects
-	#for object in environment_manager.objects:
+	
+	var obj = env_manager.get_objects()
+	
+	for object_cell in env_manager.objects:
 		#if object.is_solid:
 			#astar.set_point_solid(object.cell, true)
+		astar.set_point_solid(object_cell, true)
