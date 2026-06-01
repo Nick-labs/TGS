@@ -115,7 +115,9 @@ func unselect():
 	reachable_cells.clear()
 	action_cells.clear()
 	state = BattleState.IDLE
+	
 	grid.remove_visual_flag_from_all_cells(Tile.Visual.REACHABLE)
+	grid.remove_visual_flag_from_all_cells(Tile.Visual.ACTION_TARGET)
 	
 	player_unit_unselected.emit()
 	
@@ -240,6 +242,7 @@ func _on_action_selected(action: BattleAction):
 		unit_manager
 	)
 	
+	grid.remove_visual_flag_from_all_cells(Tile.Visual.REACHABLE)
 	grid.remove_visual_flag_from_all_cells(Tile.Visual.ACTION_TARGET)
 	
 	grid.set_visual_flag_to_cells(
