@@ -36,6 +36,7 @@ var is_battle_over: bool = false
 func _ready():
 	if environment_manager != null:
 		environment_manager.objective_destroyed.connect(_on_objective_destroyed)
+	
 	start_battle()
 
 func start_battle():
@@ -44,7 +45,6 @@ func start_battle():
 	threat_changed.emit(threat_level)
 	_reset_player_flags()
 	_reset_command_points()
-	_plan_enemy_intents()
 	phase = TurnPhase.PLAYER_TURN
 	phase_changed.emit(phase)
 	turn_started.emit(turn_index, phase)
@@ -84,16 +84,17 @@ func end_player_turn():
 	turn_started.emit(turn_index, phase)
 
 	await _execute_enemy_turn()
+	
 	if is_battle_over:
 		return
 
 	_reset_player_flags()
 	_increase_threat()
-	_plan_enemy_intents()
-
+	
 	turn_index += 1
 	phase = TurnPhase.PLAYER_TURN
 	_reset_command_points()
+	
 	phase_changed.emit(phase)
 	turn_started.emit(turn_index, phase)
 
@@ -106,7 +107,7 @@ func _all_player_units_spent() -> bool:
 	var players := unit_manager.get_units_by_team(Unit.Team.PLAYER)
 	if players.is_empty():
 		return false
-
+	
 	for u in players:
 		if u.is_dead():
 			continue
@@ -114,8 +115,40 @@ func _all_player_units_spent() -> bool:
 			return false
 	return true
 
-func _execute_enemy_turn():
+
+
+
+
+
+
+func _plan_enemy_intents():
+	
+	enemy_plans = enemy_ai.plan_enemy_turn(
+		unit_manager.get_units_by_team(Unit.Team.ENEMY),
+		unit_manager.get_units_by_team(Unit.Team.PLAYER),
+		threat_level,
+		threat_objective_focus_start
+	)
 	_sanitize_enemy_plans()
+
+func _sanitize_enemy_plans():
+	var filtered: Array[Dictionary] = []
+	
+	for plan in enemy_plans:
+		
+		var unit = plan.get("unit", null)
+		
+		if not unit or not is_instance_valid(unit):
+			continue
+			
+		if _is_unit_alive(unit):
+			filtered.append(plan)
+			
+	enemy_plans = filtered
+
+func _execute_enemy_turn():
+	
+	_plan_enemy_intents()
 
 	for plan in enemy_plans:
 		if is_battle_over:
@@ -126,7 +159,7 @@ func _execute_enemy_turn():
 			continue
 
 		var move_to: Vector2i = plan.get("move_to", unit.cell)
-		if move_to != unit.cell and not unit_manager.is_occupied(move_to):
+		if move_to != unit.cell and not unit_manager.is_occupied(move_to) and not environment_manager.get_obj_at(move_to):
 			var moved := movement_system.move_unit(unit, move_to, Callable(), false)
 			if moved:
 				await unit.move_finished
@@ -136,6 +169,7 @@ func _execute_enemy_turn():
 
 		var action: BattleAction = plan.get("action", null)
 		var target_cell: Vector2i = plan.get("target_cell", unit.cell)
+		
 		if action == null or not unit.can_act_this_turn():
 			continue
 
@@ -148,8 +182,21 @@ func _execute_enemy_turn():
 			unit.has_acted_this_turn = true
 
 	unit_manager.cleanup_dead_units()
+	
 	_sanitize_enemy_plans()
 	_evaluate_win_condition()
+
+
+
+
+
+
+
+
+
+
+
+
 
 func _reset_player_flags():
 	for unit in unit_manager.get_units_by_team(Unit.Team.PLAYER):
@@ -170,42 +217,6 @@ func _increase_threat():
 	#if intent_visualizer != null:
 		#intent_visualizer.show_enemy_intents(enemy_plans)
 
-func _plan_enemy_intents():
-	var objective_state := {
-		"cell": Vector2i(-1, -1),
-		"hp": 0,
-		"max_hp": 0,
-		"alive": false
-	}
-	#if environment_manager != null:
-		#objective_state = environment_manager.get_objective_state()
-
-	enemy_plans = enemy_ai.plan_enemy_turn(
-		unit_manager.get_units_by_team(Unit.Team.ENEMY),
-		unit_manager.get_units_by_team(Unit.Team.PLAYER),
-		#objective_state,
-		threat_level,
-		threat_objective_focus_start
-	)
-	_sanitize_enemy_plans()
-	#if intent_visualizer != null:
-		#intent_visualizer.show_enemy_intents(enemy_plans)
-	#enemy_intents_updated.emit(enemy_plans)
-
-func _sanitize_enemy_plans():
-	var filtered: Array[Dictionary] = []
-	
-	for plan in enemy_plans:
-		
-		var unit = plan.get("unit", null)
-		
-		if not unit or not is_instance_valid(unit):
-			continue
-			
-		if _is_unit_alive(unit):
-			filtered.append(plan)
-			
-	enemy_plans = filtered
 
 func _is_unit_alive(unit: Unit) -> bool:
 	return unit != null and is_instance_valid(unit) and not unit.is_queued_for_deletion() and not unit.is_dead()
@@ -219,6 +230,7 @@ func _on_objective_destroyed(_cell: Vector2i):
 
 func evaluate_battle_state():
 	_evaluate_win_condition()
+	_evaluate_lose_condition()
 
 func _evaluate_win_condition():
 	if is_battle_over:
@@ -228,6 +240,16 @@ func _evaluate_win_condition():
 		phase_changed.emit(phase)
 		battle_won.emit("All enemies eliminated")
 
+func _evaluate_lose_condition():
+	if is_battle_over:
+		return
+	if unit_manager.get_units_by_team(Unit.Team.PLAYER).is_empty():
+		is_battle_over = true
+		phase_changed.emit(phase)
+	elif not environment_manager.is_objective_alive():
+		is_battle_over = true
+		phase_changed.emit(phase)
+	
 func grid_safe_path(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
 	var path := battle_manager.grid.find_path(from, to)
 	if path.is_empty():

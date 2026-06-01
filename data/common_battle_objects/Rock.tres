@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ObjectData" format=3 uid="uid://cith5wctx05wu"]
+
+[ext_resource type="Script" uid="uid://bstioeakyveyj" path="res://scripts/entity/components/ObjectComponent.gd" id="1_um3nh"]
+[ext_resource type="Script" uid="uid://d3hc8qdh1nb4" path="res://scripts/data/ObjectData.gd" id="4_4vt4a"]
+[ext_resource type="Texture2D" uid="uid://dhgmwu3e4xq84" path="res://assets/sprites/battle_objects/rock.png" id="5_um3nh"]
+
+[resource]
+script = ExtResource("4_4vt4a")
+display_name = "Barrel"
+sprite = ExtResource("5_um3nh")
+visual_offset = Vector2(0, 10)
+visual_scale = Vector2(1.5, 1.5)
+metadata/_custom_type_script = "uid://d3hc8qdh1nb4"

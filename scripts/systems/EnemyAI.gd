@@ -12,6 +12,7 @@ func plan_enemy_turn(
 	threat_level: int,
 	focus_threshold: int
 ) -> Array[Dictionary]:
+	
 	var plans: Array[Dictionary] = []
 	for enemy in enemy_units:
 		if enemy == null or not is_instance_valid(enemy) or enemy.is_dead():
@@ -31,7 +32,7 @@ func _build_plan_for_enemy(
 ) -> Dictionary:
 	var target_cell := enemy.cell
 	var target_mode := "idle"
-
+	
 	#if _should_focus_objective(enemy, objective_state, player_units, threat_level, focus_threshold):
 		#target_cell = objective_state.get("cell", enemy.cell)
 		#target_mode = "objective"
@@ -39,8 +40,12 @@ func _build_plan_for_enemy(
 		#var target_player := _pick_target_player(enemy, player_units)
 		#target_cell = target_player.cell
 		#target_mode = "player"
-		
+	
 	var target_player := _pick_target_player(enemy, player_units)
+	
+	if target_player == null:
+		return {}
+
 	target_cell = target_player.cell
 	target_mode = "player"
 

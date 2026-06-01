@@ -96,8 +96,6 @@ intent_visualizer = NodePath("../IntentVisualizer")
 battle_manager = NodePath("../BattleManager")
 environment_manager = NodePath("../EnvironmentManager")
 cp_max = 3
-threat_growth_per_turn = null
-threat_objective_focus_start = null
 
 [node name="SelectionController" type="Node2D" parent="GridRoot" unique_id=1843373962 node_paths=PackedStringArray("camera", "grid", "unit_manager", "battle_manager", "turn_manager")]
 script = ExtResource("3_c8xc1")

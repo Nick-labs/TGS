@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BattleObjectSpawnData" format=3 uid="uid://ca2rkdq4cdgut"]
+
+[ext_resource type="Resource" uid="uid://cith5wctx05wu" path="res://data/common_battle_objects/Rock.tres" id="1_6puly"]
+[ext_resource type="Script" uid="uid://d1klduvri0wwk" path="res://scripts/data/BattleObjectSpawnData.gd" id="2_58n1p"]
+
+[resource]
+script = ExtResource("2_58n1p")
+battle_object_data = ExtResource("1_6puly")
+cell = Vector2i(1, 2)
+metadata/_custom_type_script = "uid://d1klduvri0wwk"

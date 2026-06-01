@@ -2,7 +2,7 @@ extends Node
 class_name EnvironmentManager
 
 signal objective_updated(current_hp: int, max_hp: int, cell: Vector2i)
-signal objective_destroyed()
+signal objective_destroyed
 # signal power_grid_updated(current_hp: int, max_hp: int)
 
 @export var grid: Grid
@@ -60,12 +60,15 @@ func is_environment_at(cell: Vector2i) -> bool:
 	return objects.has(cell) or is_objective_at(cell)
 
 func is_objective_at(cell: Vector2i) -> bool:
-	var obj: BattleObject = objects[cell]
+	var obj: BattleObject = objects.get(cell)
+	
+	if obj == null:
+		return false
 	
 	if not obj.get_component(EnemyObjectiveComponent):
 		return false
 	
-	return obj.hp > 0
+	return true
 
 #func is_objective_alive() -> bool:
 	#return objective_hp > 0
@@ -76,9 +79,14 @@ func damage_env_obj(obj: BattleObject, damage: int):
 	
 	obj.take_damage(damage)
 	
-	print(objects)
-	
 	#_recalculate_power_grid()
+
+func is_objective_alive() -> bool:
+	for obj in objects.values():
+		if obj.get_component(EnemyObjectiveComponent):
+			return true
+			
+	return false
 
 #func _recalculate_power_grid():
 	#power_grid_max_hp = objective_max_hp

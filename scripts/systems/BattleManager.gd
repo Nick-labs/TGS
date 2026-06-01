@@ -32,6 +32,9 @@ var action_cells: Array[Vector2i] = []
 func _ready():
 	if action_bar != null:
 		action_bar.action_selected.connect(_on_action_selected)
+	
+	if turn_manager != null and environment_manager != null:
+		environment_manager.objective_destroyed.connect(turn_manager._on_objective_destroyed)
 
 func select_at(cell: Vector2i):
 	var clicked_unit := unit_manager.get_unit_at(cell)
