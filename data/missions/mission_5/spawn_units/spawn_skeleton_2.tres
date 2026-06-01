@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="UnitSpawnData" format=3 uid="uid://53rxbwebva11"]
 
 [ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="1_knocj"]
-[ext_resource type="Resource" uid="uid://cfvugeiywarqv" path="res://data/common_units/skeleton.tres" id="2_ykhtv"]
+[ext_resource type="Resource" uid="uid://cfvugeiywarqv" path="res://data/common_units/skeleton_cyclop.tres" id="2_ykhtv"]
 
 [resource]
 script = ExtResource("1_knocj")

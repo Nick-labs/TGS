@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://5kxfugjuv716"]
+
+[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/BattleAction.gd" id="1_b5ibc"]
+[ext_resource type="Script" uid="uid://c78lt16tcx6gw" path="res://scripts/actions/BiteAttackAction.gd" id="2_b5ibc"]
+[ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/data/UnitData.gd" id="3_bicat"]
+[ext_resource type="Texture2D" uid="uid://bddn2ere2soxf" path="res://assets/sprites/units/dog.png" id="4_b5ibc"]
+
+[sub_resource type="Resource" id="Resource_umo7n"]
+script = ExtResource("2_b5ibc")
+metadata/_custom_type_script = "uid://c78lt16tcx6gw"
+
+[resource]
+script = ExtResource("3_bicat")
+move_range = 4
+texture = ExtResource("4_b5ibc")
+visual_offset = Vector2(0, 20)
+visual_scale = Vector2(0.6, 0.6)
+actions = Array[ExtResource("1_b5ibc")]([SubResource("Resource_umo7n")])
+metadata/_custom_type_script = "uid://ctnia1aps2tlj"

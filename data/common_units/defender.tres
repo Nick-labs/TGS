@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://ql1bhi388tn8"]
+
+[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/BattleAction.gd" id="1_lcsgh"]
+[ext_resource type="Script" uid="uid://camfew5bskqqn" path="res://scripts/actions/PushAttackAction.gd" id="2_lcsgh"]
+[ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/data/UnitData.gd" id="3_k4c8h"]
+[ext_resource type="Texture2D" uid="uid://dpw5bfo4vk2ch" path="res://assets/sprites/units/defender.png" id="4_pom7e"]
+
+[sub_resource type="Resource" id="Resource_k4c8h"]
+script = ExtResource("2_lcsgh")
+metadata/_custom_type_script = "uid://camfew5bskqqn"
+
+[resource]
+script = ExtResource("3_k4c8h")
+max_hp = 4
+texture = ExtResource("4_pom7e")
+visual_scale = Vector2(1.5, 1.5)
+actions = Array[ExtResource("1_lcsgh")]([SubResource("Resource_k4c8h")])
+metadata/_custom_type_script = "uid://ctnia1aps2tlj"
