@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="ObjectData" format=3 uid="uid://jjegxgg74mdp"]
 
-[ext_resource type="Script" uid="uid://bstioeakyveyj" path="res://scripts/entity/components/ObjectComponent.gd" id="1_3yekf"]
-[ext_resource type="Script" uid="uid://1nsnev1og7g8" path="res://scripts/entity/components/HealthComponent.gd" id="2_hco76"]
-[ext_resource type="Script" uid="uid://cyarfspkr45io" path="res://scripts/entity/components/PushableComponent.gd" id="3_4utal"]
-[ext_resource type="Script" uid="uid://d3hc8qdh1nb4" path="res://scripts/data/ObjectData.gd" id="4_hn30n"]
-[ext_resource type="Texture2D" uid="uid://c7tb0o1oqdo3u" path="res://assets/sprites/battle_objects/barrel.png" id="5_0ruqy"]
+[ext_resource type="Script" uid="uid://e85ym74g3av2" path="res://scripts/entity/components/ObjectComponent.gd" id="1_3yekf"]
+[ext_resource type="Script" uid="uid://bfav67uo6ux1p" path="res://scripts/entity/components/HealthComponent.gd" id="2_hco76"]
+[ext_resource type="Script" uid="uid://b2afxpnmrm4sk" path="res://scripts/entity/components/PushableComponent.gd" id="3_4utal"]
+[ext_resource type="Script" uid="uid://egeijttmvpbo" path="res://scripts/data/ObjectData.gd" id="4_hn30n"]
+[ext_resource type="Texture2D" uid="uid://0ajd2b2glhgb" path="res://assets/sprites/battle_objects/barrel.png" id="5_0ruqy"]
 
 [sub_resource type="Resource" id="Resource_fhall"]
 script = ExtResource("2_hco76")

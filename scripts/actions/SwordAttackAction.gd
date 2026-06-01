@@ -1,11 +1,9 @@
 extends BattleAction
-class_name PushAttackAction
-
-@export var push_distance: int = 2
+class_name SwordAttackAction
 
 func _init():
-	name = "push_attack"
-	damage = 1
+	name = "sword_attack"
+	damage = 2
 	range = 1
 	cost = 1
 
@@ -19,22 +17,11 @@ func build_effects(unit: Unit, target_cell: Vector2i, grid: Grid, _unit_manager:
 	if target_cell not in grid.get_neighbor_coords(unit.cell):
 		return []
 
-	var dir := target_cell - unit.cell
 	return [
-		
 		{
 			"type": "damage",
 			"target_cell": target_cell,
 			"amount": damage,
 			"source": unit
-		},
-		
-		{
-			"type": "push",
-			"target_cell": target_cell,
-			"direction": dir,
-			"distance": push_distance,
-			"source": unit
 		}
-		
 	]

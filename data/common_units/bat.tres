@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://c0nsyxg7k835n"]
+
+[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/BattleAction.gd" id="1_udqoe"]
+[ext_resource type="Script" uid="uid://sknfo0cb3eae" path="res://scripts/actions/DefaultMeleeAttackAction.gd" id="2_7f2ex"]
+[ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/data/UnitData.gd" id="3_1kr25"]
+[ext_resource type="Texture2D" uid="uid://dg710vqkkpx2l" path="res://assets/sprites/units/bat.png" id="4_udqoe"]
+
+[sub_resource type="Resource" id="Resource_g6tim"]
+script = ExtResource("2_7f2ex")
+metadata/_custom_type_script = "uid://sknfo0cb3eae"
+
+[resource]
+script = ExtResource("3_1kr25")
+move_range = 3
+texture = ExtResource("4_udqoe")
+visual_offset = Vector2(0, -20)
+visual_scale = Vector2(2, 2)
+actions = Array[ExtResource("1_udqoe")]([SubResource("Resource_g6tim")])
+metadata/_custom_type_script = "uid://ctnia1aps2tlj"

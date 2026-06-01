@@ -6,8 +6,9 @@ class_name ArtilleryAttackAction
 
 func _init():
 	name = "artillery_attack"
-	damage = 2
+	damage = 1
 	range = max_range
+	cost = 1
 
 func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []

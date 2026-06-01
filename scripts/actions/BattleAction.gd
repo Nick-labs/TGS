@@ -18,10 +18,3 @@ func preview_cells(unit: Unit, target_cell: Vector2i, grid: Grid, unit_manager: 
 		if effect.has("target_cell"):
 			cells.append(effect["target_cell"])
 	return cells
-
-
-#func can_execute(unit: Unit, target_cell: Vector2i) -> bool:
-	#return true
-#
-#func execute(unit: Unit, target_cell: Vector2i):
-	#pass

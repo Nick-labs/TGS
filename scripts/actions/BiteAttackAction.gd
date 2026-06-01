@@ -1,10 +1,11 @@
 extends BattleAction
-class_name MeleeAttackAction
+class_name BiteAttackAction
 
 func _init():
-	name = "melee_attack"
+	name = "bite_attack"
 	damage = 1
 	range = 1
+	cost = 1
 
 func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
