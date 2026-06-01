@@ -1,10 +1,9 @@
 extends Entity
 class_name BattleObject
 
-signal health_changed(unit: Unit, old_hp: int, new_hp: int)
-signal died(unit: Unit)
-signal death_animation_finished(unit: Unit)
-
+signal health_changed(obj: BattleObject, old_hp: int, new_hp: int)
+signal died(obj: BattleObject)
+signal death_animation_finished()
 
 var grid: Grid
 
@@ -67,9 +66,8 @@ func take_damage(amount, source = null):
 func die():
 	for component in components:
 		component.on_death(self)
+	died.emit(self)
 	queue_free()
-
-
 
 func _ready():
 	if data == null:
@@ -142,20 +140,20 @@ func play_hit_flash():
 	_hit_flash_tween.tween_property(sprite, "modulate", Color(1.55, 1.55, 1.55, 1), 0.08)
 	_hit_flash_tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.16)
 
-func play_death_animation():
-	if _death_tween != null:
-		return
-	var sprite: Sprite2D = $Visual/Sprite2D
-	if sprite == null:
-		death_animation_finished.emit(self)
-		return
-	if _attack_tween != null:
-		_attack_tween.kill()
-	if _hit_flash_tween != null:
-		_hit_flash_tween.kill()
-	_death_tween = create_tween()
-	_death_tween.tween_property(sprite, "modulate:a", 0.0, 0.16)
-	_death_tween.parallel().tween_property($Visual, "scale", Vector2(0.7, 0.7), 0.16)
-	_death_tween.finished.connect(func():
-		death_animation_finished.emit(self)
-	)
+#func play_death_animation():
+	#if _death_tween != null:
+		#return
+	#var sprite: Sprite2D = $Visual/Sprite2D
+	#if sprite == null:
+		#death_animation_finished.emit(self)
+		#return
+	#if _attack_tween != null:
+		#_attack_tween.kill()
+	#if _hit_flash_tween != null:
+		#_hit_flash_tween.kill()
+	#_death_tween = create_tween()
+	#_death_tween.tween_property(sprite, "modulate:a", 0.0, 0.16)
+	#_death_tween.parallel().tween_property($Visual, "scale", Vector2(0.7, 0.7), 0.16)
+	#_death_tween.finished.connect(func():
+		#death_animation_finished.emit(self)
+	#)

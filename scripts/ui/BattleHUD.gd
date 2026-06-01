@@ -36,7 +36,7 @@ func _ready():
 	if environment_manager != null:
 		environment_manager.objective_updated.connect(_on_objective_updated)
 		environment_manager.objective_destroyed.connect(_on_objective_destroyed)
-		environment_manager.power_grid_updated.connect(_on_power_grid_updated)
+		#environment_manager.power_grid_updated.connect(_on_power_grid_updated)
 
 	if effect_resolver != null:
 		effect_resolver.damage_resolved.connect(_on_damage_resolved)
@@ -59,13 +59,20 @@ func _ready():
 	fail_overlay.visible = false
 
 	_refresh_hp_panel()
+	
 	if turn_manager != null:
 		_on_phase_changed(turn_manager.phase)
 		_on_command_points_changed(turn_manager.cp_current, turn_manager.cp_max)
 		_on_threat_changed(turn_manager.threat_level)
+		
 	if environment_manager != null:
-		var obj := environment_manager.get_objective_state()
-		_on_objective_updated(obj["hp"], obj["max_hp"], obj["cell"])
+		var objects = environment_manager.get_objects()
+		
+		for obj in objects:
+			if obj.get_component(EnemyObjectiveComponent):
+				_on_objective_updated(obj.hp, obj.max_hp, Vector2i.ZERO)
+				#_on_objective_updated(obj.hp, obj.max_hp, obj.cell)
+		
 		#var grid_state := environment_manager.get_power_grid_state()
 		#_on_power_grid_updated(grid_state["hp"], grid_state["max_hp"])
 	_append_log("Battle started")

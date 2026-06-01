@@ -8,7 +8,7 @@ class_name EnemyAI
 func plan_enemy_turn(
 	enemy_units: Array[Unit],
 	player_units: Array[Unit],
-	objective_state: Dictionary,
+	#objective_state: Dictionary,
 	threat_level: int,
 	focus_threshold: int
 ) -> Array[Dictionary]:
@@ -16,27 +16,33 @@ func plan_enemy_turn(
 	for enemy in enemy_units:
 		if enemy == null or not is_instance_valid(enemy) or enemy.is_dead():
 			continue
-		var plan := _build_plan_for_enemy(enemy, player_units, objective_state, threat_level, focus_threshold)
+		var plan := _build_plan_for_enemy(enemy, player_units,
+		 #objective_state,
+		 threat_level, focus_threshold)
 		plans.append(plan)
 	return plans
 
 func _build_plan_for_enemy(
 	enemy: Unit,
 	player_units: Array[Unit],
-	objective_state: Dictionary,
+	#objective_state: Dictionary,
 	threat_level: int,
 	focus_threshold: int
 ) -> Dictionary:
 	var target_cell := enemy.cell
 	var target_mode := "idle"
 
-	if _should_focus_objective(enemy, objective_state, player_units, threat_level, focus_threshold):
-		target_cell = objective_state.get("cell", enemy.cell)
-		target_mode = "objective"
-	elif not player_units.is_empty():
-		var target_player := _pick_target_player(enemy, player_units)
-		target_cell = target_player.cell
-		target_mode = "player"
+	#if _should_focus_objective(enemy, objective_state, player_units, threat_level, focus_threshold):
+		#target_cell = objective_state.get("cell", enemy.cell)
+		#target_mode = "objective"
+	#elif not player_units.is_empty():
+		#var target_player := _pick_target_player(enemy, player_units)
+		#target_cell = target_player.cell
+		#target_mode = "player"
+		
+	var target_player := _pick_target_player(enemy, player_units)
+	target_cell = target_player.cell
+	target_mode = "player"
 
 	var stop_before_target := target_mode == "objective"
 	var move_to := _pick_move_cell(enemy, target_cell, stop_before_target)

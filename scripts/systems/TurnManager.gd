@@ -177,13 +177,13 @@ func _plan_enemy_intents():
 		"max_hp": 0,
 		"alive": false
 	}
-	if environment_manager != null:
-		objective_state = environment_manager.get_objective_state()
+	#if environment_manager != null:
+		#objective_state = environment_manager.get_objective_state()
 
 	enemy_plans = enemy_ai.plan_enemy_turn(
 		unit_manager.get_units_by_team(Unit.Team.ENEMY),
 		unit_manager.get_units_by_team(Unit.Team.PLAYER),
-		objective_state,
+		#objective_state,
 		threat_level,
 		threat_objective_focus_start
 	)

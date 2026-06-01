@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://fjfypem676ux" path="res://scenes/map/HoverHighlight.tscn" id="3_evht8"]
 [ext_resource type="PackedScene" uid="uid://ugx057ox1nbc" path="res://scenes/map/SelectedHighlight.tscn" id="4_42qa6"]
 [ext_resource type="PackedScene" uid="uid://dllgqhansefun" path="res://scenes/systems/UnitManager.tscn" id="5_37gw2"]
-[ext_resource type="Texture2D" uid="uid://bcpxr1if3t58h" path="res://assets/sprites/battle_objects/crystall_objective.png" id="6_1mbps"]
 [ext_resource type="PackedScene" uid="uid://doq3grqn21nm" path="res://scenes/systems/MovementSystem.tscn" id="7_nkest"]
 [ext_resource type="PackedScene" uid="uid://drefvpa3kq01x" path="res://scenes/systems/BattleManager.tscn" id="7_yyk6v"]
 [ext_resource type="Script" uid="uid://cqpqrnkb8cesx" path="res://scripts/systems/TurnManager.gd" id="9_turn"]
@@ -16,7 +15,6 @@
 [ext_resource type="Script" uid="uid://klgah7bsldhl" path="res://scripts/systems/IntentVisualizer.gd" id="12_vis"]
 [ext_resource type="Script" uid="uid://d12g71kophqen" path="res://scripts/systems/EnvironmentManager.gd" id="13_env"]
 [ext_resource type="Script" uid="uid://41c5ty7mytuu" path="res://scripts/ui/BattleHUD.gd" id="14_hud"]
-[ext_resource type="Texture2D" uid="uid://gwsxhqpygben" path="res://assets/sprites/tiles/tile_128x64.png" id="15_objtex"]
 [ext_resource type="Script" uid="uid://8ltudv2pg4gp" path="res://scripts/ui/BattleFlow.gd" id="16_flow"]
 [ext_resource type="Script" uid="uid://3yhk4w556dwj" path="res://scripts/ui/ActionBar.gd" id="17_x2t2u"]
 [ext_resource type="PackedScene" uid="uid://4thl6vae2dta" path="res://scenes/ui/ActionButton.tscn" id="18_dtjjv"]
@@ -41,21 +39,6 @@ z_index = 0
 [node name="SelectedHighlight" parent="GridRoot/Grid" unique_id=475252442 instance=ExtResource("4_42qa6")]
 visible = false
 z_index = 102
-
-[node name="ObjectiveMarker" type="Node2D" parent="GridRoot/Grid" unique_id=316648406]
-z_as_relative = false
-
-[node name="Sprite2D" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=1532770609]
-modulate = Color(0.9, 0.5, 1, 0.65)
-z_as_relative = false
-texture = ExtResource("15_objtex")
-
-[node name="Crystall2" type="Sprite2D" parent="GridRoot/Grid/ObjectiveMarker" unique_id=1272201249]
-z_index = 1008
-z_as_relative = false
-position = Vector2(-2, -41)
-scale = Vector2(0.19873045, 0.19873045)
-texture = ExtResource("6_1mbps")
 
 [node name="Units" type="Node2D" parent="GridRoot" unique_id=1829051910]
 z_as_relative = false
@@ -82,10 +65,9 @@ unit_manager = NodePath("../UnitManager")
 env_manager = NodePath("../EnvironmentManager")
 battle_manager = NodePath("../BattleManager")
 
-[node name="EnvironmentManager" type="Node" parent="GridRoot" unique_id=120000001 node_paths=PackedStringArray("grid", "objective_marker", "battle_objects_parent")]
+[node name="EnvironmentManager" type="Node" parent="GridRoot" unique_id=120000001 node_paths=PackedStringArray("grid", "battle_objects_parent")]
 script = ExtResource("13_env")
 grid = NodePath("../Grid")
-objective_marker = NodePath("../Grid/ObjectiveMarker")
 battle_object_scene = ExtResource("11_v4itv")
 battle_objects_parent = NodePath("../BattleObjects")
 
@@ -114,6 +96,8 @@ intent_visualizer = NodePath("../IntentVisualizer")
 battle_manager = NodePath("../BattleManager")
 environment_manager = NodePath("../EnvironmentManager")
 cp_max = 3
+threat_growth_per_turn = null
+threat_objective_focus_start = null
 
 [node name="SelectionController" type="Node2D" parent="GridRoot" unique_id=1843373962 node_paths=PackedStringArray("camera", "grid", "unit_manager", "battle_manager", "turn_manager")]
 script = ExtResource("3_c8xc1")

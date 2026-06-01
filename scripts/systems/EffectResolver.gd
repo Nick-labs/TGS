@@ -45,7 +45,7 @@ func _resolve_damage(effect: Dictionary):
 		return
 
 	if environment_manager != null:
-		environment_manager.damage_environment(target_cell, amount)
+		environment_manager.damage_env_obj(environment_manager.get_obj_at(target_cell), amount)
 
 func _resolve_push(effect: Dictionary) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
