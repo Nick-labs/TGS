@@ -9,5 +9,5 @@ script = ExtResource("4_4vt4a")
 display_name = "Barrel"
 sprite = ExtResource("5_um3nh")
 visual_offset = Vector2(0, 10)
-visual_scale = Vector2(1.5, 1.5)
+visual_scale = Vector2(1.2, 1.2)
 metadata/_custom_type_script = "uid://d3hc8qdh1nb4"

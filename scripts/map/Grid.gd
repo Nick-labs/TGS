@@ -15,11 +15,7 @@ func _ready() -> void:
 	pass
 
 func setup(grid_size: Vector2i):
-	generate_grid(grid_size)
-	
-	var obj = env_manager.get_objects()
-	print(obj)
-	
+	generate_grid(grid_size)	
 	setup_astar()
 
 func generate_grid(size: Vector2i) -> void:
@@ -29,8 +25,9 @@ func generate_grid(size: Vector2i) -> void:
 
 func create_tile(coord: Vector2i) -> void:
 	var tile = tile_scene.instantiate()
+	tile.set_dungeon_variant(randi_range(0, 1))
 	tile.coord = coord
-	tile.position = IsoHelper.grid_to_screen(Vector2i(coord.x, coord.y), iso_config)
+	tile.position = IsoHelper.grid_to_screen(coord, iso_config)
 	tile.z_index = coord.x + coord.y
 	tiles[coord] = tile
 	add_child(tile)

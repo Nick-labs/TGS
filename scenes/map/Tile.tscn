@@ -1,10 +1,14 @@
 [gd_scene format=3 uid="uid://cu3emx0rkmeif"]
 
 [ext_resource type="Script" uid="uid://dk5e7d468gs1h" path="res://scripts/map/Tile.gd" id="1_dyerd"]
-[ext_resource type="Texture2D" uid="uid://dek65kkcx1e43" path="res://assets/sprites/tiles/tile_dirt_128x64.png" id="2_aekvw"]
+[ext_resource type="Texture2D" uid="uid://06wr2t70k66b" path="res://assets/sprites/tiles/ruin_floor_tile_128x64.png" id="2_aekvw"]
+[ext_resource type="Texture2D" uid="uid://b77mm3wuwtj0k" path="res://assets/sprites/tiles/spritesheets/Overworld - Forest - Thick 128x72.png" id="2_v3dsn"]
+[ext_resource type="Texture2D" uid="uid://dek65kkcx1e43" path="res://assets/sprites/tiles/tile_dirt_128x64.png" id="3_rq51j"]
 
 [node name="Tile" type="Node2D" unique_id=2078789601]
 script = ExtResource("1_dyerd")
+dungeon_variants = Array[Texture2D]([ExtResource("2_aekvw"), ExtResource("3_rq51j")])
+forest_spritesheet = ExtResource("2_v3dsn")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1107484900]
 texture = ExtResource("2_aekvw")
