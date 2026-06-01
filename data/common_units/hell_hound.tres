@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://c12dyc70i1184"]
+
+[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/BattleAction.gd" id="1_erkec"]
+[ext_resource type="Script" uid="uid://sknfo0cb3eae" path="res://scripts/actions/MeleeAttackAction.gd" id="2_7wqoy"]
+[ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/data/UnitData.gd" id="3_061q7"]
+[ext_resource type="Texture2D" uid="uid://cfmubupxsu0m0" path="res://assets/sprites/units/hell_hound.png" id="4_erkec"]
+
+[sub_resource type="Resource" id="Resource_g6tim"]
+script = ExtResource("2_7wqoy")
+metadata/_custom_type_script = "uid://sknfo0cb3eae"
+
+[resource]
+script = ExtResource("3_061q7")
+max_hp = 2
+move_range = 4
+texture = ExtResource("4_erkec")
+visual_offset = Vector2(0, 20)
+visual_scale = Vector2(0.7, 0.7)
+actions = Array[ExtResource("1_erkec")]([SubResource("Resource_g6tim")])
+metadata/_custom_type_script = "uid://ctnia1aps2tlj"
