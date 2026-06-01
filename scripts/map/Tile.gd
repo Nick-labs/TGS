@@ -10,6 +10,10 @@ enum Visual {
 
 @export var dungeon_variants: Array[Texture2D]
 @export var forest_spritesheet: Texture2D
+@export var stone_bricks_sprite: Texture2D
+
+func set_stone_bricks():
+	$Sprite2D.texture = stone_bricks_sprite
 
 func set_dungeon_variant(index: int):
 	$Sprite2D.texture = dungeon_variants[index]
@@ -45,10 +49,10 @@ func _update_visual() -> void:
 	modulate = Color.WHITE
 
 	if has_visual_flag(Visual.REACHABLE):
-		modulate = Color(0.0, 0.0, 0.79, 0.678)
+		modulate = Color(0.163, 0.163, 0.68, 1.0)
 	
 	if has_visual_flag(Visual.ACTION_TARGET):
-		modulate = Color(0.914, 0.0, 0.018, 0.678)
+		modulate = Color(0.59, 0.118, 0.126, 1.0)
 
 func slice_tiles(texture: Texture2D, tile_size: Vector2i) -> Array[Texture2D]:
 	var result: Array[Texture2D] = []
