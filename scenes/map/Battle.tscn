@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://cqpqrnkb8cesx" path="res://scripts/systems/TurnManager.gd" id="9_turn"]
 [ext_resource type="Script" uid="uid://cv2s80snxskho" path="res://scripts/systems/EnemyAI.gd" id="10_ai"]
 [ext_resource type="Script" uid="uid://bjv5jsrcmgpwc" path="res://scripts/systems/EffectResolver.gd" id="11_res"]
+[ext_resource type="PackedScene" uid="uid://b8p53jw160gnu" path="res://scenes/Entity/BattleObject.tscn" id="11_v4itv"]
 [ext_resource type="Script" uid="uid://klgah7bsldhl" path="res://scripts/systems/IntentVisualizer.gd" id="12_vis"]
 [ext_resource type="Script" uid="uid://d12g71kophqen" path="res://scripts/systems/EnvironmentManager.gd" id="13_env"]
 [ext_resource type="Script" uid="uid://41c5ty7mytuu" path="res://scripts/ui/BattleHUD.gd" id="14_hud"]
@@ -59,6 +60,8 @@ texture = ExtResource("6_1mbps")
 z_as_relative = false
 y_sort_enabled = true
 
+[node name="BattleObjects" type="Node2D" parent="GridRoot" unique_id=1153770101]
+
 [node name="UnitManager" parent="GridRoot" unique_id=188568835 node_paths=PackedStringArray("grid", "units_parent") instance=ExtResource("5_37gw2")]
 grid = NodePath("../Grid")
 units_parent = NodePath("../Units")
@@ -77,10 +80,12 @@ grid = NodePath("../Grid")
 unit_manager = NodePath("../UnitManager")
 battle_manager = NodePath("../BattleManager")
 
-[node name="EnvironmentManager" type="Node" parent="GridRoot" unique_id=120000001 node_paths=PackedStringArray("grid", "objective_marker")]
+[node name="EnvironmentManager" type="Node" parent="GridRoot" unique_id=120000001 node_paths=PackedStringArray("grid", "objective_marker", "battle_objects_parent")]
 script = ExtResource("13_env")
 grid = NodePath("../Grid")
 objective_marker = NodePath("../Grid/ObjectiveMarker")
+battle_object_scene = ExtResource("11_v4itv")
+battle_objects_parent = NodePath("../BattleObjects")
 
 [node name="EffectResolver" type="Node" parent="GridRoot" unique_id=120000002 node_paths=PackedStringArray("grid", "unit_manager", "environment_manager")]
 script = ExtResource("11_res")

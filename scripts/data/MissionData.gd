@@ -7,3 +7,4 @@ class_name MissionData
 @export var cp_max: int = 3
 @export var threat_growth_per_turn: int = 1
 @export var unit_spawns: Array[UnitSpawnData]
+@export var battle_object_spawns: Array[BattleObjectSpawnData]

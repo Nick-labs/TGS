@@ -209,6 +209,12 @@ func apply_mission(mission: MissionData):
 			unit_spawn.cell
 		)
 	
+	for battle_object_spawn in mission.battle_object_spawns:
+		environment_manager.spawn_object(
+			battle_object_spawn.battle_object_data,
+			battle_object_spawn.cell
+		)
+	
 	environment_manager.reset_state()
 	
 	turn_manager.turn_index = 1

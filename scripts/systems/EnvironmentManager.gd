@@ -10,7 +10,13 @@ signal power_grid_updated(current_hp: int, max_hp: int)
 @export var objective_cell: Vector2i
 @export var objective_max_hp: int
 
-var objects: Dictionary = {}
+#var units: Array[Unit] = []
+
+@export var objects: Dictionary
+
+@export var battle_object_scene: PackedScene
+@export var battle_objects_parent: Node2D
+
 var objective_hp: int = 0
 #var grid_buildings: Dictionary = {}
 var power_grid_hp: int = 0
@@ -24,6 +30,31 @@ func reset_state():
 	objective_hp = objective_max_hp
 	_refresh_objective_marker()
 	objective_updated.emit(objective_hp, objective_max_hp, objective_cell)
+
+func spawn_object(
+	 object_data: ObjectData,
+	 cell: Vector2i
+	) -> void:
+		
+	if not grid.is_in_bounds(cell):
+		return
+		
+	#if occupied.has(cell):
+		#return
+
+	var object := battle_object_scene.instantiate() as BattleObject
+	object.data = object_data
+	
+	object.grid = grid
+	
+	object.set_cell(cell)
+
+	battle_objects_parent.add_child(object)
+	objects[cell] = object
+	#occupied[cell] = unit
+	#objects_changed.emit()
+
+
 
 func is_environment_at(cell: Vector2i) -> bool:
 	return objects.has(cell) or is_objective_at(cell)

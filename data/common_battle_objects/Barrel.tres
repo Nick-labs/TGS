@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bstioeakyveyj" path="res://scripts/entity/components/ObjectComponent.gd" id="1_3yekf"]
 [ext_resource type="Script" uid="uid://1nsnev1og7g8" path="res://scripts/entity/components/HealthComponent.gd" id="2_hco76"]
-[ext_resource type="Script" uid="uid://d3hc8qdh1nb4" path="res://scripts/entity/battle_objects/ObjectData.gd" id="2_lvv5s"]
 [ext_resource type="Script" uid="uid://cyarfspkr45io" path="res://scripts/entity/components/PushableComponent.gd" id="3_4utal"]
+[ext_resource type="Script" uid="uid://d3hc8qdh1nb4" path="res://scripts/data/ObjectData.gd" id="4_hn30n"]
 [ext_resource type="Texture2D" uid="uid://c7tb0o1oqdo3u" path="res://assets/sprites/battle_objects/barrel.png" id="5_0ruqy"]
 
 [sub_resource type="Resource" id="Resource_fhall"]
@@ -15,8 +15,10 @@ script = ExtResource("3_4utal")
 metadata/_custom_type_script = "uid://cyarfspkr45io"
 
 [resource]
-script = ExtResource("2_lvv5s")
+script = ExtResource("4_hn30n")
 display_name = "Barrel"
-sprite = ExtResource("5_0ruqy")
 components = Array[ExtResource("1_3yekf")]([SubResource("Resource_fhall"), SubResource("Resource_bguun")])
+sprite = ExtResource("5_0ruqy")
+visual_offset = Vector2(0, 12)
+visual_scale = Vector2(2, 2)
 metadata/_custom_type_script = "uid://d3hc8qdh1nb4"

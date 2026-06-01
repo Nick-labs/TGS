@@ -9,6 +9,6 @@ func try_push(object):
 	):
 		return false
 
-	#move_object(object)
+	#move_object(object) # 
 
 	return true
