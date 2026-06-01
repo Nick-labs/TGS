@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BattleObjectSpawnData" format=3 uid="uid://dq8q647737gvs"]
+
+[ext_resource type="Resource" uid="uid://v6ujyvrwyad" path="res://data/common_battle_objects/StoneBricksPillar.tres" id="1_r2uec"]
+[ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="2_43rs7"]
+
+[resource]
+script = ExtResource("2_43rs7")
+battle_object_data = ExtResource("1_r2uec")
+cell = Vector2i(7, 7)
