@@ -101,3 +101,11 @@ func _on_obj_died(obj: BattleObject):
 		objective_destroyed.emit()
 	
 	objects.erase(obj.cell)
+
+func get_objectives() -> Array[BattleObject]:
+	var objectives: Array[BattleObject] = []
+	for object in objects.values():
+		if object.has_component(EnemyObjectiveComponent):
+			objectives.append(object)
+	
+	return objectives

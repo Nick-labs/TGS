@@ -49,10 +49,10 @@ func _update_visual() -> void:
 	modulate = Color.WHITE
 
 	if has_visual_flag(Visual.REACHABLE):
-		modulate = Color(0.163, 0.163, 0.68, 1.0)
+		modulate = Color(0.214, 0.214, 0.89, 1.0)
 	
 	if has_visual_flag(Visual.ACTION_TARGET):
-		modulate = Color(0.59, 0.118, 0.126, 1.0)
+		modulate = Color(0.9, 0.252, 0.263, 1.0)
 
 func slice_tiles(texture: Texture2D, tile_size: Vector2i) -> Array[Texture2D]:
 	var result: Array[Texture2D] = []

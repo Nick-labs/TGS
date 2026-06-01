@@ -45,6 +45,12 @@ func get_component(component_type):
 			return component
 	return null
 
+func has_component(component_type):
+	for component in components:
+		if is_instance_of(component, component_type):
+			return true
+	return false
+
 func take_damage(amount, source = null):
 	var health = get_component(HealthComponent)
 	

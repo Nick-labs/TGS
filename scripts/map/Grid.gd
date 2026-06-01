@@ -152,9 +152,18 @@ func _apply_occupied_to_astar(from: Vector2i, to: Vector2i):
 			continue
 		astar.set_point_solid(cell, true)
 	
-	var obj = env_manager.get_objects()
-	
 	for object_cell in env_manager.objects:
 		#if object.is_solid:
 			#astar.set_point_solid(object.cell, true)
 		astar.set_point_solid(object_cell, true)
+
+func get_entity(cell: Vector2i) -> Entity:
+	var unit = unit_manager.get_unit(cell)
+	if unit:
+		return unit
+	
+	var object = env_manager.get_obj_at(cell)
+	if object:
+		return object
+	
+	return null

@@ -4,6 +4,7 @@ class_name EnemyAI
 @export var grid: Grid
 @export var unit_manager: UnitManager
 @export var objective_focus_radius: int = 6
+@export var env_manager: EnvironmentManager
 
 func plan_enemy_turn(
 	enemy_units: Array[Unit],
@@ -17,44 +18,60 @@ func plan_enemy_turn(
 	for enemy in enemy_units:
 		if enemy == null or not is_instance_valid(enemy) or enemy.is_dead():
 			continue
-		var plan := _build_plan_for_enemy(enemy, player_units,
-		 #objective_state,
-		 threat_level, focus_threshold)
+			
+		var plan := _build_plan_for_enemy(enemy,
+		env_manager.get_objectives(),
+		player_units,
+		threat_level, focus_threshold)
+		
 		plans.append(plan)
 	return plans
 
 func _build_plan_for_enemy(
 	enemy: Unit,
+	objectives: Array[BattleObject],
 	player_units: Array[Unit],
-	#objective_state: Dictionary,
 	threat_level: int,
 	focus_threshold: int
 ) -> Dictionary:
+	
 	var target_cell := enemy.cell
 	var target_mode := "idle"
 	
-	#if _should_focus_objective(enemy, objective_state, player_units, threat_level, focus_threshold):
-		#target_cell = objective_state.get("cell", enemy.cell)
-		#target_mode = "objective"
-	#elif not player_units.is_empty():
-		#var target_player := _pick_target_player(enemy, player_units)
-		#target_cell = target_player.cell
-		#target_mode = "player"
-	
-	var target_player := _pick_target_player(enemy, player_units)
-	
-	if target_player == null:
-		return {}
+	if _should_focus_objective(
+		enemy,
+		objectives,
+		player_units,
+		threat_level,
+		focus_threshold
+	):
+		var objective := objectives[0]
 
-	target_cell = target_player.cell
-	target_mode = "player"
+		var attack_cells := _get_attack_positions(objective.cell)
 
-	var stop_before_target := target_mode == "objective"
-	var move_to := _pick_move_cell(enemy, target_cell, stop_before_target)
+		if attack_cells.is_empty():
+			target_cell = enemy.cell
+			target_mode = "objective"
+		else:
+			target_cell = _pick_best_attack_position(enemy, attack_cells)
+			target_mode = "objective"
+	
+	else:
+		var target_player := _pick_target_player(enemy, player_units)
+		
+		if target_player == null:
+			return {}
+
+		target_cell = target_player.cell
+		target_mode = "player"
+	
+	var move_to := _pick_move_cell(enemy, target_cell)
 	var action_target := _pick_action_target(enemy, move_to, target_cell, target_mode)
 
 	var preview := _build_preview_cells(action_target)
-
+	
+	var path := grid.find_path(enemy.cell, target_cell)
+	
 	return {
 		"unit": enemy,
 		"move_to": move_to,
@@ -63,6 +80,27 @@ func _build_plan_for_enemy(
 		"preview_cells": preview,
 		"target_mode": target_mode
 	}
+
+func _get_attack_positions(cell: Vector2i) -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+
+	for n in grid.get_neighbor_coords(cell):
+		if grid.is_in_bounds(n) and not unit_manager.is_occupied(n):
+			result.append(n)
+
+	return result
+
+func _pick_best_attack_position(enemy: Unit, positions: Array[Vector2i]) -> Vector2i:
+	var best := enemy.cell
+	var best_dist := INF
+
+	for p in positions:
+		var d := enemy.cell.distance_to(p)
+		if d < best_dist:
+			best = p
+			best_dist = d
+
+	return best
 
 func _pick_target_player(enemy: Unit, player_units: Array[Unit]) -> Unit:
 	#if enemy.archetype == Unit.Archetype.SNIPER:
@@ -98,18 +136,25 @@ func _pick_action_target(enemy: Unit, move_to: Vector2i, preferred_target: Vecto
 
 func _should_focus_objective(
 	enemy: Unit,
-	objective_state: Dictionary,
+	objectives,
 	player_units: Array[Unit],
 	threat_level: int,
 	focus_threshold: int
 ) -> bool:
+	
+	if objectives.is_empty():
+		return false
+	
+	var objective = objectives[0]
+	
+	if objective == null:
+		return false
+	
 	if threat_level < focus_threshold:
 		return false
-	if not objective_state.get("alive", false):
-		return false
 
-	var objective_cell: Vector2i = objective_state.get("cell", enemy.cell)
-	var objective_dist := int(enemy.cell.distance_to(objective_cell))
+	var objective_dist := int(enemy.cell.distance_to(objective.cell))
+	
 	if objective_dist > objective_focus_radius:
 		return false
 
@@ -117,17 +162,18 @@ func _should_focus_objective(
 		return true
 
 	var closest_player := _find_closest(enemy, player_units)
+	
 	var player_dist := int(enemy.cell.distance_to(closest_player.cell))
+	
 	return objective_dist <= player_dist + 2
 
-func _pick_move_cell(enemy: Unit, target_cell: Vector2i, stop_before_target: bool) -> Vector2i:
+func _pick_move_cell(enemy: Unit, target_cell: Vector2i) -> Vector2i:
 	var path := grid.find_path(enemy.cell, target_cell)
 	if path.size() <= 1:
 		return enemy.cell
 
 	var max_step = min(enemy.move_range, path.size() - 1)
-	if stop_before_target:
-		max_step = min(max_step, path.size() - 2)
+	
 	if max_step <= 0:
 		return enemy.cell
 

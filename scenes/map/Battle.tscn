@@ -77,10 +77,11 @@ grid = NodePath("../Grid")
 unit_manager = NodePath("../UnitManager")
 environment_manager = NodePath("../EnvironmentManager")
 
-[node name="EnemyAI" type="Node" parent="GridRoot" unique_id=120000003 node_paths=PackedStringArray("grid", "unit_manager")]
+[node name="EnemyAI" type="Node" parent="GridRoot" unique_id=120000003 node_paths=PackedStringArray("grid", "unit_manager", "env_manager")]
 script = ExtResource("10_ai")
 grid = NodePath("../Grid")
 unit_manager = NodePath("../UnitManager")
+env_manager = NodePath("../EnvironmentManager")
 
 [node name="IntentVisualizer" type="Node" parent="GridRoot" unique_id=120000004 node_paths=PackedStringArray("grid")]
 script = ExtResource("12_vis")
