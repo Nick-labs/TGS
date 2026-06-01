@@ -142,6 +142,8 @@ func _build_preview_cells(target_cell: Vector2i) -> Array[Vector2i]:
 	return result
 
 func _find_closest(from_unit: Unit, units: Array[Unit]) -> Unit:
+	if units.is_empty():
+		return
 	var best := units[0]
 	var best_dist := from_unit.cell.distance_to(best.cell)
 	for u in units:

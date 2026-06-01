@@ -76,6 +76,8 @@ func damage_env_obj(obj: BattleObject, damage: int):
 	
 	obj.take_damage(damage)
 	
+	print(objects)
+	
 	#_recalculate_power_grid()
 
 #func _recalculate_power_grid():
@@ -89,3 +91,5 @@ func damage_env_obj(obj: BattleObject, damage: int):
 func _on_obj_died(obj: BattleObject):
 	if obj.get_component(EnemyObjectiveComponent):
 		objective_destroyed.emit()
+	
+	objects.erase(obj.cell)
