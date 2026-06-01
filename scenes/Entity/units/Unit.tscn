@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bjjdl7mbr7hbx"]
 
-[ext_resource type="Script" uid="uid://be4j5ufpusgsw" path="res://scripts/units/Unit.gd" id="1_e3b5r"]
+[ext_resource type="Script" uid="uid://be4j5ufpusgsw" path="res://scripts/entity/units/Unit.gd" id="1_e3b5r"]
 [ext_resource type="Texture2D" uid="uid://b5js87ab2wlwf" path="res://assets/sprites/units/NoUnitSprite.png" id="2_gocqw"]
 
 [node name="Unit" type="Node2D" unique_id=2057550720]

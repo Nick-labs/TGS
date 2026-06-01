@@ -1,0 +1,2 @@
+extends ObjectComponent
+class_name SpawnUnitComponent

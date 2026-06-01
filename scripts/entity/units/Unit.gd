@@ -25,7 +25,11 @@ enum Team {
 
 @export var data: UnitData
 
+var max_hp: int
+var hp: int
+
 var move_range: int
+
 var action_cost: int
 var actions: Array[BattleAction]
 var default_action: BattleAction
