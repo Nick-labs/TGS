@@ -15,7 +15,9 @@ func _ready() -> void:
 	pass
 
 func setup(grid_size: Vector2i):
-	generate_grid(grid_size)	
+	width = grid_size.x
+	height = grid_size.y
+	generate_grid(grid_size)
 	setup_astar()
 
 func generate_grid(size: Vector2i) -> void:

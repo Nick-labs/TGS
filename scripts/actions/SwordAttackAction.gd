@@ -6,6 +6,9 @@ func _init():
 	damage = 2
 	range = 1
 	cost = 1
+	attack_sound = preload(
+		"res://assets/audio/attacks/sword_attack_sfx.mp3"
+	)
 
 func get_target_cells(unit: Unit, grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []

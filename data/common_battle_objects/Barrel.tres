@@ -8,11 +8,9 @@
 
 [sub_resource type="Resource" id="Resource_fhall"]
 script = ExtResource("2_hco76")
-metadata/_custom_type_script = "uid://1nsnev1og7g8"
 
 [sub_resource type="Resource" id="Resource_bguun"]
 script = ExtResource("3_4utal")
-metadata/_custom_type_script = "uid://cyarfspkr45io"
 
 [resource]
 script = ExtResource("4_hn30n")
@@ -21,4 +19,3 @@ components = Array[ExtResource("1_3yekf")]([SubResource("Resource_fhall"), SubRe
 sprite = ExtResource("5_0ruqy")
 visual_offset = Vector2(0, 12)
 visual_scale = Vector2(2, 2)
-metadata/_custom_type_script = "uid://d3hc8qdh1nb4"
