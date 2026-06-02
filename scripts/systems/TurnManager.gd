@@ -49,7 +49,6 @@ func start_battle():
 	phase_changed.emit(phase)
 	turn_started.emit(turn_index, phase)
 	_evaluate_win_condition()
-	_evaluate_lose_condition()
 
 func can_accept_player_input() -> bool:
 	return phase == TurnPhase.PLAYER_TURN and not is_battle_over
@@ -182,7 +181,6 @@ func _execute_enemy_turn():
 	
 	_sanitize_enemy_plans()
 	_evaluate_win_condition()
-	_evaluate_lose_condition()
 	
 
 
@@ -229,7 +227,6 @@ func _on_objective_destroyed(_cell: Vector2i):
 
 func evaluate_battle_state():
 	_evaluate_win_condition()
-	_evaluate_lose_condition()
 
 func _evaluate_win_condition():
 	if is_battle_over:
