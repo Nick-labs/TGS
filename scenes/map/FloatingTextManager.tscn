@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c42jiorditjqe"]
+
+[ext_resource type="Script" uid="uid://m3pwwhkfgwir" path="res://scripts/systems/FloatingTextManager.gd" id="1_ta1hl"]
+
+[node name="FloatingTextManager" type="Node" unique_id=1009071799]
+script = ExtResource("1_ta1hl")

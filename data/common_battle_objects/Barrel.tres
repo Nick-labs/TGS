@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ObjectData" format=3 uid="uid://jjegxgg74mdp"]
+
+[ext_resource type="Script" uid="uid://e85ym74g3av2" path="res://scripts/entity/components/ObjectComponent.gd" id="1_3yekf"]
+[ext_resource type="Script" uid="uid://bfav67uo6ux1p" path="res://scripts/entity/components/HealthComponent.gd" id="2_hco76"]
+[ext_resource type="Script" uid="uid://b2afxpnmrm4sk" path="res://scripts/entity/components/PushableComponent.gd" id="3_4utal"]
+[ext_resource type="Script" uid="uid://egeijttmvpbo" path="res://scripts/data/ObjectData.gd" id="4_hn30n"]
+[ext_resource type="Texture2D" uid="uid://0ajd2b2glhgb" path="res://assets/sprites/battle_objects/barrel.png" id="5_0ruqy"]
+
+[sub_resource type="Resource" id="Resource_fhall"]
+script = ExtResource("2_hco76")
+
+[sub_resource type="Resource" id="Resource_bguun"]
+script = ExtResource("3_4utal")
+
+[resource]
+script = ExtResource("4_hn30n")
+display_name = "Barrel"
+components = Array[ExtResource("1_3yekf")]([SubResource("Resource_fhall"), SubResource("Resource_bguun")])
+sprite = ExtResource("5_0ruqy")
+visual_offset = Vector2(0, 12)
+visual_scale = Vector2(2, 2)

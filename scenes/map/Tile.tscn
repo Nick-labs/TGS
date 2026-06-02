@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cu3emx0rkmeif"]
+
+[ext_resource type="Script" uid="uid://dk5e7d468gs1h" path="res://scripts/map/Tile.gd" id="1_dyerd"]
+[ext_resource type="Texture2D" uid="uid://ck75m8nix5d1d" path="res://assets/sprites/tiles/ruin_floor_tile_128x64.png" id="2_aekvw"]
+
+[node name="Tile" type="Node2D" unique_id=2078789601]
+texture_filter = 1
+script = ExtResource("1_dyerd")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1107484900]
+texture = ExtResource("2_aekvw")

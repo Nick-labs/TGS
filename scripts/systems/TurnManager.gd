@@ -1,0 +1,261 @@
+extends Node
+class_name TurnManager
+
+signal phase_changed(new_phase: TurnPhase)
+signal enemy_intents_updated(plans: Array[Dictionary])
+signal turn_started(turn_index: int, phase: TurnPhase)
+signal command_points_changed(current: int, max: int)
+signal threat_changed(level: int)
+signal battle_failed(reason: String)
+signal battle_won(reason: String)
+
+@export var unit_manager: UnitManager
+@export var movement_system: MovementSystem
+@export var effect_resolver: EffectResolver
+@export var enemy_ai: EnemyAI
+@export var intent_visualizer: IntentVisualizer
+@export var battle_manager: BattleManager
+@export var environment_manager: EnvironmentManager
+
+@export var cp_max: int = 1
+@export var threat_growth_per_turn: int = 1
+@export var threat_objective_focus_start: int = 2
+
+var had_enemy_objective = false
+
+enum TurnPhase {
+	PLAYER_TURN,
+	ENEMY_EXECUTION
+}
+
+var phase: TurnPhase = TurnPhase.PLAYER_TURN
+var enemy_plans: Array[Dictionary] = []
+var turn_index: int = 1
+var cp_current: int = 0
+var threat_level: int = 0
+var is_battle_over: bool = false
+
+func _ready():
+	if environment_manager != null:
+		environment_manager.objective_destroyed.connect(_on_objective_destroyed)
+	
+	start_battle()
+
+func start_battle():
+	check_objective_on_start()
+	print(had_enemy_objective)
+	is_battle_over = false
+	threat_level = 0
+	threat_changed.emit(threat_level)
+	_reset_player_flags()
+	_reset_command_points()
+	phase = TurnPhase.PLAYER_TURN
+	phase_changed.emit(phase)
+	turn_started.emit(turn_index, phase)
+	evaluate_battle_state()
+
+func check_objective_on_start():
+	had_enemy_objective = true if environment_manager.is_objective_alive() else false
+
+func can_accept_player_input() -> bool:
+	return phase == TurnPhase.PLAYER_TURN and not is_battle_over
+
+func is_player_turn() -> bool:
+	return phase == TurnPhase.PLAYER_TURN
+
+func can_spend_cp(cost: int) -> bool:
+	if cost <= 0:
+		return true
+	if phase != TurnPhase.PLAYER_TURN or is_battle_over:
+		return false
+	return cp_current >= cost
+
+func try_spend_cp(cost: int) -> bool:
+	if not can_spend_cp(cost):
+		return false
+	if cost <= 0:
+		return true
+
+	cp_current -= cost
+	if cp_current < 0:
+		cp_current = 0
+	command_points_changed.emit(cp_current, cp_max)
+	return true
+
+func end_player_turn():
+	if phase != TurnPhase.PLAYER_TURN or is_battle_over:
+		return
+
+	phase = TurnPhase.ENEMY_EXECUTION
+	phase_changed.emit(phase)
+	turn_started.emit(turn_index, phase)
+
+	await _execute_enemy_turn()
+	
+	if is_battle_over:
+		return
+
+	_reset_player_flags()
+	_increase_threat()
+	
+	turn_index += 1
+	phase = TurnPhase.PLAYER_TURN
+	_reset_command_points()
+	
+	phase_changed.emit(phase)
+	turn_started.emit(turn_index, phase)
+
+func notify_player_unit_finished(_unit: Unit):
+	if not _all_player_units_spent():
+		return
+	end_player_turn()
+
+func _all_player_units_spent() -> bool:
+	var players := unit_manager.get_units_by_team(Unit.Team.PLAYER)
+	if players.is_empty():
+		return false
+	
+	for u in players:
+		if u.is_dead():
+			continue
+		if not u.has_acted_this_turn:
+			return false
+	return true
+
+func _plan_enemy_intents():
+	
+	enemy_plans = enemy_ai.plan_enemy_turn(
+		unit_manager.get_units_by_team(Unit.Team.ENEMY),
+		unit_manager.get_units_by_team(Unit.Team.PLAYER),
+		threat_level,
+		threat_objective_focus_start
+	)
+	_sanitize_enemy_plans()
+
+func _sanitize_enemy_plans():
+	var filtered: Array[Dictionary] = []
+	
+	for plan in enemy_plans:
+		
+		var unit = plan.get("unit", null)
+		
+		if not unit or not is_instance_valid(unit):
+			continue
+			
+		if _is_unit_alive(unit):
+			filtered.append(plan)
+			
+	enemy_plans = filtered
+
+func _execute_enemy_turn():
+	
+	_plan_enemy_intents()
+
+	for plan in enemy_plans:
+		if is_battle_over:
+			return
+
+		var unit: Unit = plan.get("unit", null)
+		if not _is_unit_alive(unit):
+			continue
+
+		var move_to: Vector2i = plan.get("move_to", unit.cell)
+		if move_to != unit.cell and not unit_manager.is_occupied(move_to) and not environment_manager.get_obj_at(move_to):
+			var moved := movement_system.move_unit(unit, move_to, Callable(), false)
+			if moved:
+				await unit.move_finished
+
+		if not _is_unit_alive(unit):
+			continue
+
+		var action: BattleAction = plan.get("action", null)
+		var target_cell: Vector2i = plan.get("target_cell", unit.cell)
+		
+		if action == null or not unit.can_act_this_turn():
+			continue
+		
+		AudioManager.play_sfx(action.attack_sound)
+		
+		var effects := action.build_effects(unit, target_cell, battle_manager.grid, unit_manager)
+		if effects.is_empty():
+			continue
+
+		effect_resolver.resolve_effects(effects)
+		if _is_unit_alive(unit):
+			unit.has_acted_this_turn = true
+
+	unit_manager.cleanup_dead_units()
+	
+	_sanitize_enemy_plans()
+	
+	evaluate_battle_state()
+
+func _reset_player_flags():
+	for unit in unit_manager.get_units_by_team(Unit.Team.PLAYER):
+		unit.reset_turn_flags()
+	for unit in unit_manager.get_units_by_team(Unit.Team.ENEMY):
+		unit.reset_turn_flags()
+
+func _reset_command_points():
+	cp_current = max(0, cp_max)
+	command_points_changed.emit(cp_current, cp_max)
+
+func _increase_threat():
+	threat_level += max(0, threat_growth_per_turn)
+	threat_changed.emit(threat_level)
+
+#func refresh_enemy_intents_visuals():
+	#_sanitize_enemy_plans()
+	#if intent_visualizer != null:
+		#intent_visualizer.show_enemy_intents(enemy_plans)
+
+
+func _is_unit_alive(unit: Unit) -> bool:
+	return unit != null and is_instance_valid(unit) and not unit.is_queued_for_deletion() and not unit.is_dead()
+
+func _on_objective_destroyed(_cell: Vector2i):
+	if is_battle_over:
+		return
+	is_battle_over = true
+	phase_changed.emit(phase)
+	battle_failed.emit("Objective destroyed")
+
+func evaluate_battle_state():
+	_evaluate_lose_condition()
+
+	if is_battle_over:
+		return
+
+	_evaluate_win_condition()
+
+func _evaluate_win_condition():
+	if is_battle_over:
+		return
+	if unit_manager.get_units_by_team(Unit.Team.ENEMY).is_empty():
+		is_battle_over = true
+		phase_changed.emit(phase)
+		battle_won.emit("All enemies eliminated")
+
+func _evaluate_lose_condition():
+	if is_battle_over:
+		return
+
+	if unit_manager.get_units_by_team(Unit.Team.PLAYER).is_empty():
+		is_battle_over = true
+		phase_changed.emit(phase)
+		battle_failed.emit("All player units eliminated")
+		return
+
+	if had_enemy_objective and not environment_manager.is_objective_alive():
+		is_battle_over = true
+		phase_changed.emit(phase)
+		battle_failed.emit("Objective destroyed")
+	
+func grid_safe_path(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
+	var path := battle_manager.grid.find_path(from, to)
+	if path.is_empty():
+		return []
+	var result: Array[Vector2i] = []
+	for i in range(1, path.size()):
+		result.append(path[i])
+	return result

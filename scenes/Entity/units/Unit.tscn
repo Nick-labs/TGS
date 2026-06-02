@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bjjdl7mbr7hbx"]
+
+[ext_resource type="Script" uid="uid://qncbw5e3c2uk" path="res://scripts/entity/units/Unit.gd" id="1_y3aki"]
+[ext_resource type="Texture2D" uid="uid://b5js87ab2wlwf" path="res://assets/sprites/units/NoUnitSprite.png" id="2_gk2t6"]
+
+[node name="Unit" type="Node2D" unique_id=2057550720]
+z_index = 1000
+texture_filter = 1
+texture_repeat = 1
+script = ExtResource("1_y3aki")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1910740710]
+
+[node name="NoUnitSprite" type="Sprite2D" parent="Visual" unique_id=772386962]
+texture = ExtResource("2_gk2t6")

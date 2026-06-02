@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://bkfv620j4c8l8"]
+
+[ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="1_jb4f7"]
+[ext_resource type="Script" uid="uid://e72psofp0jqp" path="res://scripts/data/MissionData.gd" id="2_ghp0x"]
+[ext_resource type="Resource" uid="uid://bghobqoqluu0m" path="res://data/terrain_types/stone_terrain.tres" id="3_fcjll"]
+[ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="4_gmi4j"]
+[ext_resource type="Resource" uid="uid://dcriggn3potbq" path="res://data/missions/mission_3/spawn_units/spawn_knight_1.tres" id="5_g1406"]
+[ext_resource type="Resource" uid="uid://b7qfdnjguobsl" path="res://data/missions/mission_3/spawn_units/spawn_dog_1.tres" id="6_ft18m"]
+[ext_resource type="Resource" uid="uid://dqrw0d60b5dt5" path="res://data/missions/mission_3/spawn_units/spawn_skeleton_1.tres" id="7_qf7t1"]
+[ext_resource type="Resource" uid="uid://8mr25uccrbv8" path="res://data/missions/mission_3/spawn_units/spawn_skeleton_2.tres" id="8_34c0q"]
+[ext_resource type="Resource" uid="uid://c0hi7dg3xndnw" path="res://data/missions/mission_3/spawn_units/spawn_bat_1.tres" id="9_ynx0g"]
+[ext_resource type="Resource" uid="uid://5ba3uwuik238" path="res://data/missions/mission_3/spawn_units/spawn_bat_2.tres" id="10_ubtaq"]
+[ext_resource type="Resource" uid="uid://b5imrr0gp0k6x" path="res://data/missions/mission_3/spawn_units/spawn_bat_3.tres" id="11_fp55f"]
+
+[resource]
+script = ExtResource("2_ghp0x")
+grid_size = Vector2i(7, 7)
+cp_max = 2
+unit_spawns = Array[ExtResource("4_gmi4j")]([ExtResource("5_g1406"), ExtResource("6_ft18m"), ExtResource("7_qf7t1"), ExtResource("8_34c0q"), ExtResource("9_ynx0g"), ExtResource("10_ubtaq"), ExtResource("11_fp55f")])
+terrain = ExtResource("3_fcjll")
+metadata/_custom_type_script = "uid://e72psofp0jqp"

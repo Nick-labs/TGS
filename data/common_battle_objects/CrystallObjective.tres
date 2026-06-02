@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ObjectData" format=3 uid="uid://beuix4lgoa0rp"]
+
+[ext_resource type="Script" uid="uid://e85ym74g3av2" path="res://scripts/entity/components/ObjectComponent.gd" id="1_4puoc"]
+[ext_resource type="Script" uid="uid://bfav67uo6ux1p" path="res://scripts/entity/components/HealthComponent.gd" id="2_gak8s"]
+[ext_resource type="Script" uid="uid://xe5488d23q5r" path="res://scripts/entity/components/EnemyObjectiveComponent.gd" id="3_4puoc"]
+[ext_resource type="Script" uid="uid://egeijttmvpbo" path="res://scripts/data/ObjectData.gd" id="4_feijq"]
+[ext_resource type="Texture2D" uid="uid://cot2arptx1xbm" path="res://assets/sprites/battle_objects/crystall_objective.png" id="5_gak8s"]
+
+[sub_resource type="Resource" id="Resource_fhall"]
+script = ExtResource("2_gak8s")
+metadata/_custom_type_script = "uid://1nsnev1og7g8"
+
+[sub_resource type="Resource" id="Resource_8pn6o"]
+script = ExtResource("3_4puoc")
+metadata/_custom_type_script = "uid://bdchgollx765m"
+
+[resource]
+script = ExtResource("4_feijq")
+display_name = "CrystallObjective"
+components = Array[ExtResource("1_4puoc")]([SubResource("Resource_fhall"), SubResource("Resource_8pn6o")])
+sprite = ExtResource("5_gak8s")
+visual_offset = Vector2(0, 10)
+visual_scale = Vector2(0.2, 0.2)
+metadata/_custom_type_script = "uid://d3hc8qdh1nb4"

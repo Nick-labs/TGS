@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UnitSpawnData" format=3 uid="uid://5ba3uwuik238"]
+
+[ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="1_j81w6"]
+[ext_resource type="Resource" uid="uid://c0nsyxg7k835n" path="res://data/common_units/bat.tres" id="2_8cwa3"]
+
+[resource]
+script = ExtResource("1_j81w6")
+unit_data = ExtResource("2_8cwa3")
+team = 1
+cell = Vector2i(2, 3)
+metadata/_custom_type_script = "uid://bnbqlpili3pr"

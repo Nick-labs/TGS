@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BattleObjectSpawnData" format=3 uid="uid://bqobg40oqyft0"]
+
+[ext_resource type="Resource" uid="uid://beuix4lgoa0rp" path="res://data/common_battle_objects/CrystallObjective.tres" id="1_qycod"]
+[ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="2_o85u1"]
+
+[resource]
+script = ExtResource("2_o85u1")
+battle_object_data = ExtResource("1_qycod")
+cell = Vector2i(4, 4)
+metadata/_custom_type_script = "uid://d1klduvri0wwk"

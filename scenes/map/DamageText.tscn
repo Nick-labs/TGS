@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://didksmdvs3oa"]
+
+[ext_resource type="Script" uid="uid://bp8ljkj0tvxll" path="res://scripts/map/DamageText.gd" id="1_u8fkq"]
+
+[node name="DamageText" type="Node2D" unique_id=1796276900]
+z_index = 4096
+z_as_relative = false
+texture_filter = 1
+script = ExtResource("1_u8fkq")
+
+[node name="Label" type="Label" parent="." unique_id=2014381756]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32

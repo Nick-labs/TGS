@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://46ltc5il5pg0"]
+
+[ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="1_w8wcr"]
+[ext_resource type="Resource" uid="uid://dj35c2xkljrgx" path="res://data/missions/mission_5/spawn_battle_objects/spawn_barrel_1.tres" id="2_x031f"]
+[ext_resource type="Resource" uid="uid://bqobg40oqyft0" path="res://data/missions/mission_5/spawn_battle_objects/spawn_crystall_objective_1.tres" id="3_ysbb8"]
+[ext_resource type="Resource" uid="uid://c61184cp8n0nb" path="res://data/missions/mission_5/spawn_battle_objects/spawn_pillar_1.tres" id="5_asua5"]
+[ext_resource type="Resource" uid="uid://c6lra51yva7me" path="res://data/missions/mission_5/spawn_battle_objects/spawn_pillar_2.tres" id="6_gdije"]
+[ext_resource type="Resource" uid="uid://jx7nmo7cj4rb" path="res://data/missions/mission_5/spawn_battle_objects/spawn_pillar_3.tres" id="7_kgf05"]
+[ext_resource type="Resource" uid="uid://dq8q647737gvs" path="res://data/missions/mission_5/spawn_battle_objects/spawn_pillar_4.tres" id="8_1n7dv"]
+[ext_resource type="Script" uid="uid://e72psofp0jqp" path="res://scripts/data/MissionData.gd" id="9_m163w"]
+[ext_resource type="Resource" uid="uid://jcwugkw1eqs4" path="res://data/terrain_types/temple_terrain.tres" id="9_w8wcr"]
+[ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="10_828nf"]
+[ext_resource type="Resource" uid="uid://d3y75uhgq6tvs" path="res://data/missions/mission_5/spawn_units/spawn_knight_1.tres" id="11_6avnx"]
+[ext_resource type="Resource" uid="uid://b55ua2crbqysr" path="res://data/missions/mission_5/spawn_units/spawn_skeleton_1.tres" id="12_mtvmo"]
+[ext_resource type="Resource" uid="uid://53rxbwebva11" path="res://data/missions/mission_5/spawn_units/spawn_skeleton_2.tres" id="13_ef6mf"]
+[ext_resource type="Resource" uid="uid://ci5r51bl7ycnl" path="res://data/missions/mission_5/spawn_units/spawn_archer_1.tres" id="14_0r7j8"]
+[ext_resource type="Resource" uid="uid://bmixsctxdu1em" path="res://data/missions/mission_5/spawn_units/spawn_hell_hound_1.tres" id="15_0bfsn"]
+[ext_resource type="Resource" uid="uid://dtvjxvxisabft" path="res://data/missions/mission_5/spawn_units/spawn_hell_hound_2.tres" id="16_cbe8v"]
+[ext_resource type="Resource" uid="uid://c175tvt75nrm" path="res://data/missions/mission_5/spawn_units/spawn_dog_1.tres" id="17_6bv3h"]
+[ext_resource type="Resource" uid="uid://qs8jpq4vw5nn" path="res://data/missions/mission_5/spawn_units/spawn_bat_1.tres" id="18_oafxw"]
+[ext_resource type="Resource" uid="uid://lr771qnllgwg" path="res://data/missions/mission_5/spawn_units/spawn_skull_monster_1.tres" id="19_imutv"]
+[ext_resource type="Resource" uid="uid://b0erevnvehn6d" path="res://data/missions/mission_5/spawn_units/spawn_defender_1.tres" id="20_qflij"]
+
+[resource]
+script = ExtResource("9_m163w")
+unit_spawns = Array[ExtResource("10_828nf")]([ExtResource("11_6avnx"), ExtResource("12_mtvmo"), ExtResource("13_ef6mf"), ExtResource("14_0r7j8"), ExtResource("15_0bfsn"), ExtResource("16_cbe8v"), ExtResource("17_6bv3h"), ExtResource("18_oafxw"), ExtResource("19_imutv"), ExtResource("20_qflij")])
+battle_object_spawns = Array[ExtResource("1_w8wcr")]([ExtResource("2_x031f"), ExtResource("3_ysbb8"), ExtResource("5_asua5"), ExtResource("6_gdije"), ExtResource("7_kgf05"), ExtResource("8_1n7dv")])
+terrain = ExtResource("9_w8wcr")
+metadata/_custom_type_script = "uid://e72psofp0jqp"

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://dspqjoru7mlhj"]
+
+[ext_resource type="Script" uid="uid://ctnia1aps2tlj" path="res://scripts/data/UnitData.gd" id="1_0p7ov"]
+[ext_resource type="Script" uid="uid://dyjcs427yavw2" path="res://scripts/actions/BattleAction.gd" id="1_thhq7"]
+[ext_resource type="Script" uid="uid://ucjmeupp05y1" path="res://scripts/actions/SwordAttackAction.gd" id="2_makds"]
+[ext_resource type="Texture2D" uid="uid://ivh5exyd2njp" path="res://assets/sprites/units/knight.png" id="4_makds"]
+
+[sub_resource type="Resource" id="Resource_17x4l"]
+script = ExtResource("2_makds")
+range = 1
+damage = 2
+metadata/_custom_type_script = "uid://ucjmeupp05y1"
+
+[resource]
+script = ExtResource("1_0p7ov")
+max_hp = 3
+texture = ExtResource("4_makds")
+visual_offset = Vector2(-20, 12)
+visual_scale = Vector2(1.7, 1.7)
+actions = Array[ExtResource("1_thhq7")]([SubResource("Resource_17x4l")])
+metadata/_custom_type_script = "uid://ctnia1aps2tlj"
