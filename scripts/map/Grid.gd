@@ -8,15 +8,18 @@ class_name Grid
 @export var unit_manager: UnitManager
 @export var env_manager: EnvironmentManager
 
+var terrain: TerrainData
+
 var tiles: Dictionary = {}
 var astar := AStarGrid2D.new()
 
 func _ready() -> void:
 	pass
 
-func setup(grid_size: Vector2i):
+func setup(grid_size: Vector2i, terrain_data: TerrainData):
 	width = grid_size.x
 	height = grid_size.y
+	terrain = terrain_data
 	generate_grid(grid_size)
 	setup_astar()
 
@@ -28,11 +31,14 @@ func generate_grid(size: Vector2i) -> void:
 func create_tile(coord: Vector2i) -> void:
 	var tile = tile_scene.instantiate()
 	#tile.set_dungeon_variant(randi_range(0, 1))
-	tile.set_stone_bricks()
 	
 	tile.coord = coord
 	tile.position = IsoHelper.grid_to_screen(coord, iso_config)
 	tile.z_index = coord.x + coord.y
+	
+	var variants = terrain.tile_variants
+	if not variants.is_empty():
+		tile.set_sprite(variants.pick_random(), )
 	
 	tiles[coord] = tile
 	add_child(tile)

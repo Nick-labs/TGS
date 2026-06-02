@@ -3,6 +3,7 @@ class_name DefaultMeleeAttackAction
 
 func _init():
 	name = "default_melee_attack"
+	display_name = "Attack"
 	damage = 1
 	range = 1
 	cost = 1

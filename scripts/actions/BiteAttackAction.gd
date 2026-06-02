@@ -3,6 +3,7 @@ class_name BiteAttackAction
 
 func _init():
 	name = "bite_attack"
+	display_name = "Bite"
 	damage = 1
 	range = 1
 	cost = 1

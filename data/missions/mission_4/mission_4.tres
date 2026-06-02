@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://bsckp1cl8y37d"]
+
+[ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="1_n5kuj"]
+[ext_resource type="Resource" uid="uid://bghobqoqluu0m" path="res://data/terrain_types/stone_terrain.tres" id="3_iulqa"]
+[ext_resource type="Resource" uid="uid://cwm80ble2xhvt" path="res://data/missions/mission_4/spawn_units/spawn_dog_1.tres" id="6_4bxnu"]
+[ext_resource type="Script" uid="uid://e72psofp0jqp" path="res://scripts/data/MissionData.gd" id="8_ba6qq"]
+[ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="9_lkj3e"]
+[ext_resource type="Resource" uid="uid://bqiuccsy26gu6" path="res://data/missions/mission_4/spawn_units/spawn_knight_1.tres" id="10_wha0k"]
+[ext_resource type="Resource" uid="uid://w0bo5abgpnto" path="res://data/missions/mission_4/spawn_units/spawn_skeleton_1.tres" id="11_rvftd"]
+[ext_resource type="Resource" uid="uid://bfply3cgj6jeh" path="res://data/missions/mission_4/spawn_units/spawn_bat_1.tres" id="11_xytuw"]
+[ext_resource type="Resource" uid="uid://2utpho7jm2cf" path="res://data/missions/mission_4/spawn_units/spawn_skeleton_2.tres" id="12_cnteh"]
+[ext_resource type="Resource" uid="uid://c2h0onn33uyaf" path="res://data/missions/mission_4/spawn_units/spawn_bat_2.tres" id="12_xytuw"]
+[ext_resource type="Resource" uid="uid://dhkpiurou2qho" path="res://data/missions/mission_4/spawn_units/spawn_archer_1.tres" id="13_dfalb"]
+[ext_resource type="Resource" uid="uid://bumcwp8vxleyb" path="res://data/missions/mission_4/spawn_units/spawn_hell_hound_1.tres" id="14_k0odl"]
+[ext_resource type="Resource" uid="uid://cgymays6ov06i" path="res://data/missions/mission_4/spawn_units/spawn_hell_hound_2.tres" id="15_scf5e"]
+
+[resource]
+script = ExtResource("8_ba6qq")
+grid_size = Vector2i(9, 9)
+unit_spawns = Array[ExtResource("9_lkj3e")]([ExtResource("10_wha0k"), ExtResource("13_dfalb"), ExtResource("6_4bxnu"), ExtResource("14_k0odl"), ExtResource("15_scf5e"), ExtResource("11_rvftd"), ExtResource("12_cnteh"), ExtResource("11_xytuw"), ExtResource("12_xytuw")])
+terrain = ExtResource("3_iulqa")
+metadata/_custom_type_script = "uid://e72psofp0jqp"

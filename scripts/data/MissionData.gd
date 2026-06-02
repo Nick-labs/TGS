@@ -6,3 +6,5 @@ class_name MissionData
 @export var threat_growth_per_turn: int = 1
 @export var unit_spawns: Array[UnitSpawnData]
 @export var battle_object_spawns: Array[BattleObjectSpawnData]
+@export var terrain: TerrainData
+# @export var has_enemy_objective: bool = false

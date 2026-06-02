@@ -1,18 +1,17 @@
-[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://dey3xeos8gecr"]
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://cbhhjmy0l56bv"]
 
-[ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="1_gdioe"]
-[ext_resource type="Resource" uid="uid://bpl4wr4kg5b88" path="res://data/missions/mission_1/spawn_battle_objects/spawn_crystall_objective_1.tres" id="2_c1fjb"]
-[ext_resource type="Script" uid="uid://e72psofp0jqp" path="res://scripts/data/MissionData.gd" id="2_wlkdm"]
-[ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="3_n8brh"]
-[ext_resource type="Resource" uid="uid://ncs0encmx5wm" path="res://data/missions/mission_1/spawn_units/spawn_knight_1.tres" id="4_mu2ie"]
-[ext_resource type="Resource" uid="uid://enk7mmlumqhv" path="res://data/missions/mission_1/spawn_units/spawn_skeleton_1.tres" id="5_alsej"]
-[ext_resource type="Resource" uid="uid://41fdqo2pqq33" path="res://data/missions/mission_1/spawn_units/spawn_skeleton_2.tres" id="6_6rnuv"]
-[ext_resource type="Resource" uid="uid://d1vxnudmlpai4" path="res://data/missions/mission_1/spawn_units/spawn_skeleton_3.tres" id="9_wlx1l"]
+[ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="1_4y3tx"]
+[ext_resource type="Resource" uid="uid://c7bkpi0uq4jlu" path="res://data/terrain_types/grass_terrain.tres" id="3_6bkkn"]
+[ext_resource type="Script" uid="uid://e72psofp0jqp" path="res://scripts/data/MissionData.gd" id="3_l8uwr"]
+[ext_resource type="Resource" uid="uid://c0w7a6m6j5xky" path="res://data/missions/mission_1/spawn_units/spawn_dog_1.tres" id="4_bkcp4"]
+[ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="4_fn01x"]
+[ext_resource type="Resource" uid="uid://bddlgan3ted74" path="res://data/missions/mission_1/spawn_units/spawn_bat_1.tres" id="5_6bkkn"]
+[ext_resource type="Resource" uid="uid://dfxt6x8tl33we" path="res://data/missions/mission_1/spawn_units/spawn_bat_2.tres" id="6_c1fjb"]
 
 [resource]
-script = ExtResource("2_wlkdm")
-grid_size = Vector2i(5, 5)
-cp_max = 2
-unit_spawns = Array[ExtResource("3_n8brh")]([ExtResource("4_mu2ie"), ExtResource("5_alsej"), ExtResource("6_6rnuv"), ExtResource("9_wlx1l")])
-battle_object_spawns = Array[ExtResource("1_gdioe")]([ExtResource("2_c1fjb")])
+script = ExtResource("3_l8uwr")
+grid_size = Vector2i(7, 7)
+cp_max = 1
+unit_spawns = Array[ExtResource("4_fn01x")]([ExtResource("4_bkcp4"), ExtResource("5_6bkkn"), ExtResource("6_c1fjb")])
+terrain = ExtResource("3_6bkkn")
 metadata/_custom_type_script = "uid://e72psofp0jqp"

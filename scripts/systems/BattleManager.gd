@@ -204,7 +204,7 @@ func apply_mission(mission: MissionData):
 	if mission == null:
 		push_error("No mission data")
 		
-	grid.setup(mission.grid_size)
+	grid.setup(mission.grid_size, mission.terrain)
 		
 	unit_manager.clear_all_units()
 	

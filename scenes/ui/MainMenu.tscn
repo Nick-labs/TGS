@@ -1,6 +1,24 @@
 [gd_scene format=3 uid="uid://du80xkdali11i"]
 
 [ext_resource type="Script" uid="uid://ds7w6v6uox5ql" path="res://scripts/ui/MainMenu.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cyweuiakt4gli" path="res://assets/sprites/menu/menu_button.png" id="2_6jbdy"]
+[ext_resource type="FontFile" uid="uid://brob2tkkmimkx" path="res://assets/fonts/MoriaCitadel.TTF" id="2_xpiny"]
+[ext_resource type="Texture2D" uid="uid://dv6wuroyhigu4" path="res://assets/sprites/menu/menu_button_clicked.png" id="3_2ysvc"]
+[ext_resource type="Texture2D" uid="uid://bpnhp5uue82lb" path="res://assets/sprites/menu/menu_button_hovered.png" id="4_xpiny"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vjtqc"]
+line_spacing = 0.0
+font = ExtResource("2_xpiny")
+font_size = 128
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iwbf0"]
+texture = ExtResource("2_6jbdy")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bhu4a"]
+texture = ExtResource("3_2ysvc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e2per"]
+texture = ExtResource("4_xpiny")
 
 [node name="MainMenu" type="Control" unique_id=737916361]
 layout_mode = 3
@@ -11,40 +29,111 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="VBox" type="VBoxContainer" parent="." unique_id=553365981]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1534953720]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -180.0
-offset_right = 120.0
-offset_bottom = 180.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
 
-[node name="Continue" type="Button" parent="VBox" unique_id=1168346417]
+[node name="Title" type="Label" parent="MarginContainer" unique_id=2142995273]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "The Great Sygil"
+label_settings = SubResource("LabelSettings_vjtqc")
+vertical_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=553365981]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+alignment = 2
+
+[node name="Continue" type="Button" parent="MarginContainer/VBox" unique_id=1168346417]
+texture_filter = 1
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
+theme_override_colors/font_color = Color(1.3178965, 0.9427465, 1.7461184, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/h_separation = 4
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_iwbf0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bhu4a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e2per")
 text = "Continue"
 
-[node name="Mission1" type="Button" parent="VBox" unique_id=189034088]
+[node name="Mission1" type="Button" parent="MarginContainer/VBox" unique_id=189034088]
+texture_filter = 1
+custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
+theme_override_colors/font_color = Color(1.3178965, 0.9427465, 1.7461184, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/h_separation = 4
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_iwbf0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bhu4a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e2per")
 text = "Mission 1"
 
-[node name="Mission2" type="Button" parent="VBox" unique_id=1590607462]
+[node name="Mission2" type="Button" parent="MarginContainer/VBox" unique_id=1590607462]
+texture_filter = 1
+custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
+theme_override_colors/font_color = Color(1.3178965, 0.9427465, 1.7461184, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/h_separation = 4
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_iwbf0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bhu4a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e2per")
 text = "Mission 2"
 
-[node name="Mission3" type="Button" parent="VBox" unique_id=1607887782]
+[node name="Mission3" type="Button" parent="MarginContainer/VBox" unique_id=1607887782]
+texture_filter = 1
+custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
+theme_override_colors/font_color = Color(1.3178965, 0.9427465, 1.7461184, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/h_separation = 4
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_iwbf0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bhu4a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e2per")
 text = "Mission 3"
 
-[node name="Mission4" type="Button" parent="VBox" unique_id=1305921772]
+[node name="Mission4" type="Button" parent="MarginContainer/VBox" unique_id=1305921772]
+texture_filter = 1
+custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
+theme_override_colors/font_color = Color(1.3178965, 0.9427465, 1.7461184, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/h_separation = 4
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_iwbf0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bhu4a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e2per")
 text = "Mission 4"
 
-[node name="Mission5" type="Button" parent="VBox" unique_id=132538029]
+[node name="Mission5" type="Button" parent="MarginContainer/VBox" unique_id=132538029]
+custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
+theme_override_colors/font_color = Color(1.3178965, 0.9427465, 1.7461184, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/h_separation = 4
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_iwbf0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bhu4a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e2per")
 text = "Mission 5"
+
+[node name="Version" type="Label" parent="MarginContainer" unique_id=1889650491]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Open Beta 0.1"
