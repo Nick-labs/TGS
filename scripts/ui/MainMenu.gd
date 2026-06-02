@@ -2,9 +2,9 @@ extends Control
 
 func _ready():
 	for i in range(1, 6):
-		var b: Button = get_node("VBox/Mission%d" % i)
+		var b: Button = get_node("MarginContainer/VBox/Mission%d" % i)
 		b.pressed.connect(func(id = i): _start_mission(id))
-	$VBox/Continue.pressed.connect(_continue_game)
+	$MarginContainer/VBox/Continue.pressed.connect(_continue_game)
 
 func _start_mission(mission_id: int):
 	SaveManager.save_savegame(mission_id)

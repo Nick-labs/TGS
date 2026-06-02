@@ -42,6 +42,8 @@ func _ready():
 	start_battle()
 
 func start_battle():
+	check_objective_on_start()
+	print(had_enemy_objective)
 	is_battle_over = false
 	threat_level = 0
 	threat_changed.emit(threat_level)
@@ -53,9 +55,7 @@ func start_battle():
 	evaluate_battle_state()
 
 func check_objective_on_start():
-	if environment_manager.is_objective_alive():
-		had_enemy_objective = true
-	had_enemy_objective = false
+	had_enemy_objective = true if environment_manager.is_objective_alive() else false
 
 func can_accept_player_input() -> bool:
 	return phase == TurnPhase.PLAYER_TURN and not is_battle_over
