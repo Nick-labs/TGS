@@ -15,9 +15,14 @@
 [ext_resource type="Script" uid="uid://klgah7bsldhl" path="res://scripts/systems/IntentVisualizer.gd" id="12_vis"]
 [ext_resource type="Script" uid="uid://d12g71kophqen" path="res://scripts/systems/EnvironmentManager.gd" id="13_env"]
 [ext_resource type="Script" uid="uid://41c5ty7mytuu" path="res://scripts/ui/BattleHUD.gd" id="14_hud"]
+[ext_resource type="PackedScene" uid="uid://c42jiorditjqe" path="res://scenes/map/FloatingTextManager.tscn" id="15_v4itv"]
+[ext_resource type="Texture2D" uid="uid://5rmhlxd20ao7" path="res://assets/sprites/menu/action_button.png" id="16_dtjjv"]
 [ext_resource type="Script" uid="uid://8ltudv2pg4gp" path="res://scripts/ui/BattleFlow.gd" id="16_flow"]
 [ext_resource type="Script" uid="uid://3yhk4w556dwj" path="res://scripts/ui/ActionBar.gd" id="17_x2t2u"]
 [ext_resource type="PackedScene" uid="uid://4thl6vae2dta" path="res://scenes/ui/ActionButton.tscn" id="18_dtjjv"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v4itv"]
+texture = ExtResource("16_dtjjv")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dtjjv"]
 
@@ -27,7 +32,6 @@
 script = ExtResource("1_lto8t")
 camera = NodePath("../Camera2D")
 grid = NodePath("Grid")
-padding_percent = 0.15
 
 [node name="Grid" parent="GridRoot" unique_id=269519220 node_paths=PackedStringArray("unit_manager", "env_manager") instance=ExtResource("2_c8xc1")]
 unit_manager = NodePath("../UnitManager")
@@ -107,6 +111,8 @@ unit_manager = NodePath("../UnitManager")
 battle_manager = NodePath("../BattleManager")
 turn_manager = NodePath("../TurnManager")
 
+[node name="FloatingTextManager" parent="GridRoot" unique_id=1009071799 instance=ExtResource("15_v4itv")]
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1004421333]
 
 [node name="BattleHUD" type="CanvasLayer" parent="." unique_id=1066236562 node_paths=PackedStringArray("unit_manager", "turn_manager", "effect_resolver", "battle_manager", "environment_manager", "selection_controller")]
@@ -128,52 +134,69 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="TopBar" type="PanelContainer" parent="BattleHUD/Root" unique_id=1064347486]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -360.0
-offset_top = 12.0
-offset_right = -12.0
-offset_bottom = 266.0
-grow_horizontal = 2
+offset_left = -247.0
+offset_top = 11.0
+offset_right = -14.0
+offset_bottom = 194.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_v4itv")
 
-[node name="TopVBox" type="VBoxContainer" parent="BattleHUD/Root/TopBar" unique_id=215309080]
+[node name="MarginContainer" type="MarginContainer" parent="BattleHUD/Root/TopBar" unique_id=1566876038]
+layout_mode = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 80
+
+[node name="TopVBox" type="VBoxContainer" parent="BattleHUD/Root/TopBar/MarginContainer" unique_id=215309080]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="PhaseLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=444240815]
+[node name="PhaseLabel" type="Label" parent="BattleHUD/Root/TopBar/MarginContainer/TopVBox" unique_id=444240815]
 layout_mode = 2
 text = "Phase: PLAYER"
+horizontal_alignment = 1
 
-[node name="CPLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=954588464]
+[node name="CPLabel" type="Label" parent="BattleHUD/Root/TopBar/MarginContainer/TopVBox" unique_id=954588464]
+visible = false
 layout_mode = 2
 text = "CP: 0/0"
 
-[node name="ThreatLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=271918656]
+[node name="ThreatLabel" type="Label" parent="BattleHUD/Root/TopBar/MarginContainer/TopVBox" unique_id=271918656]
+visible = false
 layout_mode = 2
 text = "Threat: 0"
 
-[node name="ObjectiveLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1636739852]
+[node name="ObjectiveLabel" type="Label" parent="BattleHUD/Root/TopBar/MarginContainer/TopVBox" unique_id=1636739852]
+visible = false
 layout_mode = 2
 text = "Objective (0, 0) HP: 0/0"
 
-[node name="PowerGridLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=934947601]
+[node name="PowerGridLabel" type="Label" parent="BattleHUD/Root/TopBar/MarginContainer/TopVBox" unique_id=934947601]
+visible = false
 layout_mode = 2
 text = "Power Grid: 0/0"
 
-[node name="HPLabel" type="RichTextLabel" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=324973433]
-custom_minimum_size = Vector2(320, 120)
+[node name="HPLabel" type="RichTextLabel" parent="BattleHUD/Root/TopBar/MarginContainer/TopVBox" unique_id=324973433]
+visible = false
+custom_minimum_size = Vector2(100, 120)
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
-[node name="SelectedUnitLabel" type="Label" parent="BattleHUD/Root/TopBar/TopVBox" unique_id=1245605516]
+[node name="SelectedUnitLabel" type="Label" parent="BattleHUD/Root/TopBar/MarginContainer/TopVBox" unique_id=1245605516]
+visible = false
 layout_mode = 2
 text = "Selected Unit: "
 
 [node name="LogPanel" type="PanelContainer" parent="BattleHUD/Root" unique_id=699377676]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
