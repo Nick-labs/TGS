@@ -43,6 +43,7 @@ texture = ExtResource("18_iydag")
 script = ExtResource("1_lto8t")
 camera = NodePath("../Camera2D")
 grid = NodePath("Grid")
+padding_percent = 0.15
 
 [node name="Grid" parent="GridRoot" unique_id=269519220 node_paths=PackedStringArray("unit_manager", "env_manager") instance=ExtResource("2_c8xc1")]
 unit_manager = NodePath("../UnitManager")
