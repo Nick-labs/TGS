@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://dey3xeos8gecr"]
+
+[ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="1_gdioe"]
+[ext_resource type="Resource" uid="uid://bpl4wr4kg5b88" path="res://data/missions/mission_2/spawn_battle_objects/spawn_crystall_objective_1.tres" id="2_c1fjb"]
+[ext_resource type="Script" uid="uid://e72psofp0jqp" path="res://scripts/data/MissionData.gd" id="2_wlkdm"]
+[ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="3_n8brh"]
+[ext_resource type="Resource" uid="uid://ncs0encmx5wm" path="res://data/missions/mission_2/spawn_units/spawn_knight_1.tres" id="4_mu2ie"]
+[ext_resource type="Resource" uid="uid://enk7mmlumqhv" path="res://data/missions/mission_2/spawn_units/spawn_skeleton_1.tres" id="5_alsej"]
+[ext_resource type="Resource" uid="uid://41fdqo2pqq33" path="res://data/missions/mission_2/spawn_units/spawn_skeleton_2.tres" id="6_6rnuv"]
+[ext_resource type="Resource" uid="uid://d1vxnudmlpai4" path="res://data/missions/mission_2/spawn_units/spawn_skeleton_3.tres" id="9_wlx1l"]
+
+[resource]
+script = ExtResource("2_wlkdm")
+grid_size = Vector2i(5, 5)
+cp_max = 2
+unit_spawns = Array[ExtResource("3_n8brh")]([ExtResource("4_mu2ie"), ExtResource("5_alsej"), ExtResource("6_6rnuv"), ExtResource("9_wlx1l")])
+battle_object_spawns = Array[ExtResource("1_gdioe")]([ExtResource("2_c1fjb")])
+metadata/_custom_type_script = "uid://e72psofp0jqp"
