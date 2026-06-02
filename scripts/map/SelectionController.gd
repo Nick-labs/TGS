@@ -30,8 +30,8 @@ func _input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			handle_click()
-		elif event.button_index == MOUSE_BUTTON_RIGHT and turn_manager != null:
-			turn_manager.end_player_turn()
+		#elif event.button_index == MOUSE_BUTTON_RIGHT and turn_manager != null:
+			#turn_manager.end_player_turn()
 		#elif event.button_index == MOUSE_BUTTON_MIDDLE:
 			#toggle_weave_mode() # неактуально, можно будет заменить на другое
 

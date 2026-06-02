@@ -20,9 +20,20 @@
 [ext_resource type="Script" uid="uid://8ltudv2pg4gp" path="res://scripts/ui/BattleFlow.gd" id="16_flow"]
 [ext_resource type="Script" uid="uid://3yhk4w556dwj" path="res://scripts/ui/ActionBar.gd" id="17_x2t2u"]
 [ext_resource type="PackedScene" uid="uid://4thl6vae2dta" path="res://scenes/ui/ActionButton.tscn" id="18_dtjjv"]
+[ext_resource type="Texture2D" uid="uid://ite0hlh6q4rv" path="res://assets/sprites/menu/action_button_pressed.png" id="18_iydag"]
+[ext_resource type="Script" uid="uid://dxakem6vlj1lw" path="res://scenes/map/EndTurnButton.gd" id="19_80r63"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v4itv"]
 texture = ExtResource("16_dtjjv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_80r63"]
+texture = ExtResource("16_dtjjv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jo15q"]
+texture = ExtResource("18_iydag")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vw3x7"]
+texture = ExtResource("18_iydag")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dtjjv"]
 
@@ -159,6 +170,7 @@ theme_override_constants/separation = 4
 
 [node name="PhaseLabel" type="Label" parent="BattleHUD/Root/TopBar/MarginContainer/TopVBox" unique_id=444240815]
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "Phase: PLAYER"
 horizontal_alignment = 1
 
@@ -222,6 +234,29 @@ layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 
+[node name="RightBottomPanel" type="PanelContainer" parent="BattleHUD/Root" unique_id=224443666]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -246.0
+offset_top = -202.0
+offset_right = -19.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="EndTurnButton" type="Button" parent="BattleHUD/Root/RightBottomPanel" unique_id=1078999165]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxTexture_80r63")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jo15q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vw3x7")
+text = "End turn"
+script = ExtResource("19_80r63")
+
 [node name="FailOverlay" type="PanelContainer" parent="BattleHUD/Root" unique_id=792440289]
 visible = false
 layout_mode = 1
@@ -250,6 +285,8 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -211.0
+offset_right = -419.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("17_x2t2u")
@@ -257,18 +294,23 @@ button_scene = ExtResource("18_dtjjv")
 
 [node name="Panel" type="Panel" parent="BattleHUD/ActionBar" unique_id=1985684901]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -3.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_dtjjv")
 
 [node name="MarginContainer" type="MarginContainer" parent="BattleHUD/ActionBar/Panel" unique_id=645717187]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 4.0
+offset_right = -3.0
+offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 40
@@ -298,3 +340,5 @@ script = ExtResource("16_flow")
 turn_manager = NodePath("../GridRoot/TurnManager")
 battle_manager = NodePath("../GridRoot/BattleManager")
 transition_layer = NodePath("../Transition")
+
+[connection signal="pressed" from="BattleHUD/Root/RightBottomPanel/EndTurnButton" to="GridRoot/TurnManager" method="end_player_turn"]
