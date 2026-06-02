@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://cbhhjmy0l56bv"]
 
 [ext_resource type="Script" uid="uid://4s3b0ix73v4b" path="res://scripts/data/BattleObjectSpawnData.gd" id="1_4y3tx"]
+[ext_resource type="Resource" uid="uid://c7bkpi0uq4jlu" path="res://data/terrain_types/grass_terrain.tres" id="3_6bkkn"]
 [ext_resource type="Script" uid="uid://e72psofp0jqp" path="res://scripts/data/MissionData.gd" id="3_l8uwr"]
 [ext_resource type="Resource" uid="uid://c0w7a6m6j5xky" path="res://data/missions/mission_1/spawn_units/spawn_dog_1.tres" id="4_bkcp4"]
 [ext_resource type="Script" uid="uid://bnbqlpili3pr" path="res://scripts/data/UnitSpawnData.gd" id="4_fn01x"]
@@ -12,4 +13,5 @@ script = ExtResource("3_l8uwr")
 grid_size = Vector2i(6, 6)
 cp_max = 1
 unit_spawns = Array[ExtResource("4_fn01x")]([ExtResource("4_bkcp4"), ExtResource("5_6bkkn"), ExtResource("6_c1fjb")])
+terrain = ExtResource("3_6bkkn")
 metadata/_custom_type_script = "uid://e72psofp0jqp"

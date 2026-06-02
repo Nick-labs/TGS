@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TerrainData" format=3 uid="uid://bghobqoqluu0m"]
+
+[ext_resource type="Script" uid="uid://dvdwvrq418xml" path="res://scripts/data/TerrainData.gd" id="1_t2ias"]
+[ext_resource type="Texture2D" uid="uid://crfk3q54p2wih" path="res://assets/sprites/tiles/Stone128x72.png" id="2_t2ias"]
+
+[resource]
+script = ExtResource("1_t2ias")
+name = "Grass"
+tile_variants = Array[Texture2D]([ExtResource("2_t2ias")])
+metadata/_custom_type_script = "uid://dvdwvrq418xml"

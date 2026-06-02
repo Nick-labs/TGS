@@ -8,23 +8,16 @@ enum Visual {
 	SELECTED
 }
 
-@export var dungeon_variants: Array[Texture2D]
-@export var forest_spritesheet: Texture2D
-@export var stone_bricks_sprite: Texture2D
+func set_sprite(sprite):
+	$Sprite2D.texture = sprite
 
-func set_stone_bricks():
-	$Sprite2D.texture = stone_bricks_sprite
-
-func set_dungeon_variant(index: int):
-	$Sprite2D.texture = dungeon_variants[index]
-
-func set_forest_variant():
-	var variants = slice_tiles(
-		forest_spritesheet,
-		Vector2i(128, 72)
-	)
-	
-	$Sprite2D.texture = variants.pick_random()
+#func set_forest_variant():
+	#var variants = slice_tiles(
+		#forest_spritesheet,
+		#Vector2i(128, 72)
+	#)
+	#
+	#$Sprite2D.texture = variants.pick_random()
 
 var visual_flags: Array = []
 
