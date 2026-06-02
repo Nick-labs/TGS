@@ -18,7 +18,6 @@ func resolve_effects(effects: Array[Dictionary]):
 		var type = effect.get("type", "")
 		
 		# TODO: переделать на Enum
-		print(type)
 		match type:
 			"damage":
 				_resolve_damage(effect)

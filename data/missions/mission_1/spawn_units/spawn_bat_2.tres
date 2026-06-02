@@ -7,5 +7,5 @@
 script = ExtResource("1_lrx8k")
 unit_data = ExtResource("2_4iypb")
 team = 1
-cell = Vector2i(4, 1)
+cell = Vector2i(6, 0)
 metadata/_custom_type_script = "uid://bnbqlpili3pr"

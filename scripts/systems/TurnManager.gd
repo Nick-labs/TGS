@@ -21,6 +21,8 @@ signal battle_won(reason: String)
 @export var threat_growth_per_turn: int = 1
 @export var threat_objective_focus_start: int = 2
 
+var had_enemy_objective = false
+
 enum TurnPhase {
 	PLAYER_TURN,
 	ENEMY_EXECUTION
@@ -48,7 +50,12 @@ func start_battle():
 	phase = TurnPhase.PLAYER_TURN
 	phase_changed.emit(phase)
 	turn_started.emit(turn_index, phase)
-	_evaluate_win_condition()
+	evaluate_battle_state()
+
+func check_objective_on_start():
+	if environment_manager.is_objective_alive():
+		had_enemy_objective = true
+	had_enemy_objective = false
 
 func can_accept_player_input() -> bool:
 	return phase == TurnPhase.PLAYER_TURN and not is_battle_over
@@ -180,20 +187,8 @@ func _execute_enemy_turn():
 	unit_manager.cleanup_dead_units()
 	
 	_sanitize_enemy_plans()
-	_evaluate_win_condition()
 	
-
-
-
-
-
-
-
-
-
-
-
-
+	evaluate_battle_state()
 
 func _reset_player_flags():
 	for unit in unit_manager.get_units_by_team(Unit.Team.PLAYER):
@@ -226,6 +221,11 @@ func _on_objective_destroyed(_cell: Vector2i):
 	battle_failed.emit("Objective destroyed")
 
 func evaluate_battle_state():
+	_evaluate_lose_condition()
+
+	if is_battle_over:
+		return
+
 	_evaluate_win_condition()
 
 func _evaluate_win_condition():
@@ -239,12 +239,17 @@ func _evaluate_win_condition():
 func _evaluate_lose_condition():
 	if is_battle_over:
 		return
+
 	if unit_manager.get_units_by_team(Unit.Team.PLAYER).is_empty():
 		is_battle_over = true
 		phase_changed.emit(phase)
-	elif not environment_manager.is_objective_alive():
+		battle_failed.emit("All player units eliminated")
+		return
+
+	if had_enemy_objective and not environment_manager.is_objective_alive():
 		is_battle_over = true
 		phase_changed.emit(phase)
+		battle_failed.emit("Objective destroyed")
 	
 func grid_safe_path(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
 	var path := battle_manager.grid.find_path(from, to)
