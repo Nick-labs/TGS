@@ -8,13 +8,13 @@ class_name BattleHUD
 @export var environment_manager: EnvironmentManager
 @export var selection_controller: SelectionController
 
-@onready var phase_label: Label = $Root/TopBar/TopVBox/PhaseLabel
-@onready var cp_label: Label = $Root/TopBar/TopVBox/CPLabel
-@onready var threat_label: Label = $Root/TopBar/TopVBox/ThreatLabel
-@onready var objective_label: Label = $Root/TopBar/TopVBox/ObjectiveLabel
-@onready var power_grid_label: Label = $Root/TopBar/TopVBox/PowerGridLabel
-@onready var hp_label: RichTextLabel = $Root/TopBar/TopVBox/HPLabel
-@onready var selected_unit_label: Label = $Root/TopBar/TopVBox/SelectedUnitLabel
+@onready var phase_label: Label = $Root/TopBar/MarginContainer/TopVBox/PhaseLabel
+@onready var cp_label: Label = $Root/TopBar/MarginContainer/TopVBox/CPLabel
+@onready var threat_label: Label = $Root/TopBar/MarginContainer/TopVBox/ThreatLabel
+@onready var objective_label: Label = $Root/TopBar/MarginContainer/TopVBox/ObjectiveLabel
+@onready var power_grid_label: Label = $Root/TopBar/MarginContainer/TopVBox/PowerGridLabel
+@onready var hp_label: RichTextLabel = $Root/TopBar/MarginContainer/TopVBox/HPLabel
+@onready var selected_unit_label: Label = $Root/TopBar/MarginContainer/TopVBox/SelectedUnitLabel
 
 @onready var log_label: RichTextLabel = $Root/LogPanel/LogMargin/LogLabel
 

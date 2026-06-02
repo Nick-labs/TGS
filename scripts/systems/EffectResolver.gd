@@ -20,7 +20,7 @@ func resolve_effects(effects: Array[Dictionary]):
 		# TODO: переделать на Enum
 		match type:
 			"damage":
-				_resolve_damage(effect)
+				_resolve_damage(effect)				
 			"push":
 				var chained := _resolve_push(effect)
 				for c in chained:
@@ -38,6 +38,12 @@ func _resolve_damage(effect: Dictionary):
 	var target := unit_manager.get_unit_at(target_cell)
 	if target != null:
 		target.take_damage(amount)
+		
+		FloatingTextManager.show_damage(
+					effect.amount,
+					target.position - Vector2(0, 80)
+				)
+		
 		damage_resolved.emit(attacker, target, amount, target_cell)
 		if target.is_dead():
 			unit_killed.emit(target)

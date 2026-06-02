@@ -63,7 +63,8 @@ func _process(delta):
 	update_z_index() # TODO: optimize
 	
 func _draw():
-	draw_circle(Vector2.ZERO, 3, Color.RED)
+	if team == Team.PLAYER:
+		draw_circle(Vector2(0, 0), 3, Color.GREEN)
 
 func set_cell(new_cell: Vector2i):
 	cell = new_cell

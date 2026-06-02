@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 SaveManager="*res://scripts/systems/SaveManager.gd"
 SceneFlow="*res://scripts/ui/SceneFlow.gd"
 AudioManager="*uid://4w5elwxnvuty"
+FloatingTextManager="*uid://c42jiorditjqe"
 
 [display]
 
