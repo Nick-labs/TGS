@@ -5,6 +5,7 @@ class_name PushAttackAction
 
 func _init():
 	name = "push_attack"
+	display_name = "Push attack"
 	damage = 1
 	range = 1
 	cost = 1

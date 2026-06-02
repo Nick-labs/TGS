@@ -2,6 +2,7 @@ extends Resource
 class_name BattleAction
 
 @export var name: String
+@export var display_name: String
 @export var range: int
 @export var damage: int
 @export var cost: int = 1

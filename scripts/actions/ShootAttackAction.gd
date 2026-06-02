@@ -6,6 +6,7 @@ class_name ArtilleryAttackAction
 
 func _init():
 	name = "artillery_attack"
+	display_name = "Shoot"
 	damage = 1
 	range = max_range
 	cost = 1

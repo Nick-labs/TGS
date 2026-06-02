@@ -3,6 +3,7 @@ class_name SwordAttackAction
 
 func _init():
 	name = "sword_attack"
+	display_name = "Sword attack"
 	damage = 2
 	range = 1
 	cost = 1

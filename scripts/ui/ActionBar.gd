@@ -26,7 +26,7 @@ func show_unit_actions(unit: Unit):
 
 		var button: Button = button_scene.instantiate()
 
-		button.text = action.name
+		button.text = action.display_name
 
 		button.pressed.connect(func(a = action):
 			action_selected.emit(a)
