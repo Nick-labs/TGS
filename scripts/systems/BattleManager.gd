@@ -161,8 +161,12 @@ func try_action_command(cell: Vector2i):
 		return
 
 	var effects = selected_action.build_effects(selected_unit, cell, grid, unit_manager)
+	
 	if effects.is_empty():
 		return
+	
+	if selected_action.attack_sound:
+		AudioManager.play_sfx(selected_action.attack_sound)
 
 	var action_cost = max(0, selected_action.cost)
 	if turn_manager != null and not turn_manager.try_spend_cp(action_cost):

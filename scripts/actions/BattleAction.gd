@@ -5,6 +5,7 @@ class_name BattleAction
 @export var range: int
 @export var damage: int
 @export var cost: int = 1
+@export var attack_sound: AudioStream
 
 func get_target_cells(_unit: Unit, _grid: Grid, _unit_manager: UnitManager) -> Array[Vector2i]:
 	return []

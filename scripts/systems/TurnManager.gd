@@ -49,6 +49,7 @@ func start_battle():
 	phase_changed.emit(phase)
 	turn_started.emit(turn_index, phase)
 	_evaluate_win_condition()
+	_evaluate_lose_condition()
 
 func can_accept_player_input() -> bool:
 	return phase == TurnPhase.PLAYER_TURN and not is_battle_over
@@ -115,12 +116,6 @@ func _all_player_units_spent() -> bool:
 			return false
 	return true
 
-
-
-
-
-
-
 func _plan_enemy_intents():
 	
 	enemy_plans = enemy_ai.plan_enemy_turn(
@@ -172,7 +167,9 @@ func _execute_enemy_turn():
 		
 		if action == null or not unit.can_act_this_turn():
 			continue
-
+		
+		AudioManager.play_sfx(action.attack_sound)
+		
 		var effects := action.build_effects(unit, target_cell, battle_manager.grid, unit_manager)
 		if effects.is_empty():
 			continue
@@ -185,6 +182,8 @@ func _execute_enemy_turn():
 	
 	_sanitize_enemy_plans()
 	_evaluate_win_condition()
+	_evaluate_lose_condition()
+	
 
 
 
